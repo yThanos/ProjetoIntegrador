@@ -11,6 +11,6 @@ public class Grupo {
     private int codigo;
     private String nome;
     private String descricao;
-    private int usuario;
+    private Usuario usuario;
     private boolean ativo;
 }
