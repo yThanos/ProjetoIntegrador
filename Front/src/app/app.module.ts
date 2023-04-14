@@ -4,18 +4,20 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { LoginComponent } from './home/login/login.component';
+import { FormsModule } from '@angular/forms';
+import { LoginModule } from './login/login.module';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    LoginComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     NgbModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule,
+    LoginModule
   ],
   providers: [],
   bootstrap: [AppComponent]
