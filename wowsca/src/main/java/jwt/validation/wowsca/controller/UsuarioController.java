@@ -35,11 +35,6 @@ public class UsuarioController {
         return new UsuarioDao().getUsers();
     }
 
-    @PostMapping("/criarConta")
-    public void postUsuario(@RequestBody Usuario usuario) {
-        new UsuarioDao().addUser(usuario);
-    }
-
     @PutMapping("/{id}")
     public void putUsuario(@RequestBody Usuario usuario, @PathVariable int id) {
         new UsuarioDao().updateUser(usuario, id);

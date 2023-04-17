@@ -5,19 +5,23 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import jwt.validation.wowsca.db.UsuarioDao;
 import jwt.validation.wowsca.model.Usuario;
 import jwt.validation.wowsca.security.JWTUtil;
 import jwt.validation.wowsca.security.UserDetailsServiceCustom;
 
+@CrossOrigin(origins = "*")
 @RequestMapping
 @RestController
 public class LoginController {
+    @CrossOrigin
     @PostMapping("/login")
     public ResponseEntity<String> logar(@RequestBody Usuario usuario){
         UserDetails userDetails = new UserDetailsServiceCustom().loadUserByUsername(usuario.getUsername());
@@ -33,6 +37,12 @@ public class LoginController {
         }
 
         return new ResponseEntity<>("Usuario ou senha invalidos!", HttpStatusCode.valueOf(401));
+    }
+
+    @CrossOrigin(origins = "*")
+    @PostMapping("/criarConta")
+    public void postUsuario(@RequestBody Usuario usuario) {
+        new UsuarioDao().addUser(usuario);
     }
 
     @GetMapping("/admin")
