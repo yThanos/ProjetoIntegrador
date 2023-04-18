@@ -21,19 +21,20 @@ import jwt.validation.wowsca.security.UserDetailsServiceCustom;
 @RequestMapping
 @RestController
 public class LoginController {
+    
     @CrossOrigin
     @PostMapping("/login")
-    public ResponseEntity<String> logar(@RequestBody Usuario usuario){
+    public ResponseEntity<Object> logar(@RequestBody Usuario usuario){
         UserDetails userDetails = new UserDetailsServiceCustom().loadUserByUsername(usuario.getUsername());
         if(userDetails != null){
             UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
-            usuario.setPermissao(authentication.getAuthorities().toString().replace("[", "").replace("]", ""));
+            String token = new JWTUtil().geraToken(usuario.getUsername());
+            Usuario user = new Usuario();
+            user.setToken(token);
 
-            String token = new JWTUtil().geraToken(usuario);
-
-            return new ResponseEntity<>(token, HttpStatusCode.valueOf(200));
+            return new ResponseEntity<>(user, HttpStatusCode.valueOf(200));
         }
 
         return new ResponseEntity<>("Usuario ou senha invalidos!", HttpStatusCode.valueOf(401));

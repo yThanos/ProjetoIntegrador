@@ -11,6 +11,7 @@ public class Usuario {
     private int codigo;
     private String username;//email
     private String password;//senha
+    private String token;
     private String permissao;// ADMIN/USER banco
     private String nome;
     private String cpf;

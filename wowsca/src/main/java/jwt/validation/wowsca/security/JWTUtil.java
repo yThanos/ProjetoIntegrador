@@ -13,6 +13,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import jwt.validation.wowsca.db.UsuarioDao;
 import jwt.validation.wowsca.model.Usuario;
 
 public class JWTUtil {
@@ -26,10 +27,13 @@ public class JWTUtil {
         return encoder.encodeToString(bytes);
     }
 
-    public String geraToken(Usuario usuario){
+    public String geraToken(String username){
+        Usuario user = new UsuarioDao().getUserByEmail(username);
         final Map<String, Object> claims = new HashMap<>();
-        claims.put("sub", usuario.getUsername());
-        claims.put("role", usuario.getPermissao());
+        claims.put("sub", user.getUsername());
+        claims.put("role", user.getPermissao());
+        claims.put("nome", user.getNome());
+        claims.put("cpf", user.getCpf());
 
         return Jwts.builder()
                 .setClaims(claims)

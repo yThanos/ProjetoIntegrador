@@ -3,11 +3,12 @@ export class Usuario {
   nome?: string;
   username?: string;
   password?: string;
+  token?: string;
   cpf?: string;
   permissao?: string;
   ativo?: boolean;
 
-  constructor(codigo?: number, nome?: string, email?: string, senha?: string, cpf?: string, permissao?: string, ativo?: boolean) {
+  constructor(codigo?: number, nome?: string, email?: string, senha?: string, token?: string, cpf?: string, permissao?: string, ativo?: boolean) {
     this.codigo = codigo;
     this.nome = nome;
     this.username = email;

@@ -8,6 +8,7 @@ import { FormsModule } from '@angular/forms';
 import { LoginModule } from './login/login.module';
 import { JwtInterceptor } from './security/JwtInterceptor ';
 import { ErrorHandlerService } from './security/ErrorHandler';
+import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 
 @NgModule({
   declarations: [
@@ -19,9 +20,12 @@ import { ErrorHandlerService } from './security/ErrorHandler';
     NgbModule,
     HttpClientModule,
     FormsModule,
-    LoginModule
+    LoginModule,
+    NgxMaskDirective,
+    NgxMaskPipe
   ],
   providers: [
+    provideNgxMask(),
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
     {provide: ErrorHandler, useClass: ErrorHandlerService}
   ],
