@@ -39,15 +39,15 @@ public class WebSecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity htpp) throws Exception{
-        htpp.csrf().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+        htpp.cors().and().csrf().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
             .authorizeHttpRequests((auth)-> auth
             .requestMatchers(HttpMethod.POST, "/login").permitAll()
-            .requestMatchers(HttpMethod.POST, "/usuario/criarConta").permitAll()
+            .requestMatchers(HttpMethod.POST, "/criarConta").permitAll()
             .requestMatchers(HttpMethod.GET, "/usuario/byId/{id}").hasAnyAuthority("USER", "ADMIN")
             .requestMatchers(HttpMethod.GET, "/usuario/byEmail/{email}").hasAnyAuthority("USER", "ADMIN")
             .requestMatchers(HttpMethod.GET, "/usuario/all").hasAnyAuthority("USER", "ADMIN")
-            .requestMatchers(HttpMethod.PUT, "/usuario").hasAnyAuthority("USER", "ADMIN")
-            .requestMatchers(HttpMethod.DELETE, "/usuario").hasAnyAuthority("USER", "ADMIN")
+            .requestMatchers(HttpMethod.PUT, "/usuario/{id}").hasAnyAuthority("USER", "ADMIN")
+            .requestMatchers(HttpMethod.DELETE, "/usuario/{id}").hasAnyAuthority("USER", "ADMIN")
             .requestMatchers(HttpMethod.GET, "/user").hasAuthority("USER")
             .requestMatchers(HttpMethod.GET, "/admin").hasAuthority("ADMIN"));
         
@@ -56,12 +56,15 @@ public class WebSecurityConfig {
         return htpp.build();
     }
 
-    @Service
-    public class Corsteste implements WebMvcConfigurer{
-
-        @Override
-        public void addCorsMappings(CorsRegistry registry) {
-            registry.addMapping("/**").allowedMethods("*");
-        }
+    @Bean
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("**")
+                .allowedOrigins("**")
+                .allowedMethods("**");
+            }
+        };
     }
 }
