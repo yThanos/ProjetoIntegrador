@@ -26,4 +26,10 @@ public class Usuario {
         this.password = password;
         this.permissao = permissao;
     }
+    public Usuario(String username, String password, String nome, String cpf){
+        this.username = username;
+        this.password = password;
+        this.nome = nome;
+        this.cpf = cpf;
+    }
 }

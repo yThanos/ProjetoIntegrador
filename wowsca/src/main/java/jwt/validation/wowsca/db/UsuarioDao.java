@@ -115,8 +115,8 @@ public class UsuarioDao {
             this.preparedStatement.setString(2, user.getUsername());
             this.preparedStatement.setString(3, user.getCpf());
             this.preparedStatement.setString(4, user.getPassword());
-            this.preparedStatement.setString(5, user.getPermissao());
-            this.preparedStatement.setBoolean(6, user.isAtivo());
+            this.preparedStatement.setString(5, "USER");
+            this.preparedStatement.setBoolean(6, true);
 
             this.preparedStatement.execute();
         }catch(SQLException e){

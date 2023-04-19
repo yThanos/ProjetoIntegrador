@@ -38,12 +38,22 @@ export class LoginComponent {
     })
     //this.rota.navigate(['/home']);
   }
+  confirmarSenha = '';
 
   criarConta(){
+    if(this.usuario.password != this.confirmarSenha && this.usuario.password != ''){
+      alert('Senhas não conferem!');
+    }else if(!this.usuario.cpf?.match(/^[\d]{3}\.[\d]{3}\.[\d]{3}-[\d]{2}$/)){
+      console.log(this.usuario.cpf);
+      alert('CPF inválido!');
+    }else if(!this.usuario.username?.match(/^[\w\.]+@[\w]+\.[\w]{2,4}(\.[\w]{2})?$/)){
+      alert('E-mail inválido!');
+    }else{
       console.log('criando conta' + JSON.stringify(this.usuario));
-      this.service.criarConta(this.usuario).subscribe((resposta) => {
-        console.log("resp: "+JSON.stringify(resposta));
+      this.service.criarConta(this.usuario).subscribe(() => {
         this.teste = !this.teste;
+        this.usuario = new Usuario();
       })
+    }
   }
 }

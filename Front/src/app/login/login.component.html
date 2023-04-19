@@ -41,7 +41,7 @@
 
               <div class="form-group">
                 <label for="cpf">CPF</label>
-                <input mask="000.000.000-99" [(ngModel)]="usuario.cpf" name="cpf" type="text" class="form-control" id="cpf" placeholder="Digite seu cpf" required />
+                <input [dropSpecialCharacters]="false" mask="000.000.000-99" [(ngModel)]="usuario.cpf" name="cpf" type="text" class="form-control" id="cpf" placeholder="Digite seu cpf" required />
               </div>
 
               <div class="form-group">
@@ -58,7 +58,7 @@
 
               <div class="form-group">
                 <label for="confSenha">CONFIRMAR A SENHA</label>
-                <input name="confSenha" type="password" class="form-control" id="confSenha"
+                <input [(ngModel)]="confirmarSenha" name="confSenha" type="password" class="form-control" id="confSenha"
                   placeholder="Confirme sua senha" required />
               </div>
               <br />

@@ -40,7 +40,7 @@ public class LoginController {
         return new ResponseEntity<>("Usuario ou senha invalidos!", HttpStatusCode.valueOf(401));
     }
 
-    @CrossOrigin(origins = "*")
+    @CrossOrigin
     @PostMapping("/criarConta")
     public void postUsuario(@RequestBody Usuario usuario) {
         new UsuarioDao().addUser(usuario);

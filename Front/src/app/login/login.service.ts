@@ -14,8 +14,7 @@ export class LoginService {
   login(usuario: Usuario): Observable<any>{
     return this.htpp.post<any>(this.API + "/login", usuario, this.headers);
   }
-  criarConta(usuario: Usuario){
-    return this.htpp.post(this.API + "/criarConta", usuario, this.headers);
+  criarConta(usuario: Usuario): Observable<Usuario>{
+    return this.htpp.post<Usuario>(this.API + "/criarConta", usuario, this.headers);
   }
-
 }
