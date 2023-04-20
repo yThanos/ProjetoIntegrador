@@ -19,7 +19,7 @@ export class ErrorHandlerService extends ErrorHandler{
           break;
         case 417:
           alert('Token expirado!')
-            sessionStorage.removeItem("jwt");
+            sessionStorage.removeItem("token");
             this.rota.navigate(["/login"]);
           break;
       }

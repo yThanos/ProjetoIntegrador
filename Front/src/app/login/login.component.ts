@@ -12,14 +12,8 @@ import { Validators } from '@angular/forms';
 })
 export class LoginComponent {
   constructor(private service: LoginService, private rota: Router){
-    this.campos();
   }
 
-  campos(){
-
-  }
-
-  cpf = document.querySelector('cpf');
   usuario: Usuario = new Usuario();
   teste: boolean = true;
 
@@ -29,14 +23,14 @@ export class LoginComponent {
   async logar(){
     console.log('logando' + JSON.stringify(this.usuario));
     await this.service.login(this.usuario).subscribe((resposta) => {
-      console.log("resp: "+JSON.stringify(resposta));
       const token = new JwtHelperService().decodeToken(resposta.token)
-      localStorage.setItem('nome', token.nome);
-      if(resposta.token != null)
-      localStorage.setItem('token', JSON.stringify(resposta.token));
-      console.log(JSON.stringify(resposta.token));
+      localStorage.setItem('user', JSON.stringify(resposta));
+      localStorage.setItem('token', resposta.token);
+      console.log(resposta.token);
+      this.rota.navigate(['home/inicio']);
+      console.log(token);
     })
-    //this.rota.navigate(['/home']);
+
   }
   confirmarSenha = '';
 
@@ -51,8 +45,8 @@ export class LoginComponent {
     }else{
       console.log('criando conta' + JSON.stringify(this.usuario));
       this.service.criarConta(this.usuario).subscribe(() => {
-        this.teste = !this.teste;
         this.usuario = new Usuario();
+        this.teste = !this.teste;
       })
     }
   }

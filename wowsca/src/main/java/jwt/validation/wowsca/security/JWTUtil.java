@@ -28,12 +28,8 @@ public class JWTUtil {
     }
 
     public String geraToken(String username){
-        Usuario user = new UsuarioDao().getUserByEmail(username);
         final Map<String, Object> claims = new HashMap<>();
-        claims.put("sub", user.getUsername());
-        claims.put("role", user.getPermissao());
-        claims.put("nome", user.getNome());
-        claims.put("cpf", user.getCpf());
+        claims.put("sub", username);
 
         return Jwts.builder()
                 .setClaims(claims)

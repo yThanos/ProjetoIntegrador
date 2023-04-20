@@ -9,6 +9,7 @@ import { LoginModule } from './login/login.module';
 import { JwtInterceptor } from './security/JwtInterceptor ';
 import { ErrorHandlerService } from './security/ErrorHandler';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
+import { HomeModule } from './home/home.module';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
     FormsModule,
     LoginModule,
     NgxMaskDirective,
-    NgxMaskPipe
+    NgxMaskPipe,
+    HomeModule
   ],
   providers: [
     provideNgxMask(),
