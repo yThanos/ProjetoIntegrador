@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-despesas',
@@ -6,5 +7,8 @@ import { Component } from '@angular/core';
   styleUrls: ['./despesas.component.css']
 })
 export class DespesasComponent {
-
+  constructor(private rota: Router) { }
+  inicio(){
+    this.rota.navigate(['/home/inicio']);
+  }
 }

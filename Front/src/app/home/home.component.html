@@ -3,12 +3,12 @@
     <li class="nav-item dropdown">
       <a class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{usuario.nome}}</a>
       <div class="dropdown-menu">
-        <a class="dropdown-item">INICIO</a>
-        <a class="dropdown-item">PERFIL</a>
-        <a class="dropdown-item">GRUPOS</a>
-        <a class="dropdown-item">DESPESAS</a>
+        <a class="dropdown-item" routerLink="/home/inicio">INICIO</a>
+        <a class="dropdown-item" routerLink="/home/perfil">PERFIL</a>
+        <a class="dropdown-item" routerLink="/home/grupos">GRUPOS</a>
+        <a class="dropdown-item" routerLink="/home/despesas">DESPESAS</a>
         <div class="dropdown-divider"></div>
-        <a class="dropdown-item">LOGOUT</a>
+        <a class="dropdown-item" (click)="logout()">LOGOUT</a>
       </div>
     </li>
   </ul>

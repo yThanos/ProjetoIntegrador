@@ -6,6 +6,7 @@ import { AuthGuardService } from './security/auth.guard';
 import { InicioComponent } from './home/inicio/inicio.component';
 import { DespesasComponent } from './home/despesas/despesas.component';
 import { GruposComponent } from './home/grupos/grupos.component';
+import { PerfilComponent } from './home/perfil/perfil.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -14,7 +15,8 @@ const routes: Routes = [
     children: [
       {path: 'inicio', component: InicioComponent},
       {path: 'despesas', component: DespesasComponent},
-      {path: 'grupos', component: GruposComponent}
+      {path: 'grupos', component: GruposComponent},
+      {path: 'perfil', component: PerfilComponent}
     ]
   }
 ];

@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DespesasComponent } from './despesas.component';
+import { FormsModule } from '@angular/forms';
+import { RouterLink } from '@angular/router';
 
 
 
@@ -9,7 +11,9 @@ import { DespesasComponent } from './despesas.component';
     DespesasComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    FormsModule,
+    RouterLink
   ]
 })
 export class DespesasModule { }
