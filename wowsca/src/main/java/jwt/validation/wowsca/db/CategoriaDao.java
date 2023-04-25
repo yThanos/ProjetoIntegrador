@@ -70,14 +70,14 @@ public class CategoriaDao {
             e.printStackTrace();
         }
     }
-    public void updateCategoria(Categoria categoria){
+    public void updateCategoria(Categoria categoria, int id){
         try (Connection connection = new ConectaDB().getConexao()){
             this.sql = "UPDATE CATEGORIAS SET NOME = ?, DESCRICAO = ? WHERE CODIGO = ?";
 
             this.preparedStatement = connection.prepareStatement(this.sql);
             this.preparedStatement.setString(1, categoria.getNome());
             this.preparedStatement.setString(2, categoria.getDescricao());
-            this.preparedStatement.setInt(3, categoria.getCodigo());
+            this.preparedStatement.setInt(3, id);
             this.preparedStatement.execute();
         }catch(SQLException e){
             e.printStackTrace();

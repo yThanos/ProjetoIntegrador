@@ -19,14 +19,17 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @EnableWebSecurity
 @Configuration
 public class WebSecurityConfig {
+    //define o filtro que é usado pra verificar autenticção da requisição
     @Bean
     public FiltroAutenticacao filtroAutenticacao() throws Exception{
         return new FiltroAutenticacao();
     }
 
+    //injeta userdetailsservice para o authenticationmanager usar o loadbyusername ou algo assim a relação deles é confusa
     @Autowired
     private UserDetailsService userDetailsService;
 
+    //authenticationManager recebe username password monta userdatails e verifica se ta certo usado pro filtro
     @Bean
     public AuthenticationManager authenticationManagerBean(HttpSecurity http) throws Exception {
         AuthenticationManagerBuilder authenticationManagerBuilder = http.getSharedObject(AuthenticationManagerBuilder.class);
@@ -36,25 +39,48 @@ public class WebSecurityConfig {
         return authenticationManagerBuilder.build();
     }
 
+    //define as configuração do httpsecurity cors, sessioncreation, endpoints e o filtro
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity htpp) throws Exception{
         htpp.cors().and().csrf().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
             .authorizeHttpRequests((auth)-> auth
+            //login e criar cotna
             .requestMatchers(HttpMethod.POST, "/login").permitAll()
             .requestMatchers(HttpMethod.POST, "/criarConta").permitAll()
+            //usuarios
+            .requestMatchers(HttpMethod.GET, "usuario/all").hasAuthority("ADMIN")
             .requestMatchers(HttpMethod.GET, "/usuario/byId/{id}").hasAnyAuthority("USER", "ADMIN")
             .requestMatchers(HttpMethod.GET, "/usuario/byEmail/{email}").hasAnyAuthority("USER", "ADMIN")
             .requestMatchers(HttpMethod.GET, "/usuario/all").hasAnyAuthority("USER", "ADMIN")
             .requestMatchers(HttpMethod.PUT, "/usuario/{id}").hasAnyAuthority("USER", "ADMIN")
             .requestMatchers(HttpMethod.DELETE, "/usuario/{id}").hasAnyAuthority("USER", "ADMIN")
-            .requestMatchers(HttpMethod.GET, "/user").hasAuthority("USER")
-            .requestMatchers(HttpMethod.GET, "/admin").hasAuthority("ADMIN"));
+            //categorias
+            .requestMatchers(HttpMethod.POST, "/categoria").hasAnyAuthority("SUER", "ADMIN")
+            .requestMatchers(HttpMethod.GET, "/categoria/{id}").hasAnyAuthority("SUER", "ADMIN")
+            .requestMatchers(HttpMethod.GET, "/categoria/user/{id}").hasAnyAuthority("SUER", "ADMIN")
+            .requestMatchers(HttpMethod.PUT, "/categoria/{id}").hasAnyAuthority("SUER", "ADMIN")
+            .requestMatchers(HttpMethod.DELETE, "/categoria/{id}").hasAnyAuthority("SUER", "ADMIN")
+            //grupos
+            .requestMatchers(HttpMethod.GET, "/grupo/all").hasAuthority("ADMIN")
+            .requestMatchers(HttpMethod.POST, "/grupo").hasAnyAuthority("SUER", "ADMIN")
+            .requestMatchers(HttpMethod.GET, "/grupo/{id}").hasAnyAuthority("SUER", "ADMIN")
+            .requestMatchers(HttpMethod.GET, "/grupo/user/{id}").hasAnyAuthority("SUER", "ADMIN")
+            .requestMatchers(HttpMethod.PUT, "/grupo/{id}").hasAnyAuthority("SUER", "ADMIN")
+            .requestMatchers(HttpMethod.DELETE, "/grupo/{id}").hasAnyAuthority("SUER", "ADMIN")
+            /* despesas //ajeitar a relação despesa/user desesa/grupo
+            .requestMatchers(HttpMethod.POST, "/despesa").hasAnyAuthority("SUER", "ADMIN")
+            .requestMatchers(HttpMethod.GET, "/despesa/{id}").hasAnyAuthority("SUER", "ADMIN")
+            .requestMatchers(HttpMethod.GET, "/despesa/user/{id}").hasAnyAuthority("SUER", "ADMIN")
+            .requestMatchers(HttpMethod.PUT, "/despesa/{id}").hasAnyAuthority("SUER", "ADMIN")
+            .requestMatchers(HttpMethod.DELETE, "/despesa/{id}").hasAnyAuthority("SUER", "ADMIN") */
+            );
         
         htpp.addFilterBefore(this.filtroAutenticacao(), UsernamePasswordAuthenticationFilter.class);
         
         return htpp.build();
     }
-
+    
+    //configura o cors permitindo qualquer origem e qualquer metodo
     @Bean
     public WebMvcConfigurer corsConfigurer() {
         return new WebMvcConfigurer() {
