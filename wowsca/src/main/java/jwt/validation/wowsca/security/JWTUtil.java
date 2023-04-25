@@ -13,8 +13,6 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
-import jwt.validation.wowsca.db.UsuarioDao;
-import jwt.validation.wowsca.model.Usuario;
 
 public class JWTUtil {
     public static SecretKey secretKey = Keys.hmacShaKeyFor(generateSafeToken().getBytes(StandardCharsets.UTF_8));

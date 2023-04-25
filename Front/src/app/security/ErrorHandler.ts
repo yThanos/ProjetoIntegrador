@@ -14,13 +14,15 @@ export class ErrorHandlerService extends ErrorHandler{
   override handleError(error: HttpErrorResponse | any) {
     if(error instanceof HttpErrorResponse){
       switch (error.status){
-        case 400:
-          alert('Usuário ou Senha incorretos')
+        case 403:
+          console.log("403");
+          localStorage.clear();
+          this.rota.navigate(["/login"]);
           break;
-        case 417:
-          alert('Token expirado!')
-            sessionStorage.removeItem("token");
-            this.rota.navigate(["/login"]);
+        case 401:
+          console.log("401");
+          localStorage.clear();
+          this.rota.navigate(["/login"]);
           break;
       }
     }

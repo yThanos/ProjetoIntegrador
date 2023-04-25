@@ -22,7 +22,7 @@ public class FiltroAutenticacao extends OncePerRequestFilter{
             try{
                 String token = request.getHeader("Authorization");
                 if(token == null || !token.startsWith("Bearer ")){
-                    response.sendError(401);
+                    response.sendError(403);
                 }
                 String username = new JWTUtil().getUsernameToken(token);
                 if(username == null && new JWTUtil().isTokenExpirado(token)){
