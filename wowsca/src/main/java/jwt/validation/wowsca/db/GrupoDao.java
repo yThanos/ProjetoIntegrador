@@ -34,30 +34,6 @@ public class GrupoDao {
         return grupo;
     }
 
-    public ArrayList<Grupo> getUserGrupos(int userid){
-        ArrayList<Grupo> grupos = new ArrayList<>();
-        try (Connection connection = new ConectaDB().getConexao()){
-            this.sql = "SELECT * FROM GRUPOS where CODIGO_USUARIO = ?";
-
-            this.preparedStatement = connection.prepareStatement(this.sql);
-            this.preparedStatement.setInt(1, userid);
-            this.resultSet = this.preparedStatement.executeQuery();
-            
-            while(this.resultSet.next()){
-                Grupo grupo = new Grupo();
-                grupo.setCodigo(this.resultSet.getInt("CODIGO"));
-                grupo.setNome(this.resultSet.getString("NOME"));
-                grupo.setDescricao(this.resultSet.getString("DESCRICAO"));
-                grupo.setUsuario(new UsuarioDao().getUserById(this.resultSet.getInt("CODIGO_USUARIO")));
-                grupo.setAtivo(this.resultSet.getBoolean("ATIVO"));
-                grupos.add(grupo);
-            }
-        }catch(SQLException e){
-            e.printStackTrace();
-        }
-        return grupos;
-    }
-
     public ArrayList<Grupo> getGrupos(){
         ArrayList<Grupo> grupos = new ArrayList<>();
         try (Connection connection = new ConectaDB().getConexao()){

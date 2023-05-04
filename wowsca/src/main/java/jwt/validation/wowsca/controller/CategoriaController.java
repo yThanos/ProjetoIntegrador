@@ -24,8 +24,13 @@ public class CategoriaController {
     }
 
     @GetMapping("/user/{id}")
-    public ArrayList<Categoria> getCategorias(@PathVariable int codUser){
+    public ArrayList<Categoria> getUserCategorias(@PathVariable int codUser){
         return new CategoriaDao().getUserCategorias(codUser);
+    }
+
+    @GetMapping("/grupo/{id}")
+    public ArrayList<Categoria> getGrupoCategorias(@PathVariable int codGrupo){
+        return new CategoriaDao().getGrupoCategorias(codGrupo);
     }
 
     @GetMapping("/{id}")
@@ -41,5 +46,9 @@ public class CategoriaController {
     @DeleteMapping("/{id}")
     public void deleteCategoria(@PathVariable int id){
         new CategoriaDao().deleteCategoria(id);
+    }
+    @GetMapping("/all")
+    public ArrayList<Categoria> getAllCategorias(){
+        return new CategoriaDao().getAllCategorias();
     }
 }

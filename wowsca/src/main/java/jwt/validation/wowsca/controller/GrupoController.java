@@ -22,11 +22,6 @@ public class GrupoController {
         new GrupoDao().addGrupo(grupo);
     }
 
-    @GetMapping("/user/{id}")
-    public ArrayList<Grupo> getGrupoUser(@PathVariable int id){
-        return new GrupoDao().getUserGrupos(id);
-    }
-
     @GetMapping("/{id}")
     public Grupo getGrupoById(@PathVariable int id){
         return new GrupoDao().getGrupoById(id);

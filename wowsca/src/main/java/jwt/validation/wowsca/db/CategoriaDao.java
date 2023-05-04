@@ -57,6 +57,30 @@ public class CategoriaDao {
         return categorias;
     }
 
+    public ArrayList<Categoria> getGrupoCategorias(int codGrupo){
+        ArrayList<Categoria> categorias = new ArrayList<>();
+        try (Connection connection = new ConectaDB().getConexao()){
+            this.sql = "SELECT * FROM CATEGORIAS where ATIVO = true and CODIGO_GRUPO = ? or CODIGO_USUARIO = 0";
+
+            this.preparedStatement = connection.prepareStatement(this.sql);
+            this.preparedStatement.setInt(1, codGrupo);
+            this.resultSet = this.preparedStatement.executeQuery();
+
+            while(this.resultSet.next()){
+                Categoria cat = new Categoria();
+                cat.setCodigo(this.resultSet.getInt("CODIGO"));
+                cat.setNome(this.resultSet.getString("NOME"));
+                cat.setDescricao(this.resultSet.getString("DESCRICAO"));
+                
+                categorias.add(cat);
+            }
+
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+        return categorias;
+    }
+
     public void addCategoria(Categoria categoria){
         try (Connection connection = new ConectaDB().getConexao()){
             this.sql = "INSERT INTO CATEGORIAS (NOME, DESCRICAO, CODIGO_USUARIO) VALUES (?, ?, ?)";
@@ -70,6 +94,7 @@ public class CategoriaDao {
             e.printStackTrace();
         }
     }
+
     public void updateCategoria(Categoria categoria, int id){
         try (Connection connection = new ConectaDB().getConexao()){
             this.sql = "UPDATE CATEGORIAS SET NOME = ?, DESCRICAO = ? WHERE CODIGO = ?";
@@ -94,5 +119,28 @@ public class CategoriaDao {
         }catch(SQLException e){
             e.printStackTrace();
         }
+    }
+
+    public ArrayList<Categoria> getAllCategorias(){
+        ArrayList<Categoria> categorias = new ArrayList<>();
+        try (Connection connection = new ConectaDB().getConexao()){
+            this.sql = "SELECT * FROM CATEGORIAS where ATIVO = true";
+
+            this.preparedStatement = connection.prepareStatement(this.sql);
+            this.resultSet = this.preparedStatement.executeQuery();
+
+            while(this.resultSet.next()){
+                Categoria cat = new Categoria();
+                cat.setCodigo(this.resultSet.getInt("CODIGO"));
+                cat.setNome(this.resultSet.getString("NOME"));
+                cat.setDescricao(this.resultSet.getString("DESCRICAO"));
+                
+                categorias.add(cat);
+            }
+
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+        return categorias;
     }
 }

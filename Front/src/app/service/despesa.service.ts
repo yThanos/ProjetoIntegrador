@@ -1,0 +1,33 @@
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Despesa } from '../model/despesa';
+import { Observable } from 'rxjs';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class DespesaService {
+  constructor(private http: HttpClient) { }
+
+  private readonly API = 'http://localhost:8080';
+  private readonly headers = { headers: { 'Content-Type': 'application/json' } };
+
+  getDesp(id: number): Observable<Despesa[]>{//pega despesas de grupo ou usuario por id no fim do dia é tudo despesa independente de onde veio
+    return this.http.get<Despesa[]>(this.API + "/despesa/" + id, this.headers);
+  }
+  cadastrar(despesa: Despesa): Observable<Despesa>{//cadastra despesa ja monta com o id do grupo ou usuario correspondente a onde ela é criada dentro do grupo ou fora
+    return this.http.post<Despesa>(this.API + "/despesa", despesa, this.headers);
+  }
+  editar(despesa: Despesa, id: number): Observable<Despesa>{//sem segredo
+    return this.http.put<Despesa>(this.API + "/despesa/" + id, despesa, this.headers);
+  }
+  deletar(id: number): Observable<Despesa>{//muda ativo pra false
+    return this.http.delete<Despesa>(this.API + "/despesa/" + id, this.headers);
+  }
+  getById(id: number): Observable<Despesa>{//autoexplicativo muito usado
+    return this.http.get<Despesa>(this.API + "/despesa/" + id, this.headers);
+  }
+  getAll(): Observable<Despesa[]>{//talvez para admin, log ou estatistica
+    return this.http.get<Despesa[]>(this.API + "/despesa/all", this.headers);
+  }
+}

@@ -54,25 +54,26 @@ public class WebSecurityConfig {
             .requestMatchers(HttpMethod.PUT, "/usuario/{id}").hasAnyAuthority("USER", "ADMIN")
             .requestMatchers(HttpMethod.DELETE, "/usuario/{id}").hasAnyAuthority("USER", "ADMIN")
             //categorias
+            .requestMatchers(HttpMethod.GET, "/categoria/all").hasAuthority("ADMIN")
             .requestMatchers(HttpMethod.POST, "/categoria").hasAnyAuthority("USER", "ADMIN")
             .requestMatchers(HttpMethod.GET, "/categoria/{id}").hasAnyAuthority("USER", "ADMIN")
             .requestMatchers(HttpMethod.GET, "/categoria/user/{id}").hasAnyAuthority("USER", "ADMIN")
-            .requestMatchers(HttpMethod.GET, "/categoria/all").hasAuthority("ADMIN")
+            .requestMatchers(HttpMethod.GET, "/categoria/grupo/{id}").hasAnyAuthority("USER", "ADMIN")
             .requestMatchers(HttpMethod.PUT, "/categoria/{id}").hasAnyAuthority("USER", "ADMIN")
             .requestMatchers(HttpMethod.DELETE, "/categoria/{id}").hasAnyAuthority("USER", "ADMIN")
             //grupos
             .requestMatchers(HttpMethod.GET, "/grupo/all").hasAuthority("ADMIN")
             .requestMatchers(HttpMethod.POST, "/grupo").hasAnyAuthority("USER", "ADMIN")
             .requestMatchers(HttpMethod.GET, "/grupo/{id}").hasAnyAuthority("USER", "ADMIN")
-            .requestMatchers(HttpMethod.GET, "/grupo/user/{id}").hasAnyAuthority("USER", "ADMIN")
             .requestMatchers(HttpMethod.PUT, "/grupo/{id}").hasAnyAuthority("USER", "ADMIN")
             .requestMatchers(HttpMethod.DELETE, "/grupo/{id}").hasAnyAuthority("USER", "ADMIN")
-            /* despesas //ajeitar a relação despesa/user desesa/grupo
+            //despesas
+            .requestMatchers(HttpMethod.GET, "/despesa/all").hasAuthority("ADMIN")
             .requestMatchers(HttpMethod.POST, "/despesa").hasAnyAuthority("USER", "ADMIN")
             .requestMatchers(HttpMethod.GET, "/despesa/{id}").hasAnyAuthority("USER", "ADMIN")
-            .requestMatchers(HttpMethod.GET, "/despesa/user/{id}").hasAnyAuthority("USER", "ADMIN")
+            .requestMatchers(HttpMethod.GET, "/despesa/byId/{id}").hasAnyAuthority("USER", "ADMIN")
             .requestMatchers(HttpMethod.PUT, "/despesa/{id}").hasAnyAuthority("USER", "ADMIN")
-            .requestMatchers(HttpMethod.DELETE, "/despesa/{id}").hasAnyAuthority("USER", "ADMIN") */
+            .requestMatchers(HttpMethod.DELETE, "/despesa/{id}").hasAnyAuthority("USER", "ADMIN")
             );
         
         htpp.addFilterBefore(this.filtroAutenticacao(), UsernamePasswordAuthenticationFilter.class);
