@@ -21,7 +21,7 @@ public class FiltroAutenticacao extends OncePerRequestFilter{
         if(!url.contains("/login") && !url.contains("/criarConta")){
             try{
                 String token = request.getHeader("Authorization");
-                if(token == null || !token.startsWith("Bearer ")){
+                if(token == null){
                     response.sendError(403);
                 }
                 String username = new JWTUtil().getUsernameToken(token);

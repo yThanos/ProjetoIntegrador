@@ -4,6 +4,7 @@ import { HomeComponent } from './home.component';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { PerfilComponent } from './perfil/perfil.component';
+import { InicioModule } from './inicio/inicio.module';
 
 
 
@@ -15,7 +16,8 @@ import { PerfilComponent } from './perfil/perfil.component';
   imports: [
     CommonModule,
     FormsModule,
-    RouterModule
+    RouterModule,
+    InicioModule
   ]
 })
 export class HomeModule { }

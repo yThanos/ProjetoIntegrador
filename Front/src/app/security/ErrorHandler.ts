@@ -17,7 +17,11 @@ export class ErrorHandlerService extends ErrorHandler{
         case 403:
           console.log("403");
           localStorage.clear();
-          this.rota.navigate(["/login"]);
+          if(confirm("Sua sessão expirou!")){
+            this.rota.navigate(["/login"]);
+          }else{
+            this.rota.navigate(["/login"]);
+          }
           break;
         case 401:
           console.log("401");

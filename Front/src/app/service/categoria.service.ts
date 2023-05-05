@@ -12,8 +12,11 @@ export class CategoriaService {
   private readonly API = 'http://localhost:8080';
   private headers = { headers: new HttpHeaders().set('Content-Type', 'application/json') };
 
-  listar(id:number): Observable<Categoria[]>{//pega categorias do usuario ou dogrupo e as gerais
-    return this.htpp.get<Categoria[]>(this.API + "/categoria/util/"+id, this.headers);
+  listar(id:number): Observable<Categoria[]>{//pega categorias do usuario e as gerais
+    return this.htpp.get<Categoria[]>(this.API + "/categoria/user/"+id, this.headers);
+  }
+  listarGrupo(id:number): Observable<Categoria[]>{//pega categorias do grupo e as gerais
+    return this.htpp.get<Categoria[]>(this.API + "/categoria/grupo/"+id, this.headers);
   }
   cadastrar(categoria: Categoria): Observable<Categoria>{//cadastra categoria
     return this.htpp.post<Categoria>(this.API + "/categoria", categoria, this.headers);

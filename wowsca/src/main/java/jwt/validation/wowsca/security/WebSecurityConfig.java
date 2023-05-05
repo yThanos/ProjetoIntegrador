@@ -70,10 +70,17 @@ public class WebSecurityConfig {
             //despesas
             .requestMatchers(HttpMethod.GET, "/despesa/all").hasAuthority("ADMIN")
             .requestMatchers(HttpMethod.POST, "/despesa").hasAnyAuthority("USER", "ADMIN")
-            .requestMatchers(HttpMethod.GET, "/despesa/{id}").hasAnyAuthority("USER", "ADMIN")
+            .requestMatchers(HttpMethod.GET, "/despesa/usuario/{id}").hasAnyAuthority("USER", "ADMIN")
+            .requestMatchers(HttpMethod.GET, "/despesa/grupo/{id}").hasAnyAuthority("USER", "ADMIN")
             .requestMatchers(HttpMethod.GET, "/despesa/byId/{id}").hasAnyAuthority("USER", "ADMIN")
             .requestMatchers(HttpMethod.PUT, "/despesa/{id}").hasAnyAuthority("USER", "ADMIN")
             .requestMatchers(HttpMethod.DELETE, "/despesa/{id}").hasAnyAuthority("USER", "ADMIN")
+            //userGrups
+            .requestMatchers(HttpMethod.GET, "/userGrup/all").hasAuthority("ADMIN")
+            .requestMatchers(HttpMethod.GET, "/userGrup/usuarios/{id}").hasAuthority("ADMIN")
+            .requestMatchers(HttpMethod.GET, "/userGrup/grupos/{id}").hasAuthority("ADMIN")
+            .requestMatchers(HttpMethod.POST, "/userGrup/add").hasAuthority("ADMIN")
+            .requestMatchers(HttpMethod.POST, "/userGrup/remove").hasAuthority("ADMIN")
             );
         
         htpp.addFilterBefore(this.filtroAutenticacao(), UsernamePasswordAuthenticationFilter.class);

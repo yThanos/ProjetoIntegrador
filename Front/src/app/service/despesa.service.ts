@@ -12,8 +12,11 @@ export class DespesaService {
   private readonly API = 'http://localhost:8080';
   private readonly headers = { headers: { 'Content-Type': 'application/json' } };
 
-  getDesp(id: number): Observable<Despesa[]>{//pega despesas de grupo ou usuario por id no fim do dia é tudo despesa independente de onde veio
-    return this.http.get<Despesa[]>(this.API + "/despesa/" + id, this.headers);
+  getUserDesp(id: number): Observable<Despesa[]>{//pega despesas do usuario por id
+    return this.http.get<Despesa[]>(this.API + "/despesa/usuario/" + id, this.headers);
+  }
+  getGroupDesp(id: number): Observable<Despesa[]>{//pega despesas do grupo por id
+    return this.http.get<Despesa[]>(this.API + "/despesa/grupo/" + id, this.headers);
   }
   cadastrar(despesa: Despesa): Observable<Despesa>{//cadastra despesa ja monta com o id do grupo ou usuario correspondente a onde ela é criada dentro do grupo ou fora
     return this.http.post<Despesa>(this.API + "/despesa", despesa, this.headers);

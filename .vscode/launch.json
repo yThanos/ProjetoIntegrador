@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-WowscaApplication<wowsca>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "jwt.validation.wowsca.WowscaApplication",
+            "projectName": "wowsca",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
