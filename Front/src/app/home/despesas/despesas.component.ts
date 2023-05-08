@@ -1,9 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { Categoria } from 'src/app/model/categoria';
 import { Despesa } from 'src/app/model/despesa';
 import { Usuario } from 'src/app/model/usuario';
-import { CategoriaService } from 'src/app/service/categoria.service';
 import { DespesaService } from 'src/app/service/despesa.service';
 
 @Component({
@@ -12,45 +10,66 @@ import { DespesaService } from 'src/app/service/despesa.service';
   styleUrls: ['./despesas.component.css']
 })
 export class DespesasComponent {
-  constructor(private rota: Router, private service: DespesaService, private categService: CategoriaService) {
-    this.listar();
-   }
-  inicio(){
-    this.rota.navigate(['/home/inicio']);
-  }
   usuario: Usuario = JSON.parse(<string>localStorage.getItem('user'));
-  categorias: Categoria[] = [];
-  despesas: Despesa[] = []
+  constructor(private rota: Router, private service: DespesaService) {
+    setTimeout(() => {
+      this.listar();
+    }, 500)
+  }
+  opcao: string = 'Cadastrar';
+  quitadas: Despesa[] = [];
+  despesas: Despesa[] = [];
+  editDesp: Despesa = new Despesa();
   despesa: Despesa = new Despesa();
   listar(){
     if(this.usuario.codigo != undefined)
     this.service.getUserDesp(this.usuario.codigo).subscribe((resposta: Despesa[]) => {
-        this.despesas = resposta;
+      for(let resp of resposta){
+        if(resp.ativo == true){
+          this.despesas.push(resp);
+        }else{
+          this.quitadas.push(resp);
+        }
       }
-    )
-    if(this.usuario.codigo != undefined)
-    this.categService.listar(this.usuario.codigo).subscribe((resposta: Categoria[]) => {
-      this.categorias = resposta;
     })
   }
   criar(){
+    /*this.despesa.codigo_usuario = this.usuario.codigo;
     this.service.cadastrar(this.despesa).subscribe((resposta: Despesa) => {
       this.despesa = new Despesa();
       this.listar();
-    })
+    })*/
+    console.log(this.despesa);
   }
-  selecionar(despesa: Despesa){
+  excluir(despesa: Despesa){
     this.despesa = despesa;
     if(confirm('Deseja realmente deletar a despesa ' + despesa.nome + '?')){
       this.remover();
     }
   }
   remover(){
-    let posicao = this.despesas.indexOf(this.despesa);
-    this.despesas.splice(posicao, 1);
+    if(this.despesa.codigo != undefined)
+    this.service.deletar(this.despesa.codigo).subscribe((resposta: Despesa) => {
+      this.despesa = new Despesa();
+      this.listar();
+    })
+  }
+  selecionar(id?: number){
+    this.opcao = 'Editar';
+    if(id != undefined)
+    this.service.getById(id).subscribe((resposta: Despesa) => {
+      this.despesa = resposta;
+      console.log(this.despesa);
+      let teste = document.getElementById('teste')
+      setTimeout(() => {
+        teste?.click();
+      }, 500)
+    })
   }
   editar(){
-    let posicao = this.despesas.indexOf(this.despesa);
-    this.despesas[posicao] = this.despesa;
+
+  }
+  inicio(){
+    this.rota.navigate(['/home/inicio']);
   }
 }

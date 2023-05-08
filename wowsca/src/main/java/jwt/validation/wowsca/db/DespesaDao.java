@@ -16,7 +16,7 @@ public class DespesaDao {
     public ArrayList<Despesa> getUserDespesa(int codUser){
         ArrayList<Despesa> despesas = new ArrayList<>();
         try (Connection connection = new ConectaDB().getConexao()){
-            this.sql = "SELECT * FROM DESPESAS where CODIGO_USUARIO = ? and ATIVO = true";
+            this.sql = "SELECT * FROM DESPESAS where CODIGO_USUARIO = ?";
 
             this.preparedStatement = connection.prepareStatement(this.sql);
             this.preparedStatement.setInt(1, codUser);
@@ -29,7 +29,7 @@ public class DespesaDao {
                 desp.setNome(this.resultSet.getString("NOME"));
                 desp.setDescricao(this.resultSet.getString("DESCRICAO"));
                 desp.setValor(this.resultSet.getDouble("VALOR"));
-
+                desp.setAtivo(this.resultSet.getBoolean("ativo"));
                 despesas.add(desp);
             }
 
@@ -42,7 +42,7 @@ public class DespesaDao {
     public ArrayList<Despesa> getGrupDespesa(int codGrup){
         ArrayList<Despesa> despesas = new ArrayList<>();
         try (Connection connection = new ConectaDB().getConexao()){
-            this.sql = "SELECT * FROM DESPESAS where CODIGO_GRUPO = ? and ATIVO = true";
+            this.sql = "SELECT * FROM DESPESAS where CODIGO_GRUPO = ?";
 
             this.preparedStatement = connection.prepareStatement(this.sql);
             this.preparedStatement.setInt(1, codGrup);
@@ -68,7 +68,7 @@ public class DespesaDao {
     public ArrayList<Despesa> getAllDespesas(){
         ArrayList<Despesa> despesas = new ArrayList<>();
         try (Connection connection = new ConectaDB().getConexao()){
-            this.sql = "SELECT * FROM DESPESAS where ATIVO = true";
+            this.sql = "SELECT * FROM DESPESAS";
 
             this.preparedStatement = connection.prepareStatement(this.sql);
             this.resultSet = this.preparedStatement.executeQuery();
@@ -92,7 +92,7 @@ public class DespesaDao {
     public Despesa getById(int ind){
         Despesa desp = new Despesa();
         try (Connection connection = new ConectaDB().getConexao()){
-            this.sql = "SELECT * FROM DESPESAS where CODIGO = ? and ATIVO = true";
+            this.sql = "SELECT * FROM DESPESAS where CODIGO = ?";
 
             this.preparedStatement = connection.prepareStatement(this.sql);
             this.preparedStatement.setInt(1, ind);

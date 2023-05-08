@@ -28,7 +28,7 @@ export class DespesaService {
     return this.http.delete<Despesa>(this.API + "/despesa/" + id, this.headers);
   }
   getById(id: number): Observable<Despesa>{//autoexplicativo muito usado
-    return this.http.get<Despesa>(this.API + "/despesa/" + id, this.headers);
+    return this.http.get<Despesa>(this.API + "/despesa/byId/" + id, this.headers);
   }
   getAll(): Observable<Despesa[]>{//talvez para admin, log ou estatistica
     return this.http.get<Despesa[]>(this.API + "/despesa/all", this.headers);
