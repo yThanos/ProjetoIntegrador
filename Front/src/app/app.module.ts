@@ -10,6 +10,7 @@ import { JwtInterceptor } from './security/JwtInterceptor ';
 import { ErrorHandlerService } from './security/ErrorHandler';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import { HomeModule } from './home/home.module';
+import { LoaderModule } from './loader/loader.module';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { HomeModule } from './home/home.module';
     LoginModule,
     NgxMaskDirective,
     NgxMaskPipe,
-    HomeModule
+    HomeModule,
+    LoaderModule
   ],
   providers: [
     provideNgxMask(),
