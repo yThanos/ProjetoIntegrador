@@ -7,7 +7,7 @@ public class ConectaDB {
     private static final String DRIVER = "org.postgresql.Driver";
     private static final String URL = "jdbc:postgresql://localhost:5432/AppFinanceiro";
     private static final String USER = "postgres";
-    private static final String SENHA = "1523";
+    private static final String SENHA = "1234";
 
     public Connection getConexao(){
         Connection con = null;
