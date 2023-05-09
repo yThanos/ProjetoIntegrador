@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,7 +23,6 @@ public class DespesaController {
     @CrossOrigin
     @GetMapping("/usuario/{id}")
     public ArrayList<Despesa> getUserDespesas(@PathVariable int id) {
-        System.out.println("teste");
         return new DespesaDao().getUserDespesa(id);
     }
 
@@ -46,13 +46,14 @@ public class DespesaController {
     
     @CrossOrigin
     @PostMapping
-    public void insertDespesa(Despesa despesa) {
+    public void insertDespesa(@RequestBody Despesa despesa) {
+        System.out.println(despesa);
         new DespesaDao().addDespesa(despesa);
     }
 
     @CrossOrigin
     @PutMapping("/{id}")
-    public void updateDespesa(@PathVariable int id, Despesa despesa) {
+    public void updateDespesa(@PathVariable int id, @RequestBody Despesa despesa) {
         new DespesaDao().updateDespesa(despesa, id);
     }
 

@@ -29,7 +29,6 @@ public class LoginController {
     @PostMapping("/login")
     public ResponseEntity<Object> logar(@RequestBody Usuario usuario){
         final Authentication authentication = this.authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(usuario.getUsername(), usuario.getPassword()));
-        System.out.println(authentication);
         if(authentication.isAuthenticated()){
             SecurityContextHolder.getContext().setAuthentication(authentication);
             Usuario user = new UsuarioDao().getUserByEmail(usuario.getUsername());

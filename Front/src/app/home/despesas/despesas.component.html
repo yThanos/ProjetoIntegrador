@@ -23,7 +23,7 @@
                   <tr *ngFor="let despo of despesas">
                     <th scope="col">{{despo.nome}}</th>
                     <td>{{despo.descricao}}</td>
-                    <td>{{despo.valor}}</td>
+                    <td>{{despo.valor | number:'1.2-2'}}</td>
                     <td>
                       <button class="btn btn-warning esquerdo" (click)="selecionar(despo.codigo)">Editar</button>
                       <button class="btn btn-success" (click)="excluir(despo)">Quitar</button>
@@ -70,8 +70,9 @@
                       </form>
                     </div>
                     <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-dismiss="modal" id="sair">Cancelar</button>
-                      <button type="button" class="btn btn-success" (click)="criar()">Salvar</button>
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal" id="sair" (click)="opcao = 'Cadastrar'">Cancelar</button>
+                      <button type="button" class="btn btn-success" *ngIf="opcao == 'Cadastrar'" (click)="criar()">Salvar</button>
+                      <button type="button" class="btn btn-success" *ngIf="opcao == 'Editar'" (click)="editar()">Editar</button>
                     </div>
                   </div>
                 </div>

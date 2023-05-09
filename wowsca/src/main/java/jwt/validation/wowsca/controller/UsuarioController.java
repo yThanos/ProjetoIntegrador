@@ -23,7 +23,6 @@ public class UsuarioController {
     @CrossOrigin
     @GetMapping("/byEmail/{email}")
     public Usuario getUsuario(@PathVariable String email) {
-        System.out.println("email: " + email);
         return new UsuarioDao().getUserByEmail(email);
     }
 

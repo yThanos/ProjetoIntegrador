@@ -24,6 +24,9 @@ export class DespesasComponent {
   listar(){
     if(this.usuario.codigo != undefined)
     this.service.getUserDesp(this.usuario.codigo).subscribe((resposta: Despesa[]) => {
+      console.log(resposta);
+      this.despesas = [];
+      this.quitadas = [];
       for(let resp of resposta){
         if(resp.ativo == true){
           this.despesas.push(resp);
@@ -31,10 +34,13 @@ export class DespesasComponent {
           this.quitadas.push(resp);
         }
       }
+      console.log(this.despesas);
     })
   }
   criar(){
     console.log(this.despesa);
+    this.despesa.origem = "U"
+    this.despesa.codigoOrigem = this.usuario.codigo;
     this.service.cadastrar(this.despesa).subscribe((resposta: Despesa) => {
       this.despesa = new Despesa();
       document.getElementById('sair')?.click();
@@ -67,7 +73,12 @@ export class DespesasComponent {
     })
   }
   editar(){
-
+    if(this.despesa.codigo != undefined)
+    this.service.editar(this.despesa, this.despesa.codigo).subscribe((resposta: Despesa) => {
+      this.despesa = new Despesa();
+      document.getElementById('sair')?.click();
+      this.listar();
+    })
   }
   inicio(){
     this.rota.navigate(['/home/inicio']);
