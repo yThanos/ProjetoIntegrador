@@ -24,7 +24,6 @@ export class DespesasComponent {
   listar(){
     if(this.usuario.codigo != undefined)
     this.service.getUserDesp(this.usuario.codigo).subscribe((resposta: Despesa[]) => {
-      console.log(resposta);
       this.despesas = [];
       this.quitadas = [];
       for(let resp of resposta){
@@ -34,11 +33,9 @@ export class DespesasComponent {
           this.quitadas.push(resp);
         }
       }
-      console.log(this.despesas);
     })
   }
   criar(){
-    console.log(this.despesa);
     this.despesa.origem = "U"
     this.despesa.codigoOrigem = this.usuario.codigo;
     this.service.cadastrar(this.despesa).subscribe((resposta: Despesa) => {
@@ -65,7 +62,6 @@ export class DespesasComponent {
     if(id != undefined)
     this.service.getById(id).subscribe((resposta: Despesa) => {
       this.despesa = resposta;
-      console.log(this.despesa);
       let teste = document.getElementById('teste')
       setTimeout(() => {
         teste?.click();

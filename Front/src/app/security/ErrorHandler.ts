@@ -15,16 +15,14 @@ export class ErrorHandlerService extends ErrorHandler{
     if(error instanceof HttpErrorResponse){
       switch (error.status){
         case 403:
-          console.log("403");
           localStorage.clear();
-          if(confirm("Sua sessão expirou!")){
+          if(confirm("Erro 403 - Acesso negado, deseja fazer login novamente?")){
             this.rota.navigate(["/login"]);
           }else{
             this.rota.navigate(["/login"]);
           }
           break;
         case 401:
-          console.log("401");
           localStorage.clear();
           this.rota.navigate(["/login"]);
           break;

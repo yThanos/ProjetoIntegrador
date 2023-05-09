@@ -20,11 +20,10 @@ public class DespesaDao {
         try (Connection connection = new ConectaDB().getConexao()){
             //this.sql = "SELECT CODIGO_DESPESA FROM USUARIO_DESPESA where CODIGO_USUARIO = ?";
             Statement statement = connection.createStatement();
-            this.resultSet = statement.executeQuery("SELECT * FROM USUARIO_DESPESA where CODIGO_USUARIO = 1;");
+            this.resultSet = statement.executeQuery("SELECT * FROM USUARIO_DESPESA where CODIGO_USUARIO ="+codUser);
             
             List<Integer> codDesp = new ArrayList<Integer>();
             while(this.resultSet.next()){
-                System.out.println(this.resultSet.getInt("CODIGO_DESPESA")+"teste de select");
                 codDesp.add(this.resultSet.getInt("CODIGO_DESPESA"));
             }
             for (Integer integer : codDesp) {
@@ -116,19 +115,16 @@ public class DespesaDao {
             this.resultSet = this.preparedStatement.executeQuery();
             if(despesa.getOrigem().contains("U")){
                 if(this.resultSet.next()){
-                    System.out.println("entrou if Usuario");
                     insereUserDespesa(despesa.getCodigoOrigem(), this.resultSet.getInt("CODIGO"));
                 }
             }else if(despesa.getOrigem() == "G"){
                 insereGrupDespesa(despesa);
             }
-            System.out.println("passou dos ifs");
         }catch(SQLException e){
             e.printStackTrace();
         }
     }
     private void insereUserDespesa(int origem, int codigo){
-        System.out.println(codigo+"tetse");
         try (Connection connection = new ConectaDB().getConexao()){
             this.sql = "INSERT INTO USUARIO_DESPESA (CODIGO_USUARIO, CODIGO_DESPESA) VALUES (?, ?)";
 

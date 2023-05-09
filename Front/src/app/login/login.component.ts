@@ -21,14 +21,11 @@ export class LoginComponent {
     this.teste = !this.teste;
   }
   async logar(){
-    console.log('logando' + JSON.stringify(this.usuario));
     await this.service.login(this.usuario).subscribe((resposta) => {
       const token = new JwtHelperService().decodeToken(resposta.token)
       localStorage.setItem('user', JSON.stringify(resposta));
       localStorage.setItem('token', resposta.token);
-      console.log(resposta.token);
       this.rota.navigate(['home/inicio']);
-      console.log(token);
     })
 
   }
@@ -38,12 +35,10 @@ export class LoginComponent {
     if(this.usuario.password != this.confirmarSenha && this.usuario.password != ''){
       alert('Senhas não conferem!');
     }else if(!this.usuario.cpf?.match(/^[\d]{3}\.[\d]{3}\.[\d]{3}-[\d]{2}$/)){
-      console.log(this.usuario.cpf);
       alert('CPF inválido!');
     }else if(!this.usuario.username?.match(/^[\w\.]+@[\w]+\.[\w]{2,4}(\.[\w]{2})?$/)){
       alert('E-mail inválido!');
     }else{
-      console.log('criando conta' + JSON.stringify(this.usuario));
       this.service.criarConta(this.usuario).subscribe(() => {
         this.usuario = new Usuario();
         this.teste = !this.teste;
