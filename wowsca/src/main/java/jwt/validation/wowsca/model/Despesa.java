@@ -10,12 +10,10 @@ import lombok.NoArgsConstructor;
 public class Despesa {
     private int codigo;
     private String nome;
-    private Categoria categoria;
     private String descricao;
     private double valor;
-    private int frequencia;
-    private Usuario usuario;
-    private Grupo grupo;
     private boolean ativo;
+    private String origem;
+    private int codigoOrigem;
     
 }

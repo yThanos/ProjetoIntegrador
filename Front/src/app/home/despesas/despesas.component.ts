@@ -34,12 +34,12 @@ export class DespesasComponent {
     })
   }
   criar(){
-    /*this.despesa.codigo_usuario = this.usuario.codigo;
+    console.log(this.despesa);
     this.service.cadastrar(this.despesa).subscribe((resposta: Despesa) => {
       this.despesa = new Despesa();
+      document.getElementById('sair')?.click();
       this.listar();
-    })*/
-    console.log(this.despesa);
+    })
   }
   excluir(despesa: Despesa){
     this.despesa = despesa;

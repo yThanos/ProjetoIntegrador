@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { DespesasComponent } from './despesas.component';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
+import { NgxLoadingModule } from 'ngx-loading';
 
 
 
@@ -13,7 +14,11 @@ import { RouterLink } from '@angular/router';
   imports: [
     CommonModule,
     FormsModule,
-    RouterLink
+    RouterLink,
+    NgxLoadingModule.forRoot({
+      fullScreenBackdrop: true,
+      animationType: 'circleSwish'
+    })
   ]
 })
 export class DespesasModule { }

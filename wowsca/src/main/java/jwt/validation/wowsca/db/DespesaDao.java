@@ -16,7 +16,7 @@ public class DespesaDao {
     public ArrayList<Despesa> getUserDespesa(int codUser){
         ArrayList<Despesa> despesas = new ArrayList<>();
         try (Connection connection = new ConectaDB().getConexao()){
-            this.sql = "SELECT * FROM DESPESAS where CODIGO_USUARIO = ?";
+            this.sql = "SELECT * FROM USUARIO_DESPESA where CODIGO_USUARIO = ?";
 
             this.preparedStatement = connection.prepareStatement(this.sql);
             this.preparedStatement.setInt(1, codUser);
@@ -24,12 +24,7 @@ public class DespesaDao {
 
 
             while(this.resultSet.next()){
-                Despesa desp = new Despesa();
-                desp.setCodigo(this.resultSet.getInt("CODIGO"));
-                desp.setNome(this.resultSet.getString("NOME"));
-                desp.setDescricao(this.resultSet.getString("DESCRICAO"));
-                desp.setValor(this.resultSet.getDouble("VALOR"));
-                desp.setAtivo(this.resultSet.getBoolean("ativo"));
+                Despesa desp = getById(this.resultSet.getInt("CODIGO_DESPESA"));
                 despesas.add(desp);
             }
 
@@ -42,7 +37,7 @@ public class DespesaDao {
     public ArrayList<Despesa> getGrupDespesa(int codGrup){
         ArrayList<Despesa> despesas = new ArrayList<>();
         try (Connection connection = new ConectaDB().getConexao()){
-            this.sql = "SELECT * FROM DESPESAS where CODIGO_GRUPO = ?";
+            this.sql = "SELECT * FROM GRUPO_DESPESA where CODIGO_GRUPO = ?";
 
             this.preparedStatement = connection.prepareStatement(this.sql);
             this.preparedStatement.setInt(1, codGrup);
@@ -50,12 +45,7 @@ public class DespesaDao {
 
 
             while(this.resultSet.next()){
-                Despesa desp = new Despesa();
-                desp.setCodigo(this.resultSet.getInt("CODIGO"));
-                desp.setNome(this.resultSet.getString("NOME"));
-                desp.setDescricao(this.resultSet.getString("DESCRICAO"));
-                desp.setValor(this.resultSet.getDouble("VALOR"));
-
+                Despesa desp = getById(this.resultSet.getInt("CODIGO_DESPESA"));
                 despesas.add(desp);
             }
 
@@ -113,16 +103,46 @@ public class DespesaDao {
 
     public void addDespesa(Despesa despesa){
         try (Connection connection = new ConectaDB().getConexao()){
-            this.sql = "INSERT INTO DESPESAS (NOME, DESCRICAO, VALOR, CODIGO_USUARIO, CODIGO_GRUPO) VALUES (?, ?, ?, ?, ?)";
+            this.sql = "INSERT INTO DESPESAS (NOME, DESCRICAO, VALOR, ATIVO) VALUES (?, ?, ?, true)";
 
             this.preparedStatement = connection.prepareStatement(this.sql);
             this.preparedStatement.setString(1, despesa.getNome());
             this.preparedStatement.setString(2, despesa.getDescricao());
             this.preparedStatement.setDouble(3, despesa.getValor());
-            this.preparedStatement.setInt(4, despesa.getUsuario().getCodigo());
-            this.preparedStatement.setInt(5, despesa.getGrupo().getCodigo());
+            if(despesa.getOrigem() == "U"){
+                insereUserDespesa(despesa);
+            }else if(despesa.getOrigem() == "G"){
+                insereGrupDespesa(despesa);
+            }
+            this.preparedStatement.execute();
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+    }
+    private void insereUserDespesa(Despesa despesa){
+        try (Connection connection = new ConectaDB().getConexao()){
+            this.sql = "INSERT INTO USUARIO_DESPESA (CODIGO_USUARIO, CODIGO_DESPESA) VALUES (?, ?)";
+
+            this.preparedStatement = connection.prepareStatement(this.sql);
+            this.preparedStatement.setInt(1, despesa.getCodigoOrigem());
+            this.preparedStatement.setInt(2, despesa.getCodigo());
 
             this.preparedStatement.execute();
+
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+    }
+    private void insereGrupDespesa(Despesa despesa){
+        try (Connection connection = new ConectaDB().getConexao()){
+            this.sql = "INSERT INTO USUARIO_DESPESA (CODIGO_GRUPO, CODIGO_DESPESA) VALUES (?, ?)";
+
+            this.preparedStatement = connection.prepareStatement(this.sql);
+            this.preparedStatement.setInt(1, despesa.getCodigoOrigem());
+            this.preparedStatement.setInt(2, despesa.getCodigo());
+
+            this.preparedStatement.execute();
+            int codigo = this.preparedStatement.getGeneratedKeys().getInt(1);
 
         }catch(SQLException e){
             e.printStackTrace();
@@ -131,14 +151,12 @@ public class DespesaDao {
 
     public void updateDespesa(Despesa despesa, int id){
         try (Connection connection = new ConectaDB().getConexao()){
-            this.sql = "UPDATE DESPESAS SET NOME = ?, DESCRICAO = ?, VALOR = ?, CODIGO_USUARIO = ?, CODIGO_GRUPO = ? WHERE CODIGO = ?";
+            this.sql = "UPDATE DESPESAS SET NOME = ?, DESCRICAO = ?, VALOR = ? WHERE CODIGO = ?";
 
             this.preparedStatement = connection.prepareStatement(this.sql);
             this.preparedStatement.setString(1, despesa.getNome());
             this.preparedStatement.setString(2, despesa.getDescricao());
             this.preparedStatement.setDouble(3, despesa.getValor());
-            this.preparedStatement.setInt(4, despesa.getUsuario().getCodigo());
-            this.preparedStatement.setInt(5, despesa.getGrupo().getCodigo());
             this.preparedStatement.setInt(6, id);
 
             this.preparedStatement.execute();

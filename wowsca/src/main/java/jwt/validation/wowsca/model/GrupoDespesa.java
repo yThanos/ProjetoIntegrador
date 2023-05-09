@@ -7,9 +7,8 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UsuariuoGrupo {
+public class GrupoDespesa {
     private int codigo;
-    private Usuario usuario;
-    private Grupo grupo;
-    
+    private int codigoGrupo;
+    private int codigoDespesa;
 }
