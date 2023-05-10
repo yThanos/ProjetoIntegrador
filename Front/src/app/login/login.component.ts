@@ -1,9 +1,7 @@
 import { Component } from '@angular/core';
 import { Usuario } from '../model/usuario';
 import { LoginService } from './login.service';
-import { JwtHelperService } from '@auth0/angular-jwt';
 import { Router } from '@angular/router';
-import { Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
@@ -22,7 +20,7 @@ export class LoginComponent {
   }
   async logar(){
     await this.service.login(this.usuario).subscribe((resposta) => {
-      const token = new JwtHelperService().decodeToken(resposta.token)
+      console.log(resposta.token)
       localStorage.setItem('user', JSON.stringify(resposta));
       localStorage.setItem('token', resposta.token);
       this.rota.navigate(['home/inicio']);
@@ -30,7 +28,6 @@ export class LoginComponent {
 
   }
   confirmarSenha = '';
-
   criarConta(){
     if(this.usuario.password != this.confirmarSenha && this.usuario.password != ''){
       alert('Senhas não conferem!');

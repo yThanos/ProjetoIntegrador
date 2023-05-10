@@ -26,7 +26,6 @@ public class GrupoDao {
                 grupo.setCodigo(this.resultSet.getInt("CODIGO"));
                 grupo.setNome(this.resultSet.getString("NOME"));
                 grupo.setDescricao(this.resultSet.getString("DESCRICAO"));
-                grupo.setUsuario(new UsuarioDao().getUserById(this.resultSet.getInt("CODIGO_USUARIO")));
             }
         }catch(SQLException e){
             e.printStackTrace();
@@ -47,7 +46,6 @@ public class GrupoDao {
                 grupo.setCodigo(this.resultSet.getInt("CODIGO"));
                 grupo.setNome(this.resultSet.getString("NOME"));
                 grupo.setDescricao(this.resultSet.getString("DESCRICAO"));
-                grupo.setUsuario(new UsuarioDao().getUserById(this.resultSet.getInt("CODIGO_USUARIO")));
                 grupo.setAtivo(this.resultSet.getBoolean("ATIVO"));
                 grupos.add(grupo);
             }
@@ -59,12 +57,11 @@ public class GrupoDao {
 
     public void addGrupo(Grupo grupo){
         try (Connection connection = new ConectaDB().getConexao()){
-            this.sql = "INSERT INTO GRUPOS (NOME, DESCRICAO, CODIGO_USUARIO) VALUES (?, ?, ?)";
+            this.sql = "INSERT INTO GRUPOS (NOME, DESCRICAO) VALUES (?, ?)";
 
             this.preparedStatement = connection.prepareStatement(this.sql);
             this.preparedStatement.setString(1, grupo.getNome());
             this.preparedStatement.setString(2, grupo.getDescricao());
-            this.preparedStatement.setInt(3, grupo.getUsuario().getCodigo());
             this.preparedStatement.execute();
         }catch(SQLException e){
             e.printStackTrace();
@@ -73,12 +70,11 @@ public class GrupoDao {
 
     public void updateGrupo(Grupo grupo, int id){
         try (Connection connection = new ConectaDB().getConexao()){
-            this.sql = "UPDATE GRUPOS SET NOME = ?, DESCRICAO = ?, CODIGO_USUARIO = ? WHERE CODIGO = ?";
+            this.sql = "UPDATE GRUPOS SET NOME = ?, DESCRICAO = ? WHERE CODIGO = ?";
 
             this.preparedStatement = connection.prepareStatement(this.sql);
             this.preparedStatement.setString(1, grupo.getNome());
             this.preparedStatement.setString(2, grupo.getDescricao());
-            this.preparedStatement.setInt(3, grupo.getUsuario().getCodigo());
             this.preparedStatement.setInt(4, id);
             this.preparedStatement.execute();
         }catch(SQLException e){

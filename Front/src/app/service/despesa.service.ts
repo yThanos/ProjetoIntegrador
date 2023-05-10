@@ -33,4 +33,10 @@ export class DespesaService {
   getAll(): Observable<Despesa[]>{//talvez para admin, log ou estatistica
     return this.http.get<Despesa[]>(this.API + "/despesa/all", this.headers);
   }
+  getDespesasByUserGrup(id: number): Observable<Despesa[]>{
+    return this.http.get<Despesa[]>(this.API + "/despesa/byUserGrup/" + id, this.headers);
+  }
+  valorDespesasByUserGrup(id: number): Observable<number>{
+    return this.http.get<number>(this.API + "/despesa/valorDespesasByUserGrup/" + id, this.headers);
+  }
 }

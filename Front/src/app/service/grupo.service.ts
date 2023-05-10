@@ -27,4 +27,7 @@ export class GrupoService {
   getAll(): Observable<Grupo[]>{//talvez para admin, log ou estatistica
     return this.htpp.get<Grupo[]>(this.API + "/grupo/all", this.headers);
   }
+  getGruposByUser(id: number): Observable<Grupo[]> {//pega os grupos do usuario
+    return this.htpp.get<Grupo[]>(this.API + "/grupo/byUser/" + id, this.headers);
+  }
 }

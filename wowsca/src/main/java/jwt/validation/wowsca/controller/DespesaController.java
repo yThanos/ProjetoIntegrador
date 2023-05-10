@@ -61,4 +61,16 @@ public class DespesaController {
     public void deleteDespesa(@PathVariable int id) {
         new DespesaDao().deleteDespesa(id);
     }
+
+    @CrossOrigin
+    @GetMapping("/byUserGrup/{id}")
+    public ArrayList<Despesa> getDespesasByUserGrup(@PathVariable int id) {
+        return new DespesaDao().getDespesasByUserGrup(id);
+    }
+
+    @CrossOrigin
+    @GetMapping("/valorDespesasByUserGrup/{id}")
+    public double getValorDespesasByUserGrup(@PathVariable int id) {
+        return new DespesaDao().valorDespesasByUserGrup(id);
+    }
 }

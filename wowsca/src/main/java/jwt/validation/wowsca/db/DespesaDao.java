@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jwt.validation.wowsca.model.Despesa;
+import jwt.validation.wowsca.model.GrupoDespesa;
+import jwt.validation.wowsca.model.UsuarioGrupoDespesa;
 
 public class DespesaDao {
     private String sql;
@@ -18,7 +20,6 @@ public class DespesaDao {
     public ArrayList<Despesa> getUserDespesa(int codUser){
         ArrayList<Despesa> despesas = new ArrayList<>();
         try (Connection connection = new ConectaDB().getConexao()){
-            //this.sql = "SELECT CODIGO_DESPESA FROM USUARIO_DESPESA where CODIGO_USUARIO = ?";
             Statement statement = connection.createStatement();
             this.resultSet = statement.executeQuery("SELECT * FROM USUARIO_DESPESA where CODIGO_USUARIO ="+codUser);
             
@@ -181,5 +182,73 @@ public class DespesaDao {
         }catch(SQLException e){
             e.printStackTrace();
         }
+    }
+
+    public ArrayList<Despesa> getDespesasByUserGrup(int id){
+        ArrayList<Despesa> despesas = new ArrayList<>();
+        try (Connection connection = new ConectaDB().getConexao()){
+            this.sql = "SELECT * FROM USUARIO_GRUPO_DESPESA WHERE CODIGO_USUARIO = ?";
+
+            this.preparedStatement = connection.prepareStatement(this.sql);
+            this.preparedStatement.setInt(1, id);
+            this.resultSet = this.preparedStatement.executeQuery();
+
+            List<Integer> codigos = new ArrayList<>();
+            while(this.resultSet.next()){
+                codigos.add(this.resultSet.getInt("CODIGO_GRUPO_DESPESA"));
+            }
+            for(int i = 0; i < codigos.size(); i++){
+                GrupoDespesa gd = getGrupoDespesaById(codigos.get(i));
+                despesas.add(getById(gd.getCodigoDespesa()));
+            }
+
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+        return despesas;
+    }
+    public GrupoDespesa getGrupoDespesaById(int id){
+        GrupoDespesa grupoDespesa = new GrupoDespesa();
+        try (Connection connection = new ConectaDB().getConexao()){
+            this.sql = "SELECT * FROM GRUPO_DESPESA WHERE CODIGO = ?";
+
+            this.preparedStatement = connection.prepareStatement(this.sql);
+            this.preparedStatement.setInt(1, id);
+            this.resultSet = this.preparedStatement.executeQuery();
+
+            while(this.resultSet.next()){
+                grupoDespesa.setCodigo(this.resultSet.getInt("CODIGO"));
+                grupoDespesa.setCodigoDespesa(this.resultSet.getInt("CODIGO_DESPESA"));
+                grupoDespesa.setCodigoGrupo(this.resultSet.getInt("CODIGO_GRUPO"));
+            }
+
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+        return grupoDespesa;
+    }
+    public double valorDespesasByUserGrup(int id){
+        ArrayList<UsuarioGrupoDespesa> grupoDespesas = new ArrayList<>();
+        double valor = 0.00;
+        try (Connection connection = new ConectaDB().getConexao()){
+            this.sql = "SELECT * FROM USUARIO_GRUPO_DESPESA WHERE CODIGO_USUARIO = ?";
+
+            this.preparedStatement = connection.prepareStatement(this.sql);
+            this.preparedStatement.setInt(1, id);
+            this.resultSet = this.preparedStatement.executeQuery();
+
+            while(this.resultSet.next()){
+                UsuarioGrupoDespesa grupoDespesa = new UsuarioGrupoDespesa();
+                grupoDespesa.setValor(this.resultSet.getDouble("VALOR"));
+                grupoDespesas.add(grupoDespesa);
+            }
+
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+        for(UsuarioGrupoDespesa gd: grupoDespesas){
+            valor += gd.getValor();
+        }
+        return valor;
     }
 }

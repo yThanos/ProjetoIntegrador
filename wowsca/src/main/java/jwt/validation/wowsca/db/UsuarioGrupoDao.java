@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 import jwt.validation.wowsca.model.Grupo;
 import jwt.validation.wowsca.model.Usuario;
@@ -45,8 +46,12 @@ public class UsuarioGrupoDao {
             this.preparedStatement.setInt(1, codUser);
             this.resultSet = this.preparedStatement.executeQuery();
             
+            List<Integer> codGrupos = new ArrayList<>();
             while(this.resultSet.next()){
-                Grupo grupo = new GrupoDao().getGrupoById(this.resultSet.getInt("CODIGO"));
+                codGrupos.add(this.resultSet.getInt("CODIGO_GRUPO"));
+            }
+            for (Integer codGrupo : codGrupos) {
+                Grupo grupo = new GrupoDao().getGrupoById(codGrupo);
                 grupos.add(grupo);
             }
         }catch(SQLException e){

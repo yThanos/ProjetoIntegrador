@@ -7,9 +7,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Grupo {
-    private int codigo;
-    private String nome;
-    private String descricao;
-    private boolean ativo;
+public class UsuarioGrupoDespesa {
+    private int codigoDespesaGrupo;
+    private int codigoUsuario;
+    private double valor;
+
 }
