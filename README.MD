@@ -29,7 +29,7 @@ npm install
 ng serve
 ```
 
-rodar o back usando extensão Spring Boot Dashboard no VSCode
+Rodar o back usando extensão Spring Boot Dashboard no VSCode
 
 ## Testanndo
 
