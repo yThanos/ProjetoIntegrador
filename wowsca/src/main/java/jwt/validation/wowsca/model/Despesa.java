@@ -12,6 +12,8 @@ public class Despesa {
     private String nome;
     private String descricao;
     private double valor;
+    private String dtCriacao;
+    private String dtQuitada;
     private boolean ativo;
     private String origem;
     private int codigoOrigem;

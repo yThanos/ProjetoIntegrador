@@ -3,6 +3,8 @@ export class Despesa {
     nome ?: string;
     valor ?: number;
     descricao ?: string;
+    dtCriacao ?: string;
+    dtQuitada ?: string;
     origem ?: string;
     codigoOrigem?: number;
     ativo ?: boolean;

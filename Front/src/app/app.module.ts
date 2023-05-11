@@ -10,7 +10,7 @@ import { JwtInterceptor } from './security/JwtInterceptor ';
 import { ErrorHandlerService } from './security/ErrorHandler';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import { HomeModule } from './home/home.module';
-import { NgxLoadingModule } from 'ngx-loading';
+import { NgxLoadingModule, ngxLoadingAnimationTypes } from 'ngx-loading';
 
 @NgModule({
   declarations: [
@@ -27,9 +27,9 @@ import { NgxLoadingModule } from 'ngx-loading';
     NgxMaskPipe,
     HomeModule,
     NgxLoadingModule.forRoot({
-      animationType: 'fadingCircle',
+      animationType: ngxLoadingAnimationTypes.wanderingCubes,
       fullScreenBackdrop: true,
-      backdropBackgroundColour: 'rgba(0,0,0,0.1)',
+      backdropBackgroundColour: 'rgba(0,0,0,0.5)'
     })
   ],
   providers: [

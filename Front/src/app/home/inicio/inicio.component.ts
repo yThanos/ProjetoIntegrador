@@ -20,10 +20,12 @@ export class InicioComponent {
   constructor(private rota: Router, private despesaService: DespesaService, private grupoService: GrupoService) {
     if(this.usuario.codigo != undefined){
       this.despesaService.getUserDesp(this.usuario.codigo).subscribe((resposta:Despesa[])=>{
-        this.quantidade = resposta.length;
         for(let desp of resposta){
+          if (desp.ativo == true){
+          this.quantidade++;
           if(desp.valor != undefined)
           this.valor += desp.valor;
+          }
         }
       })
       this.grupoService.getGruposByUser(this.usuario.codigo).subscribe((resposta:Grupo[])=>{this.qtdGrupo = resposta.length;})

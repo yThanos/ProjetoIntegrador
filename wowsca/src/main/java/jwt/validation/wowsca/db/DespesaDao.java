@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -72,6 +74,8 @@ public class DespesaDao {
                 desp.setNome(this.resultSet.getString("NOME"));
                 desp.setDescricao(this.resultSet.getString("DESCRICAO"));
                 desp.setValor(this.resultSet.getDouble("VALOR"));
+                desp.setDtCriacao(this.resultSet.getString("DT_CRIACAO"));
+                desp.setDtQuitada(this.resultSet.getString("DT_QUITADA"));
 
                 despesas.add(desp);
             }
@@ -96,6 +100,8 @@ public class DespesaDao {
                 desp.setNome(this.resultSet.getString("NOME"));
                 desp.setDescricao(this.resultSet.getString("DESCRICAO"));
                 desp.setValor(this.resultSet.getDouble("VALOR"));
+                desp.setDtCriacao(this.resultSet.getString("DT_CRIACAO"));
+                desp.setDtQuitada(this.resultSet.getString("DT_QUITADA"));
                 desp.setAtivo(this.resultSet.getBoolean("ATIVO"));
             }
 
@@ -107,12 +113,13 @@ public class DespesaDao {
 
     public void addDespesa(Despesa despesa){
         try (Connection connection = new ConectaDB().getConexao()){
-            this.sql = "INSERT INTO DESPESAS (NOME, DESCRICAO, VALOR, ATIVO) VALUES (?, ?, ?, true) RETURNING CODIGO";
+            this.sql = "INSERT INTO DESPESAS (NOME, DESCRICAO, VALOR, DT_CRIACAO, ATIVO) VALUES (?, ?, ?, ?, true) RETURNING CODIGO";
 
             this.preparedStatement = connection.prepareStatement(this.sql);
             this.preparedStatement.setString(1, despesa.getNome());
             this.preparedStatement.setString(2, despesa.getDescricao());
             this.preparedStatement.setDouble(3, despesa.getValor());
+            this.preparedStatement.setString(4, despesa.getDtCriacao());
             this.resultSet = this.preparedStatement.executeQuery();
             if(despesa.getOrigem().contains("U")){
                 if(this.resultSet.next()){
@@ -172,10 +179,14 @@ public class DespesaDao {
 
     public void deleteDespesa(int id){
         try (Connection connection = new ConectaDB().getConexao()){
-            this.sql = "UPDATE DESPESAS SET ATIVO = false WHERE CODIGO = ?";
+            this.sql = "UPDATE DESPESAS SET ATIVO = false, DT_QUITADA = ? WHERE CODIGO = ?";
 
             this.preparedStatement = connection.prepareStatement(this.sql);
-            this.preparedStatement.setInt(1, id);
+            LocalDate dataAtual = LocalDate.now();
+            DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+            this.preparedStatement.setString(1, dataAtual.format(formato));
+            this.preparedStatement.setInt(2, id);
 
             this.preparedStatement.execute();
 
@@ -231,7 +242,7 @@ public class DespesaDao {
         ArrayList<UsuarioGrupoDespesa> grupoDespesas = new ArrayList<>();
         double valor = 0.00;
         try (Connection connection = new ConectaDB().getConexao()){
-            this.sql = "SELECT * FROM USUARIO_GRUPO_DESPESA WHERE CODIGO_USUARIO = ?";
+            this.sql = "SELECT * FROM USUARIO_GRUPO_DESPESA WHERE CODIGO_USUARIO = ? and ATIVO = true";
 
             this.preparedStatement = connection.prepareStatement(this.sql);
             this.preparedStatement.setInt(1, id);

@@ -11,5 +11,6 @@ public class UsuarioGrupoDespesa {
     private int codigoDespesaGrupo;
     private int codigoUsuario;
     private double valor;
+    private boolean ativo;
 
 }

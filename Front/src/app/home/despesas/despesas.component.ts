@@ -36,6 +36,7 @@ export class DespesasComponent {
     })
   }
   criar(){
+    this.despesa.dtCriacao = new Date().toISOString().split('T')[0];
     this.despesa.origem = "U"
     this.despesa.codigoOrigem = this.usuario.codigo;
     this.service.cadastrar(this.despesa).subscribe((resposta: Despesa) => {
@@ -65,7 +66,7 @@ export class DespesasComponent {
       let teste = document.getElementById('teste')
       setTimeout(() => {
         teste?.click();
-      }, 500)
+      }, 100)
     })
   }
   editar(){
@@ -78,5 +79,22 @@ export class DespesasComponent {
   }
   inicio(){
     this.rota.navigate(['/home/inicio']);
+  }
+  detalhes(id?:number){
+    if(id != undefined)
+    this.service.getById(id).subscribe((resposta: Despesa) => {
+      this.despesa = resposta;
+      let teste = document.getElementById('detalhe')
+      setTimeout(() => {
+        teste?.click();
+      }, 100)
+    })
+  }
+  reset(){
+    let fechar = document.getElementById('fechaModal');
+    fechar?.click();
+    setTimeout(() => {
+      this.despesa = new Despesa();
+    }, 300)
   }
 }
