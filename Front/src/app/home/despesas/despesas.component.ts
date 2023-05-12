@@ -97,4 +97,11 @@ export class DespesasComponent {
       this.despesa = new Despesa();
     }, 300)
   }
+  resetCad(){
+    let fechar = document.getElementById('fechaModalCad');
+    fechar?.click();
+    setTimeout(() => {
+      this.despesa = new Despesa();
+    }, 300)
+  }
 }

@@ -16,6 +16,7 @@ export class GruposComponent {
       this.listar();
     }, 500)
   }
+  tela: string = 'grupos';
   grupos: Grupo[] = [];
   grupo: Grupo = new Grupo();
   inicio(){
@@ -25,6 +26,11 @@ export class GruposComponent {
     if(this.usuario.codigo != undefined)
     this.service.getGruposByUser(this.usuario.codigo).subscribe((resposta: Grupo[]) => {
       this.grupos = resposta;
+      for(let grupo of this.grupos){
+        this.service.getUsersGrupo(grupo.codigo).subscribe((resposta: Usuario[]) => {
+          grupo.qtdUsuarios = resposta.length;
+        })
+      }
     })
   }
   criarGrupo(){

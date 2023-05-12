@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Grupo } from '../model/grupo';
 import { Observable } from 'rxjs';
+import { Usuario } from '../model/usuario';
 
 @Injectable({
   providedIn: 'root'
@@ -29,5 +30,8 @@ export class GrupoService {
   }
   getGruposByUser(id: number): Observable<Grupo[]> {//pega os grupos do usuario
     return this.htpp.get<Grupo[]>(this.API + "/grupo/byUser/" + id, this.headers);
+  }
+  getUsersGrupo(id?: number): Observable<Usuario[]> {//pega a quantidade de usuarios no grupo
+    return this.htpp.get<Usuario[]>(this.API + "/grupo/usersByGrupo/" + id, this.headers);
   }
 }

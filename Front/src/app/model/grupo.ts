@@ -3,6 +3,7 @@ export class Grupo {
     nome ?: string;
     descricao ?: string;
     ativo ?: boolean;
+    qtdUsuarios ?: number;
 
     constructor(codigo?: number, nome ?: string, descricao ?: string, ativo ?: boolean) {
         this.codigo = codigo;

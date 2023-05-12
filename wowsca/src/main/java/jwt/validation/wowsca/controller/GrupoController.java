@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import jwt.validation.wowsca.db.GrupoDao;
 import jwt.validation.wowsca.db.UsuarioGrupoDao;
 import jwt.validation.wowsca.model.Grupo;
+import jwt.validation.wowsca.model.Usuario;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -55,6 +56,12 @@ public class GrupoController {
     @GetMapping("/byUser/{id}")
     public ArrayList<Grupo> getGruposByUser(@PathVariable int id){
         return new UsuarioGrupoDao().getUserGrupos(id);
+    }
+
+    @CrossOrigin
+    @GetMapping("/usersByGrupo/{id}")
+    public ArrayList<Usuario> getUsersByGrupo(@PathVariable int id){
+        return new UsuarioGrupoDao().getUsersGrupo(id);
     }
 
 }
