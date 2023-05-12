@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { Despesa } from 'src/app/model/despesa';
-import { Grupo } from 'src/app/model/grupo';
 import { Usuario } from 'src/app/model/usuario';
+import { UsuarioGrupoDespesa } from 'src/app/model/usuarioGrupoDespesa';
 import { DespesaService } from 'src/app/service/despesa.service';
 import { GrupoService } from 'src/app/service/grupo.service';
 
@@ -28,8 +28,14 @@ export class InicioComponent {
           }
         }
       })
-      this.grupoService.getGruposByUser(this.usuario.codigo).subscribe((resposta:Grupo[])=>{this.qtdGrupo = resposta.length;})
-      this.despesaService.valorDespesasByUserGrup(this.usuario.codigo).subscribe((resposta:number)=>{this.valorGrupo = resposta;})
+      this.despesaService.getUsuarioGrupoDespesaByUser(this.usuario.codigo).subscribe((resposta:UsuarioGrupoDespesa[])=>{
+        for(let ugd of resposta){
+          if(ugd.valor != undefined)
+          this.valorGrupo += ugd.valor;
+          if(ugd.ativo == true)
+          this.qtdGrupo++;
+        }
+      })
     }
   }
   grupos(){

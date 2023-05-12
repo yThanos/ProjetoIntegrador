@@ -262,4 +262,28 @@ public class DespesaDao {
         }
         return valor;
     }
+
+    public ArrayList<UsuarioGrupoDespesa> getUsuarioGrupoDespesa(int id){
+        ArrayList<UsuarioGrupoDespesa> grupoDespesas = new ArrayList<>();
+        try (Connection connection = new ConectaDB().getConexao()){
+            this.sql = "SELECT * FROM USUARIO_GRUPO_DESPESA WHERE CODIGO_USUARIO = ? and ATIVO = true";
+
+            this.preparedStatement = connection.prepareStatement(this.sql);
+            this.preparedStatement.setInt(1, id);
+            this.resultSet = this.preparedStatement.executeQuery();
+
+            while(this.resultSet.next()){
+                UsuarioGrupoDespesa grupoDespesa = new UsuarioGrupoDespesa();
+                grupoDespesa.setCodigoDespesaGrupo(this.resultSet.getInt("CODIGO_GRUPO_DESPESA"));
+                grupoDespesa.setCodigoUsuario(this.resultSet.getInt("CODIGO_USUARIO"));
+                grupoDespesa.setValor(this.resultSet.getDouble("VALOR"));
+                grupoDespesa.setAtivo(this.resultSet.getBoolean("ATIVO"));
+                grupoDespesas.add(grupoDespesa);
+            }
+
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+        return grupoDespesas;
+    }
 }

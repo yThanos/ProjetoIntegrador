@@ -17,6 +17,7 @@ export class GruposComponent {
     }, 500)
   }
   grupos: Grupo[] = [];
+  grupo: Grupo = new Grupo();
   inicio(){
     this.rota.navigate(['/home/inicio']);
   }
@@ -25,5 +26,15 @@ export class GruposComponent {
     this.service.getGruposByUser(this.usuario.codigo).subscribe((resposta: Grupo[]) => {
       this.grupos = resposta;
     })
+  }
+  criarGrupo(){
+    console.log(this.grupo);
+  }
+  reset(){
+    let fechar = document.getElementById('fechaModal');
+    fechar?.click();
+    setTimeout(() => {
+      this.grupo = new Grupo();
+    },300)
   }
 }

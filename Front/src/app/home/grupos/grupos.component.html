@@ -6,8 +6,52 @@
           <button class="btn btn-success" (click)="inicio()">voltar</button>
           <h3 class="card-title text-center mb-5 fw-light fs-5">GRUPOS</h3>
           <div style="display: flex; justify-content: center;">
-            <div class="grupos">
-              <h4>---um ngFor dos grupos do usuario---</h4>
+            <div class="grupos" style="width: 80%;">
+              <div *ngFor="let grupo of grupos" style="margin-bottom: 10px;">
+                <div class="card border-0 shadow rounded-3" style="background-color: lightgray; justify-content: space-between; flex-direction: row; padding: 10px;">
+                  <h2>{{grupo.nome}}</h2>
+                  <div style="flex-direction: row;display: flex;">
+                    <h4 style="padding-right: 10px;">quanto tu deve algo assim</h4>
+                    <button class="btn btn-success" (click)="{}">Ver</button>
+                  </div>
+                </div>
+              </div>
+              <button class="btn btn-success" data-toggle="modal" data-target="#criarGrupo">Criar Grupo</button>
+
+
+              <!-- Criar Grupo -->
+              <div class="modal fade" id="criarGrupo" tabindex="-1" aria-labelledby="criarGrupo" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h1 class="modal-title fs-5" id="criarGrupo">Criar grupo</h1>
+                      <button type="button" class="btn-close" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      <form>
+                        <div class="form-group">
+                          <label for="nome">Nome</label>
+                          <input [(ngModel)]="grupo.nome" name="nome" type="text" class="form-control" id="nome" placeholder="Nome do grupo">
+                        </div>
+
+                        <div class="form-group">
+                          <label for="descricao">Descrição</label>
+                          <input [(ngModel)]="grupo.descricao" name="desricao" type="text" class="form-control" id="descricao" placeholder="Descrição do grupo">
+                        </div>
+                      </form>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="submit" class="btn btn-success" (click)="criarGrupo()">Criar</button>
+                      <button type="button" class="btn btn-secondary" (click)="reset()">Voltar</button>
+                      <input type="hidden" id="fechaModal" data-dismiss="modal">
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <!-- nem sei pra que fiz essa div mas vou usar -->
+              </div>
             </div>
           </div>
         </div>

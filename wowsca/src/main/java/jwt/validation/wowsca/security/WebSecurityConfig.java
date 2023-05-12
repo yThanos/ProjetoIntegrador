@@ -70,6 +70,7 @@ public class WebSecurityConfig {
             .requestMatchers(HttpMethod.DELETE, "/despesa/{id}").hasAnyAuthority("USER", "ADMIN")
             .requestMatchers(HttpMethod.GET, "/despesa/byUserGrup/{id}").hasAnyAuthority("USER", "ADMIN")
             .requestMatchers(HttpMethod.GET, "/despesa/valorDespesasByUserGrup/{id}").hasAnyAuthority("USER", "ADMIN")
+            .requestMatchers(HttpMethod.GET, "/despesa/usuarioGrupoDespesa/{id}").hasAnyAuthority("USER", "ADMIN")
             //userGrups
             .requestMatchers(HttpMethod.GET, "/userGrup/all").hasAuthority("ADMIN")
             .requestMatchers(HttpMethod.GET, "/userGrup/usuarios/{id}").hasAuthority("ADMIN")

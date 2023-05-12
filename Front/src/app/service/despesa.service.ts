@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Despesa } from '../model/despesa';
 import { Observable } from 'rxjs';
+import { UsuarioGrupoDespesa } from '../model/usuarioGrupoDespesa';
 
 @Injectable({
   providedIn: 'root'
@@ -38,5 +39,8 @@ export class DespesaService {
   }
   valorDespesasByUserGrup(id: number): Observable<number>{
     return this.http.get<number>(this.API + "/despesa/valorDespesasByUserGrup/" + id, this.headers);
+  }
+  getUsuarioGrupoDespesaByUser(id: number): Observable<UsuarioGrupoDespesa[]>{
+    return this.http.get<UsuarioGrupoDespesa[]>(this.API + "/despesa/usuarioGrupoDespesa/" + id, this.headers);
   }
 }
