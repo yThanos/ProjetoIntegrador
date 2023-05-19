@@ -1,5 +1,7 @@
 package jwt.validation.wowsca.controller;
 
+import javax.mail.MessagingException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -8,6 +10,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import jwt.validation.wowsca.db.UsuarioDao;
 import jwt.validation.wowsca.model.Usuario;
+import jwt.validation.wowsca.security.EmailSender;
 import jwt.validation.wowsca.security.JWTUtil;
 
 @CrossOrigin(origins = "*")
@@ -44,5 +49,16 @@ public class LoginController {
     @PostMapping("/criarConta")
     public void postUsuario(@RequestBody Usuario usuario) {
         new UsuarioDao().addUser(usuario);
+    }
+
+    @CrossOrigin
+    @GetMapping("/esqueceuSenha/{email}")
+    public void esqueceuSenha(@PathVariable String email) {
+        try {
+            System.out.println("endepoint esqueci a senha");
+            new EmailSender().esqueceuSenha(email);
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
     }
 }

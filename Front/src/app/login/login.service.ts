@@ -17,4 +17,7 @@ export class LoginService {
   criarConta(usuario: Usuario): Observable<Usuario>{
     return this.htpp.post<Usuario>(this.API + "/criarConta", usuario, this.headers);
   }
+  esqeuciSenha(email: string): Observable<any>{
+    return this.htpp.get<any>(this.API + "/esqueceuSenha/" + email);
+  }
 }

@@ -41,12 +41,13 @@ public class WebSecurityConfig {
 
     //define as configuração do httpsecurity cors, sessioncreation, endpoints e o filtro
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity htpp) throws Exception{
-        htpp.cors().and().csrf().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+    SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
+        http.cors().and().csrf().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
             .authorizeHttpRequests((auth)-> auth
             //login e criar cotna
             .requestMatchers(HttpMethod.POST, "/login").permitAll()
             .requestMatchers(HttpMethod.POST, "/criarConta").permitAll()
+            .requestMatchers(HttpMethod.GET, "/esqueceuSenha/{email}").permitAll()
             //usuarios
             .requestMatchers(HttpMethod.GET, "usuario/all").hasAuthority("ADMIN")
             .requestMatchers(HttpMethod.GET, "/usuario/byId/{id}").hasAnyAuthority("USER", "ADMIN")
@@ -79,10 +80,10 @@ public class WebSecurityConfig {
             .requestMatchers(HttpMethod.POST, "/userGrup/add").hasAuthority("ADMIN")
             .requestMatchers(HttpMethod.POST, "/userGrup/remove").hasAuthority("ADMIN")
             );
+
+        http.addFilterBefore(this.filtroAutenticacao(), UsernamePasswordAuthenticationFilter.class);
         
-        htpp.addFilterBefore(this.filtroAutenticacao(), UsernamePasswordAuthenticationFilter.class);
-        
-        return htpp.build();
+        return http.build();
     }
     
     //configura o cors permitindo qualquer origem e qualquer metodo
