@@ -27,4 +27,7 @@ export class UsuarioService {
   getByEmail(email: string): Observable<Usuario>{//pesquisa para adicionar no grupo
     return this.http.get<Usuario>(this.API + "/usuario/byEmail/"+email, this.headers);
   }
+  getUsuariosGrupo(id: number): Observable<Usuario[]>{//lista usuarios do grup
+    return this.http.get<Usuario[]>(this.API + "/usuario/grupo/"+id, this.headers);
+  }
 }

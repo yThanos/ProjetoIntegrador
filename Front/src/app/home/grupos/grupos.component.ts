@@ -1,8 +1,11 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { Despesa } from 'src/app/model/despesa';
 import { Grupo } from 'src/app/model/grupo';
 import { Usuario } from 'src/app/model/usuario';
+import { DespesaService } from 'src/app/service/despesa.service';
 import { GrupoService } from 'src/app/service/grupo.service';
+import { UsuarioService } from 'src/app/service/usuario.service';
 
 @Component({
   selector: 'app-grupos',
@@ -11,14 +14,17 @@ import { GrupoService } from 'src/app/service/grupo.service';
 })
 export class GruposComponent {
   usuario: Usuario = JSON.parse(<string>localStorage.getItem('user'));
-  constructor(private rota: Router, private service: GrupoService) {
+  constructor(private rota: Router, private service: GrupoService, private despesaService: DespesaService, private usuarioService: UsuarioService) {
     setTimeout(() => {
       this.listar();
     }, 500)
   }
+  selecionado?: Grupo = new Grupo();
+  membros: Usuario[] = [];
   tela: string = 'grupos';
   grupos: Grupo[] = [];
   grupo: Grupo = new Grupo();
+  despesas: Despesa[] = [];
   inicio(){
     this.rota.navigate(['/home/inicio']);
   }
@@ -42,5 +48,23 @@ export class GruposComponent {
     setTimeout(() => {
       this.grupo = new Grupo();
     },300)
+  }
+  selecionar(id?: number){
+    if(id != undefined){
+      this.service.getGrupoById(id).subscribe((resposta: Grupo) => {
+        this.selecionado = resposta;
+        this.tela = 'grupo';
+        if(resposta.codigo != undefined)
+        this.listargrupo(resposta.codigo);
+      })
+    }
+  }
+  listargrupo(id: number){
+    this.despesaService.getGroupDesp(id).subscribe((resposta: Despesa[]) => {
+      this.despesas = resposta;
+    })
+    this.usuarioService.getUsuariosGrupo(id).subscribe((resposta: Usuario[]) => {
+      this.membros = resposta;
+    })
   }
 }
