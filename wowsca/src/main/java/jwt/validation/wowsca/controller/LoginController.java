@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import jwt.validation.wowsca.db.UsuarioDao;
 import jwt.validation.wowsca.model.Usuario;
 import jwt.validation.wowsca.security.EmailSender;
@@ -54,8 +53,8 @@ public class LoginController {
     @CrossOrigin
     @GetMapping("/esqueceuSenha/{email}")
     public void esqueceuSenha(@PathVariable String email) {
+        System.out.println("endepoint esqueci a senha");
         try {
-            System.out.println("endepoint esqueci a senha");
             new EmailSender().esqueceuSenha(email);
         } catch (MessagingException e) {
             e.printStackTrace();

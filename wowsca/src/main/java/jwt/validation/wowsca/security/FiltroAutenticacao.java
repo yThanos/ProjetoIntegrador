@@ -18,7 +18,7 @@ public class FiltroAutenticacao extends OncePerRequestFilter{
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)throws ServletException, IOException {
         String url = request.getRequestURI();
-        if(!url.contains("/login") && !url.contains("/criarConta")){
+        if(!url.contains("/login") && !url.contains("/criarConta") && !url.contains("/esqueceuSenha")){
             try{
                 String token = request.getHeader("Authorization");
                 if(token == null){

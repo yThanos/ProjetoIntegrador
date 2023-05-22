@@ -43,7 +43,7 @@ export class LoginComponent {
     }
   }
   esqueciSenha(){
-    this.service.esqeuciSenha("vitorfraporti@hotmail.com").subscribe((resposta) => {
+    this.service.esqeuciSenha("angelomarramon@gmail.com").subscribe((resposta) => {
       console.log(resposta);
     });
   }
