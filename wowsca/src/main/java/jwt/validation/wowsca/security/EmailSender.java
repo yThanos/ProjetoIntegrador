@@ -12,27 +12,26 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 public class EmailSender {
-    private static final String USERNAME = "vitorProjetoIntegrador@gmail.com";
-    private static final String PASSWORD = "TesteSenha#1";
-    
+    String senha = System.getenv("EMAIL");
     public void esqueceuSenha(String email) throws MessagingException{
         System.out.println(email);
         Properties properties = new Properties();
         properties.put("mail.smtp.host", "smtp.gmail.com");
         properties.put("mail.smtp.port", "587");
-        properties.put("mail.smtp.auth", "true");
         properties.put("mail.smtp.starttls.enable", "true");
+        properties.put("mail.smtp.auth", "true");
+        properties.put("mail.smtp.ssl.trust", "smtp.gmail.com");
+
         Session session = Session.getInstance(properties, new Authenticator() {
             protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(USERNAME, PASSWORD);
+                return new PasswordAuthentication("vitor.rosmann@avmb.com.br", senha);
             }
         });
         
-        Message message = new MimeMessage(session);
-        message.setFrom(new InternetAddress(USERNAME));
-        message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email));
-        message.setSubject("App Fianceiro - Esqueci a senha");
-        message.setText("Use o codigo abaixo para redefinir sua senha: \n\n679263");
+        MimeMessage message = new MimeMessage(session);    
+        message.addRecipient(Message.RecipientType.TO,new InternetAddress(email));    
+        message.setSubject("Esqueci minha senha! - App Financeiro");    
+        message.setText("Codigo para recuperação de senha: 123456");    
 
         Transport.send(message);
     }
