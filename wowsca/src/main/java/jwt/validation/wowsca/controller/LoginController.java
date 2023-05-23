@@ -60,4 +60,19 @@ public class LoginController {
             e.printStackTrace();
         }
     }
+
+    @CrossOrigin
+    @GetMapping("/verificarCodigo/{codigo}/{email}")
+    public ResponseEntity<Object> verificarCodigo(@PathVariable int codigo, @PathVariable String email) {
+        if(new EmailSender().verificarCodigo(codigo, email)){
+            return new ResponseEntity<>(new UsuarioDao().getUserByEmail(email), HttpStatusCode.valueOf(200));
+        }
+        return new ResponseEntity<>("Codigo invalido!", HttpStatusCode.valueOf(401));
+    }
+
+    @CrossOrigin
+    @PostMapping("/alterarSenha/{email}")
+    public void alterarSenha(@RequestBody Usuario usuario, @PathVariable String email) {
+        new UsuarioDao().updateSenha(usuario, email);
+    }
 }

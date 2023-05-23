@@ -153,4 +153,18 @@ public class UsuarioDao {
             e.printStackTrace();
         }
     }
+
+    public void updateSenha(Usuario usuario, String email){
+        try (Connection connection = new ConectaDB().getConexao()){
+            this.sql = "UPDATE USUARIOS SET SENHA = ? WHERE EMAIL = ?";
+
+            this.preparedStatement = connection.prepareStatement(this.sql);
+            this.preparedStatement.setString(1, usuario.getPassword());
+            this.preparedStatement.setString(2, email);
+
+            this.preparedStatement.execute();
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+    }
 }
