@@ -71,8 +71,10 @@ public class LoginController {
     }
 
     @CrossOrigin
-    @PostMapping("/alterarSenha/{email}")
-    public void alterarSenha(@RequestBody Usuario usuario, @PathVariable String email) {
-        new UsuarioDao().updateSenha(usuario, email);
+    @PostMapping("/alterarSenha/{email}/{codigo}}")
+    public void alterarSenha(@RequestBody Usuario usuario, @PathVariable String email, @PathVariable int codigo) {
+        if(new EmailSender().verificarCodigo(codigo, email)){
+            new UsuarioDao().updateSenha(usuario, email);
+        }
     }
 }
