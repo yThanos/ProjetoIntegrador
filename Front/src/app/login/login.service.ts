@@ -20,4 +20,10 @@ export class LoginService {
   esqeuciSenha(email: string): Observable<any>{
     return this.htpp.get<any>(this.API + "/esqueceuSenha/" + email);
   }
+  verificaCodigo(email: string, codigo: number): Observable<Usuario>{
+    return this.htpp.get<Usuario>(this.API + "/verificarCodigo/" + email + "/" + codigo, this.headers);
+  }
+  alteraSenha(usuario: Usuario, email: string, codigo: number): Observable<any>{
+    return this.htpp.put<any>(this.API + "/alterarSenha/"+email+"/"+codigo, usuario, this.headers);
+  }
 }

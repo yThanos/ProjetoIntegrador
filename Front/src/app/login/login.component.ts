@@ -12,6 +12,10 @@ export class LoginComponent {
   constructor(private service: LoginService, private rota: Router){
   }
 
+  codigo = 0;
+  confirmaEsqc = '';
+  esqueci: Usuario = new Usuario();
+  etapa = 1;
   usuario: Usuario = new Usuario();
   teste: boolean = true;
 
@@ -43,8 +47,27 @@ export class LoginComponent {
     }
   }
   esqueciSenha(){
-    this.service.esqeuciSenha("angelomarramon@gmail.com").subscribe((resposta) => {
+    if(this.esqueci.username)
+    this.service.esqeuciSenha(this.esqueci.username).subscribe((resposta) => {
+      this.etapa = 2;
       console.log(resposta);
     });
+  }
+  verificaCodigo(){
+    if(this.esqueci.username && this.codigo){
+      this.service.verificaCodigo(this.esqueci.username, this.codigo).subscribe((resposta) => {
+        this.etapa = 3;
+      })
+    }
+  }
+  alteraSenha(){
+
+  }
+  reset(){
+    let fechar = document.getElementById('fechaModla');
+    this.esqueci = new Usuario();
+    this.etapa = 1;
+    this.confirmaEsqc = '';
+    fechar?.click();
   }
 }

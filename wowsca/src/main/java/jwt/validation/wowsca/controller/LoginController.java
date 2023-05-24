@@ -54,27 +54,28 @@ public class LoginController {
     @CrossOrigin
     @GetMapping("/esqueceuSenha/{email}")
     public void esqueceuSenha(@PathVariable String email) {
-        System.out.println("endepoint esqueci a senha");
         try {
-            new EmailSender().esqueceuSenha(email);
+            EmailSender.getInstance().esqueceuSenha(email);
         } catch (MessagingException e) {
             e.printStackTrace();
         }
     }
 
     @CrossOrigin
-    @GetMapping("/verificarCodigo/{codigo}/{email}")
-    public ResponseEntity<Object> verificarCodigo(@PathVariable int codigo, @PathVariable String email) {
-        if(new EmailSender().verificarCodigo(codigo, email)){
-            return new ResponseEntity<>(new UsuarioDao().getUserByEmail(email), HttpStatusCode.valueOf(200));
+    @GetMapping("/verificarCodigo/{email}/{codigo}")
+    public void verificarCodigo(@PathVariable int codigo, @PathVariable String email) {
+        System.out.println("endpoint verificar codigo");
+        if(!EmailSender.getInstance().verificarCodigo(codigo, email)){
+            throw new RuntimeException("Codigo invalido!");
+        }else{
+            System.out.println("Codigo valido!");
         }
-        return new ResponseEntity<>("Codigo invalido!", HttpStatusCode.valueOf(401));
     }
 
     @CrossOrigin
     @PutMapping("/alterarSenha/{email}/{codigo}")
     public void alterarSenha(@RequestBody Usuario usuario, @PathVariable String email, @PathVariable int codigo) {
-        if(new EmailSender().verificarCodigo(codigo, email)){
+        if(EmailSender.getInstance().verificarCodigo(codigo, email)){
             new UsuarioDao().updateSenha(usuario, email);
         }
     }

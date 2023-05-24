@@ -13,12 +13,21 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-public class EmailSender {
+public final class EmailSender {
+    private static final EmailSender INSTANCE = new EmailSender();
+
+    private EmailSender(){}
+
+    public static EmailSender getInstance(){
+        return INSTANCE;
+    }
+
     private Map<Integer, String> codigos = new HashMap<>();
     private String username = "vitor.fraporti@acad.ufsm.br";
     private String senha = System.getenv("EMAIL");
 
     public boolean verificarCodigo(int codigo, String email){
+        System.out.println(codigos);
         if(codigos.containsKey(codigo)){
             if(codigos.get(codigo).equals(email)){
                 return true;
@@ -28,6 +37,7 @@ public class EmailSender {
     }
 
     public void esqueceuSenha(String email) throws MessagingException{
+        System.out.println(codigos);
         System.out.println(email);
         Properties properties = new Properties();
         properties.put("mail.smtp.host", "smtp.gmail.com");
@@ -51,7 +61,7 @@ public class EmailSender {
         codigos.put(codigo, email);
         
         Transport.send(message);
-
+        System.out.println(codigos);
         lifeSpan(codigo);
    }
 
