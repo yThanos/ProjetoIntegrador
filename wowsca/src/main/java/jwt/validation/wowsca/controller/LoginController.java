@@ -55,7 +55,11 @@ public class LoginController {
     @GetMapping("/esqueceuSenha/{email}")
     public void esqueceuSenha(@PathVariable String email) {
         try {
-            EmailSender.getInstance().esqueceuSenha(email);
+            if(new UsuarioDao().emailExiste(email)){
+                EmailSender.getInstance().esqueceuSenha(email);                
+            }else{
+                throw new RuntimeException("Email não cadastrado!");
+            }
         } catch (MessagingException e) {
             e.printStackTrace();
         }
@@ -73,10 +77,10 @@ public class LoginController {
     }
 
     @CrossOrigin
-    @PutMapping("/alterarSenha/{email}/{codigo}")
-    public void alterarSenha(@RequestBody Usuario usuario, @PathVariable String email, @PathVariable int codigo) {
-        if(EmailSender.getInstance().verificarCodigo(codigo, email)){
-            new UsuarioDao().updateSenha(usuario, email);
+    @PutMapping("/alterarSenha/{codigo}")
+    public void alterarSenha(@RequestBody Usuario usuario, @PathVariable int codigo) {
+        if(EmailSender.getInstance().verificarCodigo(codigo, usuario.getUsername())){
+            new UsuarioDao().updateSenha(usuario, usuario.getUsername());
         }
     }
 }

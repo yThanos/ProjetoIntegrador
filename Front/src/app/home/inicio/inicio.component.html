@@ -11,21 +11,17 @@
                   <h4>Pessoais</h4>
                   <tr>
                     <th>Você tem:</th>
-                    <th>Totalizando:</th>
+                    <th>{{quantidade}}</th>
+                    <th>Despesas</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <th>{{quantidade}}</th>
-                    <th>{{valor | number:'1.2-2'}}</th>
-                  </tr>
-                </tbody>
-                <tfoot>
-                  <tr>
-                    <th>Despesas</th>
+                    <th>Totalizando:</th>
+                    <th>R$ {{valor | number:'1.2-2'}}</th>
                     <th>Reais</th>
                   </tr>
-                </tfoot>
+                </tbody>
               </table>
               <button class="btn btn-success" (click)="despesas()">Ver Despesas</button>
             </div>
@@ -35,21 +31,18 @@
                   <h4 >Grupos</h4>
                   <tr>
                     <th>Você tem:</th>
-                    <th>Totalizando:</th>
+                    <th>{{qtdGrupo}}</th>
+                    <th>Despesas</th>
+
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <th>{{qtdGrupo}}</th>
-                    <th>{{valorGrupo | number:'1.2-2'}}</th>
-                  </tr>
-                </tbody>
-                <tfoot>
-                  <tr>
-                    <th>Despesas</th>
+                    <th>Totalizando:</th>
+                    <th>R$ {{valorGrupo | number:'1.2-2'}}</th>
                     <th>Reais</th>
                   </tr>
-                </tfoot>
+                </tbody>
               </table>
               <button class="btn btn-success" (click)="grupos()">Ver Grupos</button>
             </div>

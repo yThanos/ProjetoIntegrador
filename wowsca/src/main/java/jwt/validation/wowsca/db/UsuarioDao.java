@@ -167,4 +167,21 @@ public class UsuarioDao {
             e.printStackTrace();
         }
     }
+
+    public boolean emailExiste(String email){
+        try (Connection connection = new ConectaDB().getConexao()){
+            this.sql = "SELECT * FROM USUARIOS WHERE EMAIL = ?";
+
+            this.preparedStatement = connection.prepareStatement(this.sql);
+            this.preparedStatement.setString(1, email);
+            this.resultSet = this.preparedStatement.executeQuery();
+
+            while(this.resultSet.next()){
+                return true;
+            }
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+        return false;
+    }
 }

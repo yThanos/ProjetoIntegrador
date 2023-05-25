@@ -49,7 +49,7 @@ public class WebSecurityConfig {
             .requestMatchers(HttpMethod.POST, "/criarConta").permitAll()
             .requestMatchers(HttpMethod.GET, "/esqueceuSenha/{email}").permitAll()
             .requestMatchers(HttpMethod.GET, "/verificarCodigo/{email}/{codigo}").permitAll()
-            .requestMatchers(HttpMethod.PUT, "/alterarSenha/{email}/{codigo}").permitAll()
+            .requestMatchers(HttpMethod.PUT, "/alterarSenha/{codigo}").permitAll()
             //usuarios
             .requestMatchers(HttpMethod.GET, "usuario/all").hasAuthority("ADMIN")
             .requestMatchers(HttpMethod.GET, "/usuario/byId/{id}").hasAnyAuthority("USER", "ADMIN")

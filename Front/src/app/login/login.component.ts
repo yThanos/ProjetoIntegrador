@@ -61,10 +61,13 @@ export class LoginComponent {
     }
   }
   alteraSenha(){
-
+    this.service.alteraSenha(this.esqueci, this.codigo).subscribe(() => {
+      alert('Senha alterada com sucesso!');
+      this.reset();
+    })
   }
   reset(){
-    let fechar = document.getElementById('fechaModla');
+    let fechar = document.getElementById('fechaModal');
     this.esqueci = new Usuario();
     this.etapa = 1;
     this.confirmaEsqc = '';

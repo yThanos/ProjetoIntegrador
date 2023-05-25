@@ -23,7 +23,7 @@ export class LoginService {
   verificaCodigo(email: string, codigo: number): Observable<Usuario>{
     return this.htpp.get<Usuario>(this.API + "/verificarCodigo/" + email + "/" + codigo, this.headers);
   }
-  alteraSenha(usuario: Usuario, email: string, codigo: number): Observable<any>{
-    return this.htpp.put<any>(this.API + "/alterarSenha/"+email+"/"+codigo, usuario, this.headers);
+  alteraSenha(usuario: Usuario, codigo: number): Observable<any>{
+    return this.htpp.put<any>(this.API + "/alterarSenha/"+codigo, usuario, this.headers);
   }
 }
