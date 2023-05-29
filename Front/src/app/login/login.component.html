@@ -9,28 +9,31 @@
             <form>
               <div class="form-group">
                 <label for="login">Email</label>
-                <input [(ngModel)]="usuario.username" name="login" type="email" class="form-control" id="login" placeholder="Entre com seu login"
-                  required />
+                <input [(ngModel)]="usuario.username" name="login" type="email" class="form-control" id="login"
+                  placeholder="Entre com seu login" required />
               </div>
 
               <div class="form-group">
                 <label for="senha">Senha</label>
-                <input [(ngModel)]="usuario.password" name="senha" type="password" class="form-control" id="senha" placeholder="Digite sua senha"
-                  required />
+                <input [(ngModel)]="usuario.password" name="senha" type="password" class="form-control" id="senha"
+                  placeholder="Digite sua senha" required />
               </div>
               <br />
               <button type="submit" (click)="logar()" class="btn btn-lg btn-success btn-block">
                 Logar
               </button>
             </form>
-            <br>
-            <a class="troca1" class="link" data-toggle="modal" data-target="#esqueci">Esqueci a senha!</a>
-            <br>
-            <p>Não possui conta? <a class="troca1" class="link" (click)="troca()">Clique aqui</a></p>
+            <br />
+            <a class="link" data-toggle="modal" data-target="#esqueci">Esqueci a senha!</a>
+            <br />
+            <p>
+              Não possui conta?
+              <a class="link" (click)="troca()">Clique aqui</a>
+            </p>
           </div>
           <div class="tela2" *ngIf="!teste">
             <a class="troca2" class="link" (click)="troca()">Voltar</a>
-            <br>
+            <br />
             <h5 class="card-title text-center mb-5 fw-light fs-5">
               CRIAR CONTA
             </h5>
@@ -38,24 +41,26 @@
             <form>
               <div class="form-group">
                 <label for="nome">NOME</label>
-                <input [(ngModel)]="usuario.nome" name="nome" type="text" class="form-control" id="nome" placeholder="digite seu nome" required />
+                <input [(ngModel)]="usuario.nome" name="nome" type="text" class="form-control" id="nome"
+                  placeholder="digite seu nome" required />
               </div>
 
               <div class="form-group">
                 <label for="cpf">CPF</label>
-                <input [dropSpecialCharacters]="false" mask="000.000.000-99" [(ngModel)]="usuario.cpf" name="cpf" type="text" class="form-control" id="cpf" placeholder="Digite seu cpf" required />
+                <input [dropSpecialCharacters]="false" mask="000.000.000-99" [(ngModel)]="usuario.cpf" name="cpf"
+                  type="text" class="form-control" id="cpf" placeholder="Digite seu cpf" required />
               </div>
 
               <div class="form-group">
                 <label for="email">EMAIL</label>
-                <input [(ngModel)]="usuario.username" name="email" type="email" class="form-control" id="email" placeholder="Digite seu email"
-                  required />
+                <input [(ngModel)]="usuario.username" name="email" type="email" class="form-control" id="email"
+                  placeholder="Digite seu email" required />
               </div>
 
               <div class="form-group">
                 <label for="senha">SENHA</label>
-                <input [(ngModel)]="usuario.password" name="senha" type="password" class="form-control" id="senha" placeholder="Digite sua senha"
-                  required />
+                <input [(ngModel)]="usuario.password" name="senha" type="password" class="form-control" id="senha"
+                  placeholder="Digite sua senha" required />
               </div>
 
               <div class="form-group">
@@ -70,51 +75,65 @@
             </form>
           </div>
 
-
-
           <div class="modal fade" id="esqueci" tabindex="-1" aria-labelledby="esqueci" aria-hidden="true">
             <div class="modal-dialog">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h1 class="modal-title fs-5" id="esqueci">Esqueceu a senha!</h1>
+                  <h1 class="modal-title fs-5" id="esqueci">
+                    Esqueceu a senha!
+                  </h1>
                   <button type="button" class="btn-close" (click)="reset()" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                   <div>
                     <div *ngIf="etapa == 1">
-                      <h4>Informe o email da conta e nos enviaremos um codigo para voce alterar a senha</h4>
+                      <h4>
+                        Informe o email da conta e nos enviaremos um codigo para
+                        voce alterar a senha
+                      </h4>
                       <div class="form-group">
-                      <label for="esqc">Email</label>
-                      <input [(ngModel)]="esqueci.username" type="email" id="esqc" name="esqc" placeholder="Email da conta" class="form-control">
+                        <label for="esqc">Email</label>
+                        <input [(ngModel)]="esqueci.username" type="email" id="esqc" name="esqc"
+                          placeholder="Email da conta" class="form-control" />
                       </div>
-                      <br>
-                      <button class="btn btn-success" (click)="esqueciSenha()">Continuar</button>
+                      <br />
+                      <button class="btn btn-success" (click)="esqueciSenha()">
+                        Continuar
+                      </button>
                     </div>
                     <div *ngIf="etapa == 2">
                       <div class="form-group">
-                      <label for="codigo">Digite o codigo que voce recebeu por email</label>
-                      <input [(ngModel)]="codigo" name="codigo" type="number" size="6" class="form-control">
-                    </div>
-                      <button class="btn btn-success" (click)="verificaCodigo()">OK</button>
+                        <label for="codigo">Digite o codigo que voce recebeu por email</label>
+                        <input [(ngModel)]="codigo" name="codigo" type="number" size="6" class="form-control" />
+                      </div>
+                      <button class="btn btn-success" (click)="verificaCodigo()">
+                        OK
+                      </button>
                     </div>
 
                     <div *ngIf="etapa == 3">
                       <h2>Informe a nova senha</h2>
                       <div class="form-group">
                         <label for="senha">Nova senha</label>
-                        <input [(ngModel)]="esqueci.password" type="password" id="senha" name="senha" placeholder="Nova senha" class="form-control">
+                        <input [(ngModel)]="esqueci.password" type="password" id="senha" name="senha"
+                          placeholder="Nova senha" class="form-control" />
                       </div>
                       <div class="form-group">
                         <label for="esqc">Confirme a nova senha</label>
-                        <input [(ngModel)]="confirmaEsqc" type="password" id="esqc" name="esqc" placeholder="Confirme a nova senha" class="form-control">
+                        <input [(ngModel)]="confirmaEsqc" type="password" id="esqc" name="esqc"
+                          placeholder="Confirme a nova senha" class="form-control" />
                       </div>
-                      <button class="btn btn-success" (click)="alteraSenha()">Alterar</button>
+                      <button class="btn btn-success" (click)="alteraSenha()">
+                        Alterar
+                      </button>
                     </div>
                   </div>
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" (click)="reset()">Voltar</button>
-                  <input type="hidden" id="fechaModal" data-dismiss="modal">
+                  <button type="button" class="btn btn-secondary" (click)="reset()">
+                    Voltar
+                  </button>
+                  <input type="hidden" id="fechaModal" data-dismiss="modal" />
                 </div>
               </div>
             </div>
