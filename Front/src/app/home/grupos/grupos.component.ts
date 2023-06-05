@@ -56,8 +56,14 @@ export class GruposComponent {
         this.tela = 'grupo';
         if(resposta.codigo != undefined)
         this.listargrupo(resposta.codigo);
+        this.tela = 'grupo';
+
       })
     }
+  }
+  ver(grupo: Grupo){
+    this.tela = 'grupo';
+    this.grupo = grupo;
   }
   listargrupo(id: number){
     this.despesaService.getGroupDesp(id).subscribe((resposta: Despesa[]) => {
