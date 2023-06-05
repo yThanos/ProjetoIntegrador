@@ -11,6 +11,7 @@
                 <div *ngFor="let grupo of grupos" style="margin-bottom: 10px;">
                   <div class="card border-0 shadow rounded-3" style="background-color: lightgray; justify-content: space-between; flex-direction: row; padding: 10px;">
                     <h2>{{grupo.nome}}</h2>
+                    <h3 style="align-self: center;">R$ </h3>
                     <div style="flex-direction: row;display: flex; align-items: center">
                       <h4 style="padding-right: 10px;">Membros: {{grupo.qtdUsuarios}}</h4>
                       <button class="btn btn-success" (click)="selecionar(grupo.codigo)">Ver</button>
@@ -55,10 +56,6 @@
                 </div>
               </div>
             </div>
-          </div>
-          <div *ngIf="tela == 'grupo'">
-            <h3 class="card-title text-center mb-5 fw-light fs-5">{{selecionado?.nome}}</h3>
-
           </div>
         </div>
       </div>

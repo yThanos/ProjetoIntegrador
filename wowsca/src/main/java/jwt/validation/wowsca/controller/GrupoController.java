@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import jwt.validation.wowsca.db.DespesaDao;
 import jwt.validation.wowsca.db.GrupoDao;
 import jwt.validation.wowsca.db.UsuarioGrupoDao;
 import jwt.validation.wowsca.model.Grupo;
@@ -23,9 +24,9 @@ import jwt.validation.wowsca.model.Usuario;
 public class GrupoController {
 
     @CrossOrigin
-    @PostMapping
-    public void cadastrarGrupo(@RequestBody Grupo grupo){
-        new GrupoDao().addGrupo(grupo);
+    @PostMapping("/{id}")
+    public void cadastrarGrupo(@RequestBody Grupo grupo, @PathVariable int id){
+        new GrupoDao().addGrupo(grupo, id);
     }
 
     @CrossOrigin
@@ -62,6 +63,12 @@ public class GrupoController {
     @GetMapping("/usersByGrupo/{id}")
     public ArrayList<Usuario> getUsersByGrupo(@PathVariable int id){
         return new UsuarioGrupoDao().getUsersGrupo(id);
+    }
+
+    @CrossOrigin
+    @GetMapping("/{grupo}/{user}/{despesa}")
+    public double getValorDespesa(@PathVariable int grupo, @PathVariable int user, @PathVariable int despesa){
+        return new DespesaDao().valorPorDespesadDoGrupo(user, grupo, despesa);
     }
 
 }

@@ -59,6 +59,19 @@ public class UsuarioGrupoDao {
         }
         return grupos;
     }
+
+    public void addUserGrupo2(int grupo, int user){
+        try (Connection connection = new ConectaDB().getConexao()){
+            this.sql = "INSERT INTO USUARIO_GRUPO (CODIGO_USUARIO, CODIGO_GRUPO) VALUES (?, ?)";
+
+            this.preparedStatement = connection.prepareStatement(this.sql);
+            this.preparedStatement.setInt(1, user);
+            this.preparedStatement.setInt(2, grupo);
+            this.preparedStatement.execute();
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+    }
     
     public void addUserGrupo(UsuariuoGrupo userGrupo){
         try (Connection connection = new ConectaDB().getConexao()){

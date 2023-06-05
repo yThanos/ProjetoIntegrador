@@ -27,7 +27,6 @@ public final class EmailSender {
     private String senha = System.getenv("EMAIL");
 
     public boolean verificarCodigo(int codigo, String email){
-        System.out.println(codigos);
         if(codigos.containsKey(codigo)){
             if(codigos.get(codigo).equals(email)){
                 return true;
@@ -37,8 +36,6 @@ public final class EmailSender {
     }
 
     public void esqueceuSenha(String email) throws MessagingException{
-        System.out.println(codigos);
-        System.out.println(email);
         Properties properties = new Properties();
         properties.put("mail.smtp.host", "smtp.gmail.com");
         properties.put("mail.smtp.port", "587");
@@ -61,7 +58,6 @@ public final class EmailSender {
         codigos.put(codigo, email);
         
         Transport.send(message);
-        System.out.println(codigos);
         lifeSpan(codigo);
    }
 

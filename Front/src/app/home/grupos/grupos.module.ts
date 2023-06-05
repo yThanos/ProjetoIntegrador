@@ -2,13 +2,14 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GruposComponent } from './grupos.component';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { SelecionadoComponent } from './selecionado/selecionado.component';
 
 
 
 @NgModule({
   declarations: [
-    GruposComponent
+    GruposComponent,
+    SelecionadoComponent
   ],
   imports: [
     CommonModule,

@@ -16,8 +16,8 @@ export class GrupoService {
   getGrupoById(id: number): Observable<Grupo>{//pega o grupo pelo id
     return this.htpp.get<Grupo>(this.API + "/grupo/" + id, this.headers);
   }
-  addGrupo(grupo: Grupo): Observable<Grupo>{//cadastra grupo
-    return this.htpp.post<Grupo>(this.API + "/grupo", grupo, this.headers);
+  addGrupo(grupo: Grupo, id: number): Observable<Grupo>{//cadastra grupo
+    return this.htpp.post<Grupo>(this.API + "/grupo/"+id, grupo, this.headers);
   }
   editGrupo(grupo: Grupo, id: number): Observable<Grupo>{//edita grupo
     return this.htpp.put<Grupo>(this.API + "/grupo/" + id, grupo, this.headers);
@@ -33,5 +33,8 @@ export class GrupoService {
   }
   getUsersGrupo(id?: number): Observable<Usuario[]> {//pega a quantidade de usuarios no grupo
     return this.htpp.get<Usuario[]>(this.API + "/grupo/usersByGrupo/" + id, this.headers);
+  }
+  despesaporuserdogrupo(grupo?: number, user?: number, despesa?: number): Observable<any>{
+    return this.htpp.get<any>(this.API + "/grupo/" + grupo + "/" + user + "/" + despesa, this.headers);
   }
 }

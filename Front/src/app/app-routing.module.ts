@@ -7,6 +7,7 @@ import { InicioComponent } from './home/inicio/inicio.component';
 import { DespesasComponent } from './home/despesas/despesas.component';
 import { GruposComponent } from './home/grupos/grupos.component';
 import { PerfilComponent } from './home/perfil/perfil.component';
+import { SelecionadoComponent } from './home/grupos/selecionado/selecionado.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -16,7 +17,8 @@ const routes: Routes = [
       {path: 'inicio', component: InicioComponent},
       {path: 'despesas', component: DespesasComponent},
       {path: 'grupos', component: GruposComponent},
-      {path: 'perfil', component: PerfilComponent}
+      {path: 'perfil', component: PerfilComponent},
+      {path: 'grupo', component: SelecionadoComponent}
     ]
   }
 ];

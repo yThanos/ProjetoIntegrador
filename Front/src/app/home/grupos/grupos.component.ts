@@ -38,9 +38,14 @@ export class GruposComponent {
         })
       }
     })
+
   }
   criarGrupo(){
-    console.log(this.grupo);
+    if(this.usuario.codigo != undefined)
+    this.service.addGrupo(this.grupo, this.usuario.codigo).subscribe((resposta: Grupo) => {
+      this.listar();
+      this.reset();
+    })
   }
   reset(){
     let fechar = document.getElementById('fechaModal');
@@ -52,25 +57,10 @@ export class GruposComponent {
   selecionar(id?: number){
     if(id != undefined){
       this.service.getGrupoById(id).subscribe((resposta: Grupo) => {
-        this.selecionado = resposta;
-        this.tela = 'grupo';
-        if(resposta.codigo != undefined)
-        this.listargrupo(resposta.codigo);
-        this.tela = 'grupo';
-
+        this.grupo = resposta;
+        localStorage.setItem('grupo', JSON.stringify(this.grupo));
+        this.rota.navigate(['/home/grupo/']);
       })
     }
-  }
-  ver(grupo: Grupo){
-    this.tela = 'grupo';
-    this.grupo = grupo;
-  }
-  listargrupo(id: number){
-    this.despesaService.getGroupDesp(id).subscribe((resposta: Despesa[]) => {
-      this.despesas = resposta;
-    })
-    this.usuarioService.getUsuariosGrupo(id).subscribe((resposta: Usuario[]) => {
-      this.membros = resposta;
-    })
   }
 }

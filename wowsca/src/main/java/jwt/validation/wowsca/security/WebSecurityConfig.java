@@ -58,12 +58,13 @@ public class WebSecurityConfig {
             .requestMatchers(HttpMethod.DELETE, "/usuario/{id}").hasAnyAuthority("USER", "ADMIN")
             //grupos
             .requestMatchers(HttpMethod.GET, "/grupo/all").hasAuthority("ADMIN")
-            .requestMatchers(HttpMethod.POST, "/grupo").hasAnyAuthority("USER", "ADMIN")
+            .requestMatchers(HttpMethod.POST, "/grupo/{id}").hasAnyAuthority("USER", "ADMIN")
             .requestMatchers(HttpMethod.GET, "/grupo/{id}").hasAnyAuthority("USER", "ADMIN")
             .requestMatchers(HttpMethod.PUT, "/grupo/{id}").hasAnyAuthority("USER", "ADMIN")
             .requestMatchers(HttpMethod.DELETE, "/grupo/{id}").hasAnyAuthority("USER", "ADMIN")
             .requestMatchers(HttpMethod.GET, "/grupo/byUser/{id}").hasAnyAuthority("USER", "ADMIN")
             .requestMatchers(HttpMethod.GET, "/grupo/usersByGrupo/{id}").hasAnyAuthority("USER", "ADMIN")
+            .requestMatchers(HttpMethod.GET, "grupo/{grupo}/{user}/{despesa}").hasAnyAuthority("USER", "ADMIN")
             //despesas
             .requestMatchers(HttpMethod.GET, "/despesa/all").hasAuthority("ADMIN")
             .requestMatchers(HttpMethod.POST, "/despesa").hasAnyAuthority("USER", "ADMIN")

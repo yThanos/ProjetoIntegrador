@@ -8,6 +8,7 @@ export class Despesa {
     origem ?: string;
     codigoOrigem?: number;
     ativo ?: boolean;
+    parte ?: number;
     constructor(codigo?: number, nome ?: string, valor ?: number, descricao ?: string, ativo ?: boolean, origem ?: string, codigoOrigem?: number) {
       this.codigo = codigo;
       this.nome = nome;

@@ -1,0 +1,161 @@
+<div class="container">
+  <div class="row">
+    <div class="col-sm-10 col-md-10 col-lg-10 mx-auto">
+      <div class="card border-0 shadow rounded-3 my-5">
+        <div class="card-body p-4 p-sm-5">
+          <div style="display: flex; justify-content: space-between">
+            <button class="btn btn-success" (click)="inicio()">voltar</button>
+            <button class="btn btn-success" data-toggle="modal" data-target="#membros">Ver membros</button>
+          </div>
+          <h3 class="card-title text-center mb-5 fw-light fs-5">{{grupo.nome}}</h3>
+
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">Nome</th>
+                <th scope="col">Descrição</th>
+                <th scope="col">Total</th>
+                <th scope="col">Sua parte</th>
+                <th scope="col">Opções</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let despo of despesas">
+                <th scope="col">{{despo.nome}}</th>
+                <td>{{despo.descricao}}</td>
+                <td>{{despo.valor | number:'1.2-2'}}</td>
+                <td>{{despo.parte | number:'1.2-2'}}</td>
+                <td style="display: flex; justify-content: space-between">
+                  <button class="btn btn-warning">Editar</button>
+                  <button class="btn btn-danger">Quitar</button>
+                  <button class="btn btn-success">Ver</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <br/>
+          <div style="display: flex;justify-content: space-between;">
+            <button class="btn btn-success" data-toggle="modal" data-target="#cadModal">Cadastrar despesa</button>
+            <button class="btn btn-success">Ver quitadas</button>
+          </div>
+
+          <div class="modal fade" id="cadModal" aria-labelledby="cadModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="cadModalLabel">{{opcao}} despesa</h5>
+                      <button type="button" class="close" (click)="resetCad()" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <form>
+                        <div class="form-group">
+                          <label for="nome">Nome</label>
+                          <input [(ngModel)]="despesa.nome" name="nome" type="text" class="form-control" id="nome" placeholder="Nome">
+                        </div>
+
+                        <div class="form-group">
+                          <label for="descricao">Descrição</label>
+                          <input [(ngModel)]="despesa.descricao" name="descricao" type="text" class="form-control" id="descricao" placeholder="Descrição">
+                        </div>
+
+                        <div class="form-group">
+                          <label for="valor">Valor</label>
+                          <input [(ngModel)]="despesa.valor" name="preco" type="text" class="form-control" id="valor" placeholder="Valor">
+                        </div>
+
+                      </form>
+                    </div>
+                    <div class="modal-footer">
+                      <input type="hidden" id="fechaModalCad" data-dismiss="modal">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal" id="sair" (click)="opcao = 'Cadastrar'; resetCad()">Cancelar</button>
+                      <button type="button" class="btn btn-success" *ngIf="opcao == 'Cadastrar'" (click)="criar()">Salvar</button>
+                      <button type="button" class="btn btn-success" *ngIf="opcao == 'Editar'">Editar</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Quitadas -->
+              <div class="modal fade" id="quitadas" aria-labelledby="quitadasModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="quitadasModalLabel">Despesas quitadas</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <table class="table table-striped">
+                        <thead>
+                          <tr>
+                            <th>Nome</th>
+                            <th *ngIf="usuario.codigo == grupo.lider">Opções</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let u of usuarios">
+                            <td>{{u.nome}}</td>
+                            <td *ngIf="usuario.codigo == grupo.lider">
+                              <button class="btn btn-danger">Remover</button>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Voltar</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+              <!-- membros -->
+              <div class="modal fade" id="membros" aria-labelledby="membrosModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="membrosModalLabel">Membros</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <table class="table table-striped">
+                        <thead>
+                          <tr>
+                            <th>Nome</th>
+                            <th *ngIf="usuario.codigo == grupo.lider">Opções</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let u of usuarios">
+                            <td>{{u.nome}}</td>
+                            <td *ngIf="usuario.codigo == grupo.lider && usuario.codigo != u.codigo">
+                              <button class="btn btn-danger">Remover</button>
+                            </td>
+                            <td *ngIf="usuario.codigo == u.codigo">
+                              <button class="btn btn-danger">Sair</button>
+                            </td>
+
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Voltar</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

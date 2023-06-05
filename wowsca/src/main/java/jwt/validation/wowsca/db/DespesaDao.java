@@ -50,7 +50,7 @@ public class DespesaDao {
             this.resultSet = this.preparedStatement.executeQuery();
 
             while(this.resultSet.next()){
-                Despesa desp = getById(this.resultSet.getInt("CODIGO_DESPESA"));
+                Despesa desp = new DespesaDao().getById(this.resultSet.getInt("CODIGO_DESPESA"));
                 despesas.add(desp);
             }
 
@@ -285,5 +285,42 @@ public class DespesaDao {
             e.printStackTrace();
         }
         return grupoDespesas;
+    }
+
+    public double valorPorDespesadDoGrupo(int user, int grup, int despesa){
+        System.out.println(user + " " + grup + " " + despesa);
+        double valor = 0.00;
+        int usergp = 0;
+        try(Connection connection = new ConectaDB().getConexao()){
+            this.sql = "SELECT * FROM GRUPO_DESPESA WHERE CODIGO_GRUPO = ? and CODIGO_DESPESA = ?";
+
+            this.preparedStatement = connection.prepareStatement(this.sql);
+            this.preparedStatement.setInt(1, grup);
+            this.preparedStatement.setInt(2, despesa);
+            this.resultSet = this.preparedStatement.executeQuery();
+
+            while(this.resultSet.next()){
+                usergp = this.resultSet.getInt("codigo");
+            }
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+        System.out.println(usergp);
+        try (Connection connection = new ConectaDB().getConexao()){
+            this.sql = "SELECT * FROM USUARIO_GRUPO_DESPESA WHERE CODIGO_USUARIO = ? and CODIGO_GRUPO_DESPESA = ?";
+
+            this.preparedStatement = connection.prepareStatement(this.sql);
+            this.preparedStatement.setInt(1, user);
+            this.preparedStatement.setInt(2, usergp);
+            this.resultSet = this.preparedStatement.executeQuery();
+
+            while(this.resultSet.next()){
+                valor = this.resultSet.getDouble("VALOR");
+            }
+            System.out.println(valor);
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+        return valor;
     }
 }

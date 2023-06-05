@@ -68,11 +68,9 @@ public class LoginController {
     @CrossOrigin
     @GetMapping("/verificarCodigo/{email}/{codigo}")
     public void verificarCodigo(@PathVariable int codigo, @PathVariable String email) {
-        System.out.println("endpoint verificar codigo");
         if(!EmailSender.getInstance().verificarCodigo(codigo, email)){
             throw new RuntimeException("Codigo invalido!");
         }else{
-            System.out.println("Codigo valido!");
         }
     }
 

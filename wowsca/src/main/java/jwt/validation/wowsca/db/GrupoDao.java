@@ -26,6 +26,8 @@ public class GrupoDao {
                 grupo.setCodigo(this.resultSet.getInt("CODIGO"));
                 grupo.setNome(this.resultSet.getString("NOME"));
                 grupo.setDescricao(this.resultSet.getString("DESCRICAO"));
+                grupo.setLider(this.resultSet.getInt("LIDER"));
+                grupo.setAtivo(this.resultSet.getBoolean("ATIVO"));
             }
         }catch(SQLException e){
             e.printStackTrace();
@@ -46,6 +48,7 @@ public class GrupoDao {
                 grupo.setCodigo(this.resultSet.getInt("CODIGO"));
                 grupo.setNome(this.resultSet.getString("NOME"));
                 grupo.setDescricao(this.resultSet.getString("DESCRICAO"));
+                grupo.setLider(this.resultSet.getInt("LIDER"));
                 grupo.setAtivo(this.resultSet.getBoolean("ATIVO"));
                 grupos.add(grupo);
             }
@@ -55,14 +58,18 @@ public class GrupoDao {
         return grupos;
     }
 
-    public void addGrupo(Grupo grupo){
+    public void addGrupo(Grupo grupo, int id){
         try (Connection connection = new ConectaDB().getConexao()){
-            this.sql = "INSERT INTO GRUPOS (NOME, DESCRICAO) VALUES (?, ?)";
+            this.sql = "INSERT INTO GRUPOS (NOME, DESCRICAO, LIDER, ATIVO) VALUES (?, ?, ?, true) RETURNING CODIGO";
 
             this.preparedStatement = connection.prepareStatement(this.sql);
             this.preparedStatement.setString(1, grupo.getNome());
             this.preparedStatement.setString(2, grupo.getDescricao());
-            this.preparedStatement.execute();
+            this.preparedStatement.setInt(3, grupo.getLider());
+            this.resultSet = this.preparedStatement.executeQuery();
+            if(this.resultSet.next()){
+                new UsuarioGrupoDao().addUserGrupo2(this.resultSet.getInt("codigo"), id);
+            }
         }catch(SQLException e){
             e.printStackTrace();
         }
