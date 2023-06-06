@@ -17,6 +17,7 @@ import jwt.validation.wowsca.db.GrupoDao;
 import jwt.validation.wowsca.db.UsuarioGrupoDao;
 import jwt.validation.wowsca.model.Grupo;
 import jwt.validation.wowsca.model.Usuario;
+import jwt.validation.wowsca.model.UsuarioGrupoDespesa;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -69,6 +70,12 @@ public class GrupoController {
     @GetMapping("/{grupo}/{user}/{despesa}")
     public double getValorDespesa(@PathVariable int grupo, @PathVariable int user, @PathVariable int despesa){
         return new DespesaDao().valorPorDespesadDoGrupo(user, grupo, despesa);
+    }
+
+    @CrossOrigin
+    @GetMapping("/partes/{grupo}/{user}")
+    public ArrayList<UsuarioGrupoDespesa> getPartes(@PathVariable int grupo, @PathVariable int user) {
+        return new DespesaDao().getPartes(grupo, user);
     }
 
 }

@@ -8,7 +8,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UsuarioGrupoDespesa {
-    private int codigoDespesaGrupo;
+    private int codigoDespesa;
+    private int codigoGrupo;
     private int codigoUsuario;
     private double valor;
     private boolean ativo;

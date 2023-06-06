@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Grupo } from '../model/grupo';
 import { Observable } from 'rxjs';
 import { Usuario } from '../model/usuario';
+import { UsuarioGrupoDespesa } from '../model/usuarioGrupoDespesa';
 
 @Injectable({
   providedIn: 'root'
@@ -36,5 +37,8 @@ export class GrupoService {
   }
   despesaporuserdogrupo(grupo?: number, user?: number, despesa?: number): Observable<any>{
     return this.htpp.get<any>(this.API + "/grupo/" + grupo + "/" + user + "/" + despesa, this.headers);
+  }
+  getPartes(grupo?: number, despesa?: number): Observable<UsuarioGrupoDespesa[]>{
+    return this.htpp.get<UsuarioGrupoDespesa[]>(this.API + "/grupo/partes/" + grupo + "/" + despesa, this.headers);
   }
 }

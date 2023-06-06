@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Despesa } from 'src/app/model/despesa';
 import { Grupo } from 'src/app/model/grupo';
 import { Usuario } from 'src/app/model/usuario';
+import { UsuarioGrupoDespesa } from 'src/app/model/usuarioGrupoDespesa';
 import { DespesaService } from 'src/app/service/despesa.service';
 import { GrupoService } from 'src/app/service/grupo.service';
 
@@ -15,24 +16,7 @@ export class SelecionadoComponent {
   grupo: Grupo = JSON.parse(<string>localStorage.getItem('grupo'));
   usuario: Usuario = JSON.parse(<string>localStorage.getItem('user'));
   constructor(private rota: Router, private service: GrupoService, private despesaService: DespesaService) {
-    this.service.getUsersGrupo(this.grupo.codigo).subscribe((resposta: Usuario[]) => {
-      this.usuarios = resposta;
-    })
-    if(this.grupo.codigo != undefined)
-    this.despesaService.getGroupDesp(this.grupo.codigo).subscribe((resposta: Despesa[]) => {
-      this.despesas = resposta;
-      console.log(this.despesas);
-      setTimeout(() => {
-        for(let desp of this.despesas){
-          console.log(desp);
-          console.log(this.grupo);
-          console.log(this.usuario);
-          this.service.despesaporuserdogrupo(this.grupo.codigo, this.usuario.codigo, desp.codigo).subscribe((resposta: any) => {
-            desp.parte = resposta;
-          })
-        }
-      }, 500);
-    })
+    this.listar();
   }
 
   usuarios: Usuario[] = [];
@@ -44,8 +28,28 @@ export class SelecionadoComponent {
     this.rota.navigate(['/home/grupos']);
   }
   listar(){
-
-
+    this.service.getUsersGrupo(this.grupo.codigo).subscribe((resposta: Usuario[]) => {
+      this.usuarios = resposta;
+    })
+    if(this.grupo.codigo != undefined)
+    this.despesaService.getGroupDesp(this.grupo.codigo).subscribe((resposta: Despesa[]) => {
+      this.despesas = resposta;
+      console.log(this.despesas);
+      setTimeout(() => {
+        for(let desp of this.despesas){
+          this.service.getPartes(this.grupo.codigo, desp.codigo).subscribe((resposta: UsuarioGrupoDespesa[]) => {
+            console.log(resposta);
+            desp.partes = resposta;
+          })
+          console.log(desp);
+          console.log(this.grupo);
+          console.log(this.usuario);
+          this.service.despesaporuserdogrupo(this.grupo.codigo, this.usuario.codigo, desp.codigo).subscribe((resposta: any) => {
+            desp.parte = resposta;
+          })
+        }
+      }, 500);
+    })
   }
   criar(){
     this.despesa.dtCriacao = new Date().toISOString().split('T')[0];
@@ -63,5 +67,10 @@ export class SelecionadoComponent {
     setTimeout(() => {
       this.despesa = new Despesa();
     }, 300)
+  }
+  addparte(){
+    if(this.despesa.partes != undefined)
+    this.despesa.partes.push(new UsuarioGrupoDespesa());
+    console.log(this.despesa);
   }
 }

@@ -1,3 +1,5 @@
+import { UsuarioGrupoDespesa } from "./usuarioGrupoDespesa";
+
 export class Despesa {
     codigo?: number;
     nome ?: string;
@@ -9,6 +11,7 @@ export class Despesa {
     codigoOrigem?: number;
     ativo ?: boolean;
     parte ?: number;
+    partes?: UsuarioGrupoDespesa[];
     constructor(codigo?: number, nome ?: string, valor ?: number, descricao ?: string, ativo ?: boolean, origem ?: string, codigoOrigem?: number) {
       this.codigo = codigo;
       this.nome = nome;
@@ -17,5 +20,6 @@ export class Despesa {
       this.ativo = ativo;
       this.origem = origem;
       this.codigoOrigem = codigoOrigem;
+      this.partes = []
     }
 }

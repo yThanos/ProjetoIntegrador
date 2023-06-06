@@ -274,7 +274,8 @@ public class DespesaDao {
 
             while(this.resultSet.next()){
                 UsuarioGrupoDespesa grupoDespesa = new UsuarioGrupoDespesa();
-                grupoDespesa.setCodigoDespesaGrupo(this.resultSet.getInt("CODIGO_GRUPO_DESPESA"));
+                grupoDespesa.setCodigoDespesa(this.resultSet.getInt("CODIGO_DESPESA"));
+                grupoDespesa.setCodigoGrupo(this.resultSet.getInt("CODIGO_GRUPO"));
                 grupoDespesa.setCodigoUsuario(this.resultSet.getInt("CODIGO_USUARIO"));
                 grupoDespesa.setValor(this.resultSet.getDouble("VALOR"));
                 grupoDespesa.setAtivo(this.resultSet.getBoolean("ATIVO"));
@@ -290,28 +291,13 @@ public class DespesaDao {
     public double valorPorDespesadDoGrupo(int user, int grup, int despesa){
         System.out.println(user + " " + grup + " " + despesa);
         double valor = 0.00;
-        int usergp = 0;
-        try(Connection connection = new ConectaDB().getConexao()){
-            this.sql = "SELECT * FROM GRUPO_DESPESA WHERE CODIGO_GRUPO = ? and CODIGO_DESPESA = ?";
-
-            this.preparedStatement = connection.prepareStatement(this.sql);
-            this.preparedStatement.setInt(1, grup);
-            this.preparedStatement.setInt(2, despesa);
-            this.resultSet = this.preparedStatement.executeQuery();
-
-            while(this.resultSet.next()){
-                usergp = this.resultSet.getInt("codigo");
-            }
-        }catch(SQLException e){
-            e.printStackTrace();
-        }
-        System.out.println(usergp);
         try (Connection connection = new ConectaDB().getConexao()){
-            this.sql = "SELECT * FROM USUARIO_GRUPO_DESPESA WHERE CODIGO_USUARIO = ? and CODIGO_GRUPO_DESPESA = ?";
+            this.sql = "SELECT * FROM USUARIO_GRUPO_DESPESA WHERE CODIGO_USUARIO = ? and CODIGO_GRUPO = ? and CODIGO_DESPESA = ?";
 
             this.preparedStatement = connection.prepareStatement(this.sql);
             this.preparedStatement.setInt(1, user);
-            this.preparedStatement.setInt(2, usergp);
+            this.preparedStatement.setInt(2, grup);
+            this.preparedStatement.setInt(3, despesa);
             this.resultSet = this.preparedStatement.executeQuery();
 
             while(this.resultSet.next()){
@@ -323,4 +309,30 @@ public class DespesaDao {
         }
         return valor;
     }
+
+    public ArrayList<UsuarioGrupoDespesa> getPartes(int grupo, int despesa){
+        ArrayList<UsuarioGrupoDespesa> partes = new ArrayList<>();
+        try (Connection connection = new ConectaDB().getConexao()){
+            this.sql = "SELECT * FROM USUARIO_GRUPO_DESPESA WHERE CODIGO_GRUPO = ? and CODIGO_DESPESA = ?";
+
+            this.preparedStatement = connection.prepareStatement(this.sql);
+            this.preparedStatement.setInt(1, grupo);
+            this.preparedStatement.setInt(2, despesa);
+            this.resultSet = this.preparedStatement.executeQuery();
+
+            while(this.resultSet.next()){
+                UsuarioGrupoDespesa parte = new UsuarioGrupoDespesa();
+                parte.setCodigoDespesa(this.resultSet.getInt("CODIGO_DESPESA"));
+                parte.setCodigoGrupo(this.resultSet.getInt("CODIGO_GRUPO"));
+                parte.setCodigoUsuario(this.resultSet.getInt("CODIGO_USUARIO"));
+                parte.setValor(this.resultSet.getDouble("VALOR"));
+                parte.setAtivo(this.resultSet.getBoolean("ATIVO"));
+                partes.add(parte);
+            }
+
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+        return partes;
+    } 
 }
