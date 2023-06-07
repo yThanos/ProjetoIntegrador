@@ -66,16 +66,20 @@
                           <input [(ngModel)]="despesa.valor" name="preco" type="text" class="form-control" id="valor" placeholder="Valor">
                         </div>
 
-                        <button class="btn btn-secondary" (click)="addparte()">Add parte</button>
-                        <div *ngFor="let p of despesa.partes">
-                          <label for="pessoa">Pessoa</label>
-                          <select [(ngModel)]="p.codigoUsuario" class="form-select">
-                            <option *ngFor="let u of usuarios" [value]="u.codigo">{{u.nome}}</option>
-                          </select>
-                          <label for="parte">Parte</label>
-                          <input [(ngModel)]="p.valor" name="parte" type="number" class="form-control" id="parte" placeholder="Parte">
-                        </div>
+                        <input id="DI" name="DI" class="form-check-input" type="checkbox" (click)="dividir = !dividir">
+                        <label for="DI">Dividir igualmente</label>
 
+                        <div *ngIf="dividir">
+                          <button class="btn btn-secondary" (click)="addparte()">Add parte</button>
+                          <div *ngFor="let p of despesa.partes">
+                            <label for="pessoa">Pessoa</label>
+                            <select [(ngModel)]="p.codigoUsuario" class="form-select">
+                              <option *ngFor="let u of usuarios" [value]="u.codigo">{{u.nome}}</option>
+                            </select>
+                            <label for="parte">Parte</label>
+                            <input [(ngModel)]="p.valor" name="parte" type="number" class="form-control" id="parte" placeholder="Parte">
+                          </div>
+                        </div>
                       </form>
                     </div>
                     <div class="modal-footer">

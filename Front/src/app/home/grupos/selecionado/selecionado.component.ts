@@ -18,7 +18,7 @@ export class SelecionadoComponent {
   constructor(private rota: Router, private service: GrupoService, private despesaService: DespesaService) {
     this.listar();
   }
-
+  dividir = true;
   usuarios: Usuario[] = [];
   despesas: Despesa[] = [];
   despesa: Despesa = new Despesa();
@@ -52,13 +52,18 @@ export class SelecionadoComponent {
     })
   }
   criar(){
-    this.despesa.dtCriacao = new Date().toISOString().split('T')[0];
-    this.despesa.origem = "G"
-    this.despesa.codigoOrigem = this.grupo.codigo;
-    this.despesaService.cadastrar(this.despesa).subscribe((resposta: Despesa) => {
-      this.despesa = new Despesa();
-      this.listar();
-    })
+    if(!this.dividir){
+      this.addPartes();
+    }
+    if(this.validaValor()){
+      this.despesa.dtCriacao = new Date().toISOString().split('T')[0];
+      this.despesa.origem = "G"
+      this.despesa.codigoOrigem = this.grupo.codigo;
+      this.despesaService.cadastrar(this.despesa).subscribe((resposta: Despesa) => {
+        this.despesa = new Despesa();
+        this.listar();
+      })
+    }
   }
 
   resetCad(){
@@ -68,9 +73,43 @@ export class SelecionadoComponent {
       this.despesa = new Despesa();
     }, 300)
   }
+  addPartes(){
+    if(this.despesa.partes != undefined && this.grupo.qtdUsuarios != undefined && this.despesa.valor != undefined){
+      for(let u of this.usuarios){
+        this.despesa.partes.push(new UsuarioGrupoDespesa(u.codigo, this.grupo.codigo, this.despesa.valor/this.grupo.qtdUsuarios));
+      }
+    }
+  }
   addparte(){
-    if(this.despesa.partes != undefined)
-    this.despesa.partes.push(new UsuarioGrupoDespesa());
-    console.log(this.despesa);
+    if(this.despesa.partes != undefined && this.grupo.qtdUsuarios != undefined){
+      if(this.despesa.partes?.length < this.grupo.qtdUsuarios){
+        this.despesa.partes.push(new UsuarioGrupoDespesa());
+        console.log(this.despesa);
+        }
+      }
+  }
+  validaValor(): boolean{
+    if(this.despesa.partes != undefined && this.despesa.valor != undefined){
+      let valototal = 0;
+      for(let p of this.despesa.partes){
+        valototal += p.valor!;
+      }
+      if(valototal > this.despesa.valor){
+        if(confirm("Valor das partes maior que o valor da despesa, valor da despesa será dividido igualmente entre as partes deseja continuar?")){
+          for(let p of this.despesa.partes){
+            p.valor = this.despesa.valor/this.despesa.partes.length;
+          }
+          return true;
+        }
+        return false;
+      }
+      if(valototal != this.despesa.valor){
+        if(confirm("Valor das partes menor que o valor total das despesa, deseja continuar?")){
+          return true;
+        }
+        return false;
+      }
+    }
+    return true;
   }
 }
