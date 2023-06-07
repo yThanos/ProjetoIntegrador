@@ -18,7 +18,7 @@ export class SelecionadoComponent {
   constructor(private rota: Router, private service: GrupoService, private despesaService: DespesaService) {
     this.listar();
   }
-  dividir = true;
+  dividir = false;
   usuarios: Usuario[] = [];
   despesas: Despesa[] = [];
   despesa: Despesa = new Despesa();
