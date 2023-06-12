@@ -20,7 +20,7 @@ export class SelecionadoComponent {
     this.listar();
     setTimeout(() => {
       for(let u of this.usuarios){
-        this.partes.push(new UsuarioGrupoDespesa(u.codigo, this.grupo.codigo, 0));
+        this.partes.push(new UsuarioGrupoDespesa(u.codigo, this.grupo.codigo, 0, u.nome));
       }
       console.log("AAAAAAAAAAAAAAA"+this.partes);
     }, 3000);
@@ -32,7 +32,6 @@ export class SelecionadoComponent {
   despesa: Despesa = new Despesa();
   opcao: string = "Cadastrar";
   partes: UsuarioGrupoDespesa[] = [];
-  partes2: UsuarioGrupoDespesa[] = [];
   idDespesa: number = 0;
   inicio(){
     this.rota.navigate(['/home/grupos']);
@@ -76,6 +75,7 @@ export class SelecionadoComponent {
         })
         setTimeout(() => {
           this.despesa = new Despesa();
+          this
         }, 500);
         this.listar();
       })

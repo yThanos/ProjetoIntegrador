@@ -75,7 +75,7 @@
                           <div class="form-group">
                             <p for="membros">Dividir entre</p>
                             <select name="membros" id="memrbos" [(ngModel)]="despesa.partes" multiple>
-                              <option *ngFor="let p of partes" [value]="p">{{p.toString()}}</option>
+                              <option *ngFor="let p of partes" [value]="p">{{p.nomeUser}}</option>
                             </select>
                           </div>
                         </div>
