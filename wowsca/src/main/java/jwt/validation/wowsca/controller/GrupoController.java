@@ -2,7 +2,6 @@ package jwt.validation.wowsca.controller;
 
 import java.util.ArrayList;
 
-import org.springframework.security.access.method.P;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
