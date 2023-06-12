@@ -66,11 +66,26 @@
                           <input [(ngModel)]="despesa.valor" name="preco" type="text" class="form-control" id="valor" placeholder="Valor">
                         </div>
 
-                        <input id="DI" name="DI" class="form-check-input" type="checkbox" [value]="!dividir">
-                        <label for="DI">Dividir igualmente</label>
+                        <div class="form-check form-switch">
+                          <input id="DT" name="DT" class="form-check-input" type="checkbox" [(ngModel)]="todos" (click)="checa()">
+                          <label for="DT">Dividir entre todos</label>
+                        </div>
 
-                        <div *ngIf="dividir">
-                          <button class="btn btn-secondary" (click)="addparte()">Add parte</button>
+                        <div *ngIf="!todos">
+                          <div class="form-group">
+                            <p for="membros">Dividir entre</p>
+                            <select name="membros" id="memrbos" [(ngModel)]="despesa.partes" multiple>
+                              <option *ngFor="let p of partes" [value]="p">{{p.toString()}}</option>
+                            </select>
+                          </div>
+                        </div>
+
+                        <div class="form-check form-switch">
+                          <input id="DI" name="DI" class="form-check-input" type="checkbox" [(ngModel)]="dividir" (click)="checa()">
+                          <label for="DI">Dividir igualmente</label>
+                        </div>
+
+                        <div *ngIf="!dividir">
                           <div *ngFor="let p of despesa.partes">
                             <label for="pessoa">Pessoa</label>
                             <select [(ngModel)]="p.codigoUsuario" class="form-select">

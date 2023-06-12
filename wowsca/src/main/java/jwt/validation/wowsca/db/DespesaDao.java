@@ -12,6 +12,7 @@ import java.util.List;
 
 import jwt.validation.wowsca.model.Despesa;
 import jwt.validation.wowsca.model.GrupoDespesa;
+import jwt.validation.wowsca.model.Partes;
 import jwt.validation.wowsca.model.UsuarioGrupoDespesa;
 
 public class DespesaDao {
@@ -111,7 +112,8 @@ public class DespesaDao {
         return desp;
     }
 
-    public void addDespesa(Despesa despesa){
+    public int addDespesa(Despesa despesa){
+        int cod = 0;
         try (Connection connection = new ConectaDB().getConexao()){
             this.sql = "INSERT INTO DESPESAS (NOME, DESCRICAO, VALOR, DT_CRIACAO, ATIVO) VALUES (?, ?, ?, ?, true) RETURNING CODIGO";
 
@@ -121,16 +123,19 @@ public class DespesaDao {
             this.preparedStatement.setDouble(3, despesa.getValor());
             this.preparedStatement.setString(4, despesa.getDtCriacao());
             this.resultSet = this.preparedStatement.executeQuery();
-            if(despesa.getOrigem().contains("U")){
-                if(this.resultSet.next()){
+            if(this.resultSet.next()){
+                cod = this.resultSet.getInt("CODIGO");
+            
+                if(despesa.getOrigem().contains("U")){
                     insereUserDespesa(despesa.getCodigoOrigem(), this.resultSet.getInt("CODIGO"));
+                }else if(despesa.getOrigem().contains("G")){
+                    insereGrupDespesa(despesa.getCodigoOrigem(), this.resultSet.getInt("CODIGO"));
                 }
-            }else if(despesa.getOrigem() == "G"){
-                insereGrupDespesa(despesa);
             }
         }catch(SQLException e){
             e.printStackTrace();
         }
+        return cod;
     }
     private void insereUserDespesa(int origem, int codigo){
         try (Connection connection = new ConectaDB().getConexao()){
@@ -145,19 +150,22 @@ public class DespesaDao {
             e.printStackTrace();
         }
     }
-    private void insereGrupDespesa(Despesa despesa){
+    private int insereGrupDespesa(int origem, int codDesp){
         try (Connection connection = new ConectaDB().getConexao()){
-            this.sql = "INSERT INTO USUARIO_DESPESA (CODIGO_GRUPO, CODIGO_DESPESA) VALUES (?, ?)";
+            this.sql = "INSERT INTO GRUPO_DESPESA (CODIGO_GRUPO, CODIGO_DESPESA) VALUES (?, ?)";
+
+            System.out.println("Origem: " + origem + " CodDesp: " + codDesp);
 
             this.preparedStatement = connection.prepareStatement(this.sql);
-            this.preparedStatement.setInt(1, despesa.getCodigoOrigem());
-            this.preparedStatement.setInt(2, despesa.getCodigo());
+            this.preparedStatement.setInt(1, origem);
+            this.preparedStatement.setInt(2, codDesp);
 
             this.preparedStatement.execute();
 
         }catch(SQLException e){
             e.printStackTrace();
         }
+        return codDesp;
     }
 
     public void updateDespesa(Despesa despesa, int id){
@@ -289,7 +297,6 @@ public class DespesaDao {
     }
 
     public double valorPorDespesadDoGrupo(int user, int grup, int despesa){
-        System.out.println(user + " " + grup + " " + despesa);
         double valor = 0.00;
         try (Connection connection = new ConectaDB().getConexao()){
             this.sql = "SELECT * FROM USUARIO_GRUPO_DESPESA WHERE CODIGO_USUARIO = ? and CODIGO_GRUPO = ? and CODIGO_DESPESA = ?";
@@ -303,7 +310,6 @@ public class DespesaDao {
             while(this.resultSet.next()){
                 valor = this.resultSet.getDouble("VALOR");
             }
-            System.out.println(valor);
         }catch(SQLException e){
             e.printStackTrace();
         }
@@ -334,5 +340,24 @@ public class DespesaDao {
             e.printStackTrace();
         }
         return partes;
-    } 
+    }
+    public void addPartes(Partes partes){
+        for(UsuarioGrupoDespesa ugd: partes.getPartes()){
+            try (Connection connection = new ConectaDB().getConexao()){
+
+                this.sql = "INSERT INTO USUARIO_GRUPO_DESPESA (CODIGO_USUARIO, CODIGO_GRUPO, CODIGO_DESPESA, VALOR, ATIVO) VALUES (?, ?, ?, ?, ?)";
+
+                this.preparedStatement = connection.prepareStatement(this.sql);
+                this.preparedStatement.setInt(1, ugd.getCodigoUsuario());
+                this.preparedStatement.setInt(2, ugd.getCodigoGrupo());
+                this.preparedStatement.setInt(3, partes.getIdDespesa());
+                this.preparedStatement.setDouble(4, ugd.getValor());
+                this.preparedStatement.setBoolean(5, true);
+                this.preparedStatement.execute();
+
+            }catch(SQLException e){
+                e.printStackTrace();
+            }
+        }
+    }
 }

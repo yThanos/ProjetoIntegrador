@@ -4,6 +4,7 @@ import { Grupo } from '../model/grupo';
 import { Observable } from 'rxjs';
 import { Usuario } from '../model/usuario';
 import { UsuarioGrupoDespesa } from '../model/usuarioGrupoDespesa';
+import { Partes } from '../model/partes';
 
 @Injectable({
   providedIn: 'root'
@@ -40,5 +41,8 @@ export class GrupoService {
   }
   getPartes(grupo?: number, despesa?: number): Observable<UsuarioGrupoDespesa[]>{
     return this.htpp.get<UsuarioGrupoDespesa[]>(this.API + "/grupo/partes/" + grupo + "/" + despesa, this.headers);
+  }
+  addPartes(partes: Partes): Observable<Partes>{
+    return this.htpp.post<Partes>(this.API + "/grupo/partes", partes, this.headers);
   }
 }

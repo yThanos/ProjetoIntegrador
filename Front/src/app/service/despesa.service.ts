@@ -19,8 +19,8 @@ export class DespesaService {
   getGroupDesp(id: number): Observable<Despesa[]>{//pega despesas do grupo por id
     return this.http.get<Despesa[]>(this.API + "/despesa/grupo/" + id, this.headers);
   }
-  cadastrar(despesa: Despesa): Observable<Despesa>{//cadastra despesa ja monta com o id do grupo ou usuario correspondente a onde ela é criada dentro do grupo ou fora
-    return this.http.post<Despesa>(this.API + "/despesa", despesa, this.headers);
+  cadastrar(despesa: Despesa): Observable<number>{//cadastra despesa ja monta com o id do grupo ou usuario correspondente a onde ela é criada dentro do grupo ou fora
+    return this.http.post<number>(this.API + "/despesa", despesa, this.headers);
   }
   editar(despesa: Despesa, id: number): Observable<Despesa>{//sem segredo
     return this.http.put<Despesa>(this.API + "/despesa/" + id, despesa, this.headers);

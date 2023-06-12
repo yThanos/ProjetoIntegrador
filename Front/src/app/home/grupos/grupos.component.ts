@@ -54,13 +54,9 @@ export class GruposComponent {
       this.grupo = new Grupo();
     },300)
   }
-  selecionar(id?: number){
-    if(id != undefined){
-      this.service.getGrupoById(id).subscribe((resposta: Grupo) => {
-        this.grupo = resposta;
-        localStorage.setItem('grupo', JSON.stringify(this.grupo));
-        this.rota.navigate(['/home/grupo/']);
-      })
-    }
+  selecionar(grupo: Grupo){
+    localStorage.setItem('grupo', JSON.stringify(grupo));
+    console.log(grupo);
+    this.rota.navigate(['/home/grupo/']);
   }
 }

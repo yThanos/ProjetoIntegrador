@@ -47,8 +47,8 @@ public class DespesaController {
     
     @CrossOrigin
     @PostMapping
-    public void insertDespesa(@RequestBody Despesa despesa) {
-        new DespesaDao().addDespesa(despesa);
+    public int insertDespesa(@RequestBody Despesa despesa) {
+        return new DespesaDao().addDespesa(despesa);
     }
 
     @CrossOrigin

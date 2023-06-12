@@ -2,6 +2,7 @@ package jwt.validation.wowsca.controller;
 
 import java.util.ArrayList;
 
+import org.springframework.security.access.method.P;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +17,7 @@ import jwt.validation.wowsca.db.DespesaDao;
 import jwt.validation.wowsca.db.GrupoDao;
 import jwt.validation.wowsca.db.UsuarioGrupoDao;
 import jwt.validation.wowsca.model.Grupo;
+import jwt.validation.wowsca.model.Partes;
 import jwt.validation.wowsca.model.Usuario;
 import jwt.validation.wowsca.model.UsuarioGrupoDespesa;
 
@@ -76,6 +78,12 @@ public class GrupoController {
     @GetMapping("/partes/{grupo}/{user}")
     public ArrayList<UsuarioGrupoDespesa> getPartes(@PathVariable int grupo, @PathVariable int user) {
         return new DespesaDao().getPartes(grupo, user);
+    }
+
+    @CrossOrigin
+    @PostMapping("/partes")
+    public void addParte(@RequestBody Partes parte) {
+        new DespesaDao().addPartes(parte);
     }
 
 }

@@ -39,7 +39,7 @@ export class DespesasComponent {
     this.despesa.dtCriacao = new Date().toISOString().split('T')[0];
     this.despesa.origem = "U"
     this.despesa.codigoOrigem = this.usuario.codigo;
-    this.service.cadastrar(this.despesa).subscribe((resposta: Despesa) => {
+    this.service.cadastrar(this.despesa).subscribe((resposta: number) => {
       this.despesa = new Despesa();
       document.getElementById('sair')?.click();
       this.listar();

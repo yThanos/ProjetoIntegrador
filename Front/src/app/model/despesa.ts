@@ -11,7 +11,7 @@ export class Despesa {
     codigoOrigem?: number;
     ativo ?: boolean;
     parte ?: number;
-    partes?: UsuarioGrupoDespesa[];
+    partes!: UsuarioGrupoDespesa[];
     constructor(codigo?: number, nome ?: string, valor ?: number, descricao ?: string, ativo ?: boolean, origem ?: string, codigoOrigem?: number) {
       this.codigo = codigo;
       this.nome = nome;

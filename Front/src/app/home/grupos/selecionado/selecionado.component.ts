@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { Despesa } from 'src/app/model/despesa';
 import { Grupo } from 'src/app/model/grupo';
+import { Partes } from 'src/app/model/partes';
 import { Usuario } from 'src/app/model/usuario';
 import { UsuarioGrupoDespesa } from 'src/app/model/usuarioGrupoDespesa';
 import { DespesaService } from 'src/app/service/despesa.service';
@@ -17,33 +18,38 @@ export class SelecionadoComponent {
   usuario: Usuario = JSON.parse(<string>localStorage.getItem('user'));
   constructor(private rota: Router, private service: GrupoService, private despesaService: DespesaService) {
     this.listar();
+    setTimeout(() => {
+      for(let u of this.usuarios){
+        this.partes.push(new UsuarioGrupoDespesa(u.codigo, this.grupo.codigo, 0));
+      }
+      console.log("AAAAAAAAAAAAAAA"+this.partes);
+    }, 3000);
   }
-  dividir = false;
+  todos =  true;
+  dividir = true;
   usuarios: Usuario[] = [];
   despesas: Despesa[] = [];
   despesa: Despesa = new Despesa();
   opcao: string = "Cadastrar";
-
+  partes: UsuarioGrupoDespesa[] = [];
+  partes2: UsuarioGrupoDespesa[] = [];
+  idDespesa: number = 0;
   inicio(){
     this.rota.navigate(['/home/grupos']);
   }
   listar(){
     this.service.getUsersGrupo(this.grupo.codigo).subscribe((resposta: Usuario[]) => {
       this.usuarios = resposta;
+      console.log("USUARIOS: "+this.usuarios);
     })
     if(this.grupo.codigo != undefined)
     this.despesaService.getGroupDesp(this.grupo.codigo).subscribe((resposta: Despesa[]) => {
       this.despesas = resposta;
-      console.log(this.despesas);
       setTimeout(() => {
         for(let desp of this.despesas){
           this.service.getPartes(this.grupo.codigo, desp.codigo).subscribe((resposta: UsuarioGrupoDespesa[]) => {
-            console.log(resposta);
             desp.partes = resposta;
           })
-          console.log(desp);
-          console.log(this.grupo);
-          console.log(this.usuario);
           this.service.despesaporuserdogrupo(this.grupo.codigo, this.usuario.codigo, desp.codigo).subscribe((resposta: any) => {
             desp.parte = resposta;
           })
@@ -52,15 +58,25 @@ export class SelecionadoComponent {
     })
   }
   criar(){
-    if(!this.dividir){
-      this.addPartes();
+    if(this.dividir){
+      for(let p of this.partes){
+        p.valor = this.despesa.valor!/this.grupo.qtdUsuarios!;
+      }
+      this.despesa.partes = this.partes;
     }
     if(this.validaValor()){
       this.despesa.dtCriacao = new Date().toISOString().split('T')[0];
       this.despesa.origem = "G"
       this.despesa.codigoOrigem = this.grupo.codigo;
-      this.despesaService.cadastrar(this.despesa).subscribe((resposta: Despesa) => {
-        this.despesa = new Despesa();
+      this.despesaService.cadastrar(this.despesa).subscribe((resposta: number) => {
+        this.idDespesa = resposta;
+        console.log("ID DESPESA: "+resposta);
+        this.service.addPartes(new Partes(this.despesa.partes, this.idDespesa)).subscribe((resposta: any) => {
+
+        })
+        setTimeout(() => {
+          this.despesa = new Despesa();
+        }, 500);
         this.listar();
       })
     }
@@ -74,19 +90,13 @@ export class SelecionadoComponent {
     }, 300)
   }
   addPartes(){
-    if(this.despesa.partes != undefined && this.grupo.qtdUsuarios != undefined && this.despesa.valor != undefined){
+    this.despesa.partes = [];
+    if(this.grupo.qtdUsuarios != undefined && this.despesa.valor != undefined){
+      console.log("teste  ----")
       for(let u of this.usuarios){
         this.despesa.partes.push(new UsuarioGrupoDespesa(u.codigo, this.grupo.codigo, this.despesa.valor/this.grupo.qtdUsuarios));
       }
     }
-  }
-  addparte(){
-    if(this.despesa.partes != undefined && this.grupo.qtdUsuarios != undefined){
-      if(this.despesa.partes?.length < this.grupo.qtdUsuarios){
-        this.despesa.partes.push(new UsuarioGrupoDespesa());
-        console.log(this.despesa);
-        }
-      }
   }
   validaValor(): boolean{
     if(this.despesa.partes != undefined && this.despesa.valor != undefined){
@@ -111,5 +121,20 @@ export class SelecionadoComponent {
       }
     }
     return true;
+  }
+  checa(){
+    setTimeout(()=>{
+      if(this.todos){
+        console.log("todos");
+        this.addPartes();
+      }
+      if(this.dividir){
+        if(this.despesa.partes != undefined && this.despesa.valor != undefined){
+          for(let p of this.despesa.partes){
+            p.valor = this.despesa.valor/this.despesa.partes.length;
+          }
+        }
+      }
+    }, 200)
   }
 }
