@@ -112,3 +112,16 @@ INSERT INTO USUARIO_GRUPO_DESPESA (CODIGO_USUARIO, CODIGO_GRUPO, CODIGO_DESPESA,
     VALUES (1, 1, 1, 22.17, true);
 INSERT INTO USUARIO_GRUPO_DESPESA (CODIGO_USUARIO, CODIGO_GRUPO, CODIGO_DESPESA, VALOR, ATIVO)
     VALUES (1, 1, 2, 42.29, true);
+
+create view V_PRTES_DESPESA_GRUPO as
+select
+d.codigo as CODIGO_DESPESA, 
+d.nome as NOME_DESPESA, 
+d.descricao as DESCRICAO_DEPSESA, 
+d.valor as VALOR_TOTAL, 
+u.nome as NOME_USUAIRO, 
+x.valor as VALOR_PARTE
+from usuario_grupo_despesa x
+join despesas d on d.codigo = x.codigo_despesa
+join grupos gp on gp.codigo = x.codigo_grupo
+join usuarios u on u.codigo = x.codigo_usuario;
