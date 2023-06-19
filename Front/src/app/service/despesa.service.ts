@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Despesa } from '../model/despesa';
 import { Observable } from 'rxjs';
 import { UsuarioGrupoDespesa } from '../model/usuarioGrupoDespesa';
+import { ViewDG } from '../model/viewDG';
 
 @Injectable({
   providedIn: 'root'
@@ -42,5 +43,8 @@ export class DespesaService {
   }
   getUsuarioGrupoDespesaByUser(id: number): Observable<UsuarioGrupoDespesa[]>{
     return this.http.get<UsuarioGrupoDespesa[]>(this.API + "/despesa/usuarioGrupoDespesa/" + id, this.headers);
+  }
+  getview(id:number): Observable<ViewDG>{
+    return this.http.get<ViewDG>(this.API + "/despesa/getView/" + id, this.headers);
   }
 }

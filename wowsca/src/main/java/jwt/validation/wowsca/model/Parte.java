@@ -1,7 +1,5 @@
 package jwt.validation.wowsca.model;
 
-import java.util.ArrayList;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,12 +7,8 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ViewDG {
-    private int codigo;
-    private String nome;
-    private String descricao;
-    private String data;
+public class Parte{
     private double valor;
-    private ArrayList<Parte> partes;
-
+    private String nome;
+    private boolean pago;
 }

@@ -5,6 +5,7 @@ import { Grupo } from 'src/app/model/grupo';
 import { Partes } from 'src/app/model/partes';
 import { Usuario } from 'src/app/model/usuario';
 import { UsuarioGrupoDespesa } from 'src/app/model/usuarioGrupoDespesa';
+import { ViewDG } from 'src/app/model/viewDG';
 import { DespesaService } from 'src/app/service/despesa.service';
 import { GrupoService } from 'src/app/service/grupo.service';
 
@@ -94,7 +95,7 @@ export class SelecionadoComponent {
     if(this.grupo.qtdUsuarios != undefined && this.despesa.valor != undefined){
       console.log("teste  ----")
       for(let u of this.usuarios){
-        this.despesa.partes.push(new UsuarioGrupoDespesa(u.codigo, this.grupo.codigo, this.despesa.valor/this.grupo.qtdUsuarios));
+        this.despesa.partes.push(new UsuarioGrupoDespesa(u.codigo, this.grupo.codigo, this.despesa.valor/this.grupo.qtdUsuarios, u.nome));
       }
     }
   }
@@ -135,6 +136,13 @@ export class SelecionadoComponent {
           }
         }
       }
-    }, 200)
+    }, 500)
+  }
+
+  verDetalhes(id?: number){
+    if(id != undefined)
+    this.despesaService.getview(id).subscribe((resposta: ViewDG) => {
+      console.log(resposta);
+    })
   }
 }

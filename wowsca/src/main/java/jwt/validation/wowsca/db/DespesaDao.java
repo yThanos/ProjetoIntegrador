@@ -14,6 +14,8 @@ import jwt.validation.wowsca.model.Despesa;
 import jwt.validation.wowsca.model.GrupoDespesa;
 import jwt.validation.wowsca.model.Partes;
 import jwt.validation.wowsca.model.UsuarioGrupoDespesa;
+import jwt.validation.wowsca.model.ViewDG;
+import jwt.validation.wowsca.model.Parte;
 
 public class DespesaDao {
     private String sql;
@@ -359,5 +361,43 @@ public class DespesaDao {
                 e.printStackTrace();
             }
         }
+    }
+
+    public ViewDG getView(int codDespesa){
+        ViewDG view = new ViewDG();
+        try (Connection connection = new ConectaDB().getConexao()){
+            this.sql = "SELECT * FROM V_PRTES_DESPESA_GRUPO WHERE CODIGO_DESPESA = ?";
+
+            this.preparedStatement = connection.prepareStatement(this.sql);
+            this.preparedStatement.setInt(1, codDespesa);
+            this.resultSet = this.preparedStatement.executeQuery();
+            ArrayList<Parte> partes = new ArrayList<>();
+
+            if(this.resultSet.next()){
+                view.setCodigo(this.resultSet.getInt("CODIGO_DESPESA"));
+                view.setDescricao(this.resultSet.getString("DESCRICAO_DESPESA"));
+                view.setData(this.resultSet.getString("DATA_CRIACAO"));
+                view.setNome(this.resultSet.getString("NOME_DESPESA"));
+                view.setValor(this.resultSet.getDouble("VALOR"));
+                Parte part = new Parte();
+                part.setNome(this.resultSet.getString("NOME_USUARIO"));
+                part.setValor(this.resultSet.getDouble("VALOR"));
+                part.setPago(this.resultSet.getBoolean("ATIVO"));
+                partes.add(part);
+            }
+            
+            while(this.resultSet.next()){
+                Parte parte = new Parte();
+                parte.setNome(this.resultSet.getString("NOME_USUARIO"));
+                parte.setValor(this.resultSet.getDouble("VALOR"));
+                parte.setPago(this.resultSet.getBoolean("ATIVO"));
+                partes.add(parte);
+            }
+            view.setPartes(partes);
+
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+        return view;
     }
 }
