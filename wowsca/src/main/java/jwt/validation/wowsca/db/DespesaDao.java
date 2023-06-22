@@ -378,10 +378,10 @@ public class DespesaDao {
                 view.setDescricao(this.resultSet.getString("DESCRICAO_DESPESA"));
                 view.setData(this.resultSet.getString("DATA_CRIACAO"));
                 view.setNome(this.resultSet.getString("NOME_DESPESA"));
-                view.setValor(this.resultSet.getDouble("VALOR"));
+                view.setValor(this.resultSet.getDouble("VALOR_TOTAL"));
                 Parte part = new Parte();
                 part.setNome(this.resultSet.getString("NOME_USUARIO"));
-                part.setValor(this.resultSet.getDouble("VALOR"));
+                part.setValor(this.resultSet.getDouble("VALOR_PARTE"));
                 part.setPago(this.resultSet.getBoolean("ATIVO"));
                 partes.add(part);
             }
@@ -389,7 +389,7 @@ public class DespesaDao {
             while(this.resultSet.next()){
                 Parte parte = new Parte();
                 parte.setNome(this.resultSet.getString("NOME_USUARIO"));
-                parte.setValor(this.resultSet.getDouble("VALOR"));
+                parte.setValor(this.resultSet.getDouble("VALOR_PARTE"));
                 parte.setPago(this.resultSet.getBoolean("ATIVO"));
                 partes.add(parte);
             }

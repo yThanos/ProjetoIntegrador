@@ -141,7 +141,7 @@ export class SelecionadoComponent {
 
   verDetalhes(id?: number){
     if(id != undefined)
-    this.despesaService.getview(id).subscribe((resposta: ViewDG) => {
+    this.service.getview(id).subscribe((resposta: ViewDG) => {
       console.log(resposta);
     })
   }

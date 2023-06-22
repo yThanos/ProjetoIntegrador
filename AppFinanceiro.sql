@@ -119,10 +119,10 @@ create view V_PRTES_DESPESA_GRUPO as
 select
 d.codigo as CODIGO_DESPESA, 
 d.nome as NOME_DESPESA, 
-d.descricao as DESCRICAO_DEPSESA,
+d.descricao as DESCRICAO_DESPESA,
 d.DT_CRIACAO as DATA_CRIACAO,
 d.valor as VALOR_TOTAL, 
-u.nome as NOME_USUAIRO, 
+u.nome as NOME_USUARIO, 
 x.valor as VALOR_PARTE,
 x.ativo as ATIVO
 from usuario_grupo_despesa x

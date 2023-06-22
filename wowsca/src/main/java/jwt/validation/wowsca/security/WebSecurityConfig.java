@@ -66,6 +66,7 @@ public class WebSecurityConfig {
             .requestMatchers(HttpMethod.GET, "/grupo/usersByGrupo/{id}").hasAnyAuthority("USER", "ADMIN")
             .requestMatchers(HttpMethod.GET, "grupo/{grupo}/{user}/{despesa}").hasAnyAuthority("USER", "ADMIN")
             .requestMatchers(HttpMethod.GET, "/grupo/partes/{grupo}/{despesa}").hasAnyAuthority("USER", "ADMIN")
+            .requestMatchers(HttpMethod.GET, "/grupo/despesaView/{id}").hasAnyAuthority("USER", "ADMIN")
             //despesas
             .requestMatchers(HttpMethod.GET, "/despesa/all").hasAuthority("ADMIN")
             .requestMatchers(HttpMethod.POST, "/despesa").hasAnyAuthority("USER", "ADMIN")
@@ -77,7 +78,6 @@ public class WebSecurityConfig {
             .requestMatchers(HttpMethod.GET, "/despesa/byUserGrup/{id}").hasAnyAuthority("USER", "ADMIN")
             .requestMatchers(HttpMethod.GET, "/despesa/valorDespesasByUserGrup/{id}").hasAnyAuthority("USER", "ADMIN")
             .requestMatchers(HttpMethod.GET, "/despesa/usuarioGrupoDespesa/{id}").hasAnyAuthority("USER", "ADMIN")
-            .requestMatchers(HttpMethod.GET, "/depesa/getView/{id}").hasAnyAuthority("USER", "ADMIN")
             //userGrups
             .requestMatchers(HttpMethod.GET, "/userGrup/all").hasAuthority("ADMIN")
             .requestMatchers(HttpMethod.GET, "/userGrup/usuarios/{id}").hasAuthority("ADMIN")

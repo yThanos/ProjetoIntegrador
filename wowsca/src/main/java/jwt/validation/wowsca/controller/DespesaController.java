@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 import jwt.validation.wowsca.db.DespesaDao;
 import jwt.validation.wowsca.model.Despesa;
 import jwt.validation.wowsca.model.UsuarioGrupoDespesa;
-import jwt.validation.wowsca.model.ViewDG;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -80,12 +79,5 @@ public class DespesaController {
     @GetMapping("/usuarioGrupoDespesa/{id}")
     public ArrayList<UsuarioGrupoDespesa> getUsuarioGrupoDespesa(@PathVariable int id) {
         return new DespesaDao().getUsuarioGrupoDespesa(id);
-    }
-
-    @CrossOrigin
-    @GetMapping("/getView/{id}")
-    public ViewDG getViewDG(@PathVariable int id) {
-        System.out.println("viewDG para despesa id: "+id);
-        return new DespesaDao().getView(id);
     }
 }

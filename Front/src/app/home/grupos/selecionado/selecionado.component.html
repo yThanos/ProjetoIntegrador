@@ -39,6 +39,7 @@
             <button class="btn btn-success">Ver quitadas</button>
           </div>
 
+          <!-- CadModal -->
           <div class="modal fade" id="cadModal" aria-labelledby="cadModalLabel"
                 aria-hidden="true">
                 <div class="modal-dialog" role="document">
@@ -116,22 +117,7 @@
                       </button>
                     </div>
                     <div class="modal-body">
-                      <table class="table table-striped">
-                        <thead>
-                          <tr>
-                            <th>Nome</th>
-                            <th *ngIf="usuario.codigo == grupo.lider">Opções</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr *ngFor="let u of usuarios">
-                            <td>{{u.nome}}</td>
-                            <td *ngIf="usuario.codigo == grupo.lider">
-                              <button class="btn btn-danger">Remover</button>
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
+
                     </div>
                     <div class="modal-footer">
                       <button type="button" class="btn btn-secondary" data-dismiss="modal">Voltar</button>

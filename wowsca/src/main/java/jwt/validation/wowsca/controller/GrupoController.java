@@ -19,6 +19,7 @@ import jwt.validation.wowsca.model.Grupo;
 import jwt.validation.wowsca.model.Partes;
 import jwt.validation.wowsca.model.Usuario;
 import jwt.validation.wowsca.model.UsuarioGrupoDespesa;
+import jwt.validation.wowsca.model.ViewDG;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -83,6 +84,13 @@ public class GrupoController {
     @PostMapping("/partes")
     public void addParte(@RequestBody Partes parte) {
         new DespesaDao().addPartes(parte);
+    }
+
+    @CrossOrigin
+    @GetMapping("/despesaView/{id}")
+    public ViewDG getViewDG(@PathVariable int id) {
+        System.out.println("viewDG para despesa id: "+id);
+        return new DespesaDao().getView(id);
     }
 
 }
