@@ -49,4 +49,8 @@ export class GrupoService {
   getview(id:number): Observable<ViewDG>{
     return this.http.get<ViewDG>(this.API + "/grupo/despesaView/" + id, this.headers);
   }
+  getGrupoPartes(grupo: number, user: number): Observable<any>{
+    return this.http.get<any>(this.API + "/grupo/grupoPartes/" + grupo + "/" + user, this.headers);
+  }
+
 }

@@ -11,6 +11,7 @@ import { ErrorHandlerService } from './security/ErrorHandler';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import { HomeModule } from './home/home.module';
 import { NgxLoadingModule, ngxLoadingAnimationTypes } from 'ngx-loading';
+import { StringFormatPipeModule } from './service/stringFormatPipe.module';
 
 @NgModule({
   declarations: [

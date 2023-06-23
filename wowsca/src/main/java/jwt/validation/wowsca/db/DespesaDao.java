@@ -400,4 +400,23 @@ public class DespesaDao {
         }
         return view;
     }
+
+    public double getPartesGrupoUser(int grupo, int user){
+        double valor = 0.00;
+        try (Connection connection = new ConectaDB().getConexao()){
+            this.sql = "SELECT * FROM USUARIO_GRUPO_DESPESA WHERE CODIGO_GRUPO = ? and CODIGO_USUARIO = ?";
+
+            this.preparedStatement = connection.prepareStatement(this.sql);
+            this.preparedStatement.setInt(1, grupo);
+            this.preparedStatement.setInt(2, user);
+            this.resultSet = this.preparedStatement.executeQuery();
+
+            while(this.resultSet.next()){
+                valor += this.resultSet.getDouble("VALOR");
+            }
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+        return valor;
+    }
 }

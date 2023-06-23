@@ -93,4 +93,9 @@ public class GrupoController {
         return new DespesaDao().getView(id);
     }
 
+    @CrossOrigin
+    @GetMapping("/grupoPartes/{grupo}/{user}")
+    public double getPartesGrupo(@PathVariable int grupo, @PathVariable int user) {
+        return new DespesaDao().getPartesGrupoUser(grupo, user);
+    }
 }

@@ -26,6 +26,7 @@ export class SelecionadoComponent {
       console.log("AAAAAAAAAAAAAAA"+this.partes);
     }, 3000);
   }
+  viewDespesa: ViewDG = new ViewDG();
   todos =  true;
   dividir = true;
   usuarios: Usuario[] = [];
@@ -142,7 +143,16 @@ export class SelecionadoComponent {
   verDetalhes(id?: number){
     if(id != undefined)
     this.service.getview(id).subscribe((resposta: ViewDG) => {
-      console.log(resposta);
+      this.viewDespesa = resposta;
+      const btn = document.getElementById('btnDetalhes');
+      setTimeout(()=>{
+        btn?.click();
+      }, 500)
     })
+  }
+  fecharDetalhes(){
+    const btn = document.getElementById('fechaModalDetalhes');
+    this.viewDespesa = new ViewDG();
+    btn?.click();
   }
 }

@@ -11,7 +11,7 @@
                 <div *ngFor="let grupo of grupos" style="margin-bottom: 10px;">
                   <div class="card border-0 shadow rounded-3" style="background-color: lightgray; justify-content: space-between; flex-direction: row; padding: 10px;">
                     <h2>{{grupo.nome}}</h2>
-                    <h3 style="align-self: center;">R$ </h3>
+                    <h3 style="align-self: center;">R$ {{grupo.valorPartes | number: '1.2-2'}}</h3>
                     <div style="flex-direction: row;display: flex; align-items: center">
                       <h4 style="padding-right: 10px;">Membros: {{grupo.qtdUsuarios}}</h4>
                       <button class="btn btn-success" (click)="selecionar(grupo)">Ver</button>

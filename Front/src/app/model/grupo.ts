@@ -6,6 +6,7 @@ export class Grupo {
     qtdUsuarios ?: number;
     divida?: number;
     lider?: number;
+    valorPartes?: number;
 
     constructor(codigo?: number, nome ?: string, descricao ?: string, ativo ?: boolean, qtdUsuarios ?: number, divida?: number) {
         this.codigo = codigo;

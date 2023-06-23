@@ -36,6 +36,9 @@ export class GruposComponent {
         this.service.getUsersGrupo(grupo.codigo).subscribe((resposta: Usuario[]) => {
           grupo.qtdUsuarios = resposta.length;
         })
+        this.service.getGrupoPartes(grupo.codigo!, this.usuario.codigo!).subscribe((resposta: number) => {
+          grupo.valorPartes = resposta;
+        })
       }
     })
 

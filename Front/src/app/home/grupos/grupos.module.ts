@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { GruposComponent } from './grupos.component';
 import { FormsModule } from '@angular/forms';
 import { SelecionadoComponent } from './selecionado/selecionado.component';
+import { StringFormatPipe } from 'src/app/service/stringFormat.pipe';
+import { StringFormatPipeModule } from 'src/app/service/stringFormatPipe.module';
 
 
 
@@ -13,7 +15,8 @@ import { SelecionadoComponent } from './selecionado/selecionado.component';
   ],
   imports: [
     CommonModule,
-    FormsModule
+    FormsModule,
+    StringFormatPipeModule
   ]
 })
 export class GruposModule { }
