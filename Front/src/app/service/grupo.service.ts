@@ -52,5 +52,8 @@ export class GrupoService {
   getGrupoPartes(grupo: number, user: number): Observable<any>{
     return this.http.get<any>(this.API + "/grupo/grupoPartes/" + grupo + "/" + user, this.headers);
   }
+  quitar(udp: UsuarioGrupoDespesa): Observable<UsuarioGrupoDespesa>{
+    return this.http.post<UsuarioGrupoDespesa>(this.API + "/grupo/quitar", udp, this.headers);
+  }
 
 }

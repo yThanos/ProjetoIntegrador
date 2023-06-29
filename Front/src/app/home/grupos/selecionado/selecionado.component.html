@@ -28,7 +28,7 @@
                 <td>{{despo.parte | number:'1.2-2'}}</td>
                 <td style="display: flex; justify-content: space-between">
                   <button class="btn btn-warning">Editar</button>
-                  <button class="btn btn-danger">Quitar</button>
+                  <button class="btn btn-danger" (click)="quitar(despo.codigo!)">Quitar</button>
                   <button class="btn btn-success" (click)="verDetalhes(despo.codigo)">Ver</button>
                 </td>
               </tr>
@@ -37,7 +37,7 @@
           <br/>
           <div style="display: flex;justify-content: space-between;">
             <button class="btn btn-success" data-toggle="modal" data-target="#cadModal">Cadastrar despesa</button>
-            <button class="btn btn-success">Ver quitadas</button>
+            <button class="btn btn-success" data-target="#quitadas" data-toggle="modal">Ver quitadas</button>
             <input id="btnDetalhes" type="hidden" data-toggle="modal" data-target="#detalhes"/>
           </div>
 
@@ -119,7 +119,28 @@
                   </button>
                 </div>
                 <div class="modal-body">
-
+                  <table class="table table-striped">
+                    <thead>
+                      <tr>
+                        <th scope="col">Nome</th>
+                        <th scope="col">Descrição</th>
+                        <th scope="col">Total</th>
+                        <th scope="col">Sua parte</th>
+                        <th scope="col">Opções</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let despx of quitadas">
+                        <th scope="col">{{despx.nome}}</th>
+                        <td>{{despx.descricao}}</td>
+                        <td>{{despx.valor | number:'1.2-2'}}</td>
+                        <td>{{despx.parte | number:'1.2-2'}}</td>
+                        <td style="display: flex; justify-content: space-between">
+                          <button class="btn btn-success" (click)="verDetalhes(despx.codigo)">Ver</button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Voltar</button>
@@ -183,11 +204,13 @@
                 <div class="modal-body">
                   <h1>{{viewDespesa.nome}}</h1>
                   <h3>{{viewDespesa.descricao}}</h3>
-                  <h3>{{viewDespesa.data | stringFormat}}</h3>
-                  <h3>{{viewDespesa.valor}}</h3>
+                  <label for="data">Data</label>
+                  <h4 id="data">{{viewDespesa.data | stringFormat}}</h4>
+                  <label for="valorTotalview">Valor</label>
+                  <h4 id="valorTotalview">{{viewDespesa.valor}}</h4>
                   <Div *ngFor="let parte of viewDespesa.partes">
-                    <h3>{{parte.nome}}</h3>
-                    <h3>{{parte.valor}}</h3>
+                    <label for="valorview">{{parte.nome}}</label>
+                    <h5 id="valorview">{{parte.valor}} <span *ngIf="!parte.pago">Pago</span></h5>
                   </Div>
                 </div>
                 <div class="modal-footer">

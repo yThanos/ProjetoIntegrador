@@ -68,6 +68,7 @@ public class WebSecurityConfig {
             .requestMatchers(HttpMethod.GET, "/grupo/partes/{grupo}/{despesa}").hasAnyAuthority("USER", "ADMIN")
             .requestMatchers(HttpMethod.GET, "/grupo/despesaView/{id}").hasAnyAuthority("USER", "ADMIN")
             .requestMatchers(HttpMethod.GET, "/grupo/grupoPartes/{grupo}/{user}").hasAnyAuthority("USER", "ADMIN")
+            .requestMatchers(HttpMethod.POST, "/grupo/quitar").hasAnyAuthority("ADMIN", "USER")
             //despesas
             .requestMatchers(HttpMethod.GET, "/despesa/all").hasAuthority("ADMIN")
             .requestMatchers(HttpMethod.POST, "/despesa").hasAnyAuthority("USER", "ADMIN")

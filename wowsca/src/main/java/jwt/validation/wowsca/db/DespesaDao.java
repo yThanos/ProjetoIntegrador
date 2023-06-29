@@ -419,4 +419,20 @@ public class DespesaDao {
         }
         return valor;
     }
+
+    public void quitarPartes(UsuarioGrupoDespesa ugd){
+        try (Connection connection = new ConectaDB().getConexao()){
+            this.sql = "UPDATE USUARIO_GRUPO_DESPESA SET ATIVO = ? WHERE CODIGO_USUARIO = ? and CODIGO_GRUPO = ? and CODIGO_DESPESA = ?";
+
+            this.preparedStatement = connection.prepareStatement(this.sql);
+            this.preparedStatement.setBoolean(1, false);
+            this.preparedStatement.setInt(2, ugd.getCodigoUsuario());
+            this.preparedStatement.setInt(3, ugd.getCodigoGrupo());
+            this.preparedStatement.setInt(4, ugd.getCodigoDespesa());
+            this.preparedStatement.execute();
+
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+    }
 }

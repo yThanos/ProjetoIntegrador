@@ -29,6 +29,7 @@ export class SelecionadoComponent {
   viewDespesa: ViewDG = new ViewDG();
   todos =  true;
   dividir = true;
+  quitadas: Despesa[] = [];
   usuarios: Usuario[] = [];
   despesas: Despesa[] = [];
   despesa: Despesa = new Despesa();
@@ -50,6 +51,16 @@ export class SelecionadoComponent {
         for(let desp of this.despesas){
           this.service.getPartes(this.grupo.codigo, desp.codigo).subscribe((resposta: UsuarioGrupoDespesa[]) => {
             desp.partes = resposta;
+            let teste = 0;
+            for(let p of desp.partes){
+              if(p.ativo == false){
+                teste++;
+              }
+            }
+            if(teste == desp.partes.length){
+              this.quitadas.push(desp);
+              this.despesas.splice(this.despesas.indexOf(desp), 1);
+            }
           })
           this.service.despesaporuserdogrupo(this.grupo.codigo, this.usuario.codigo, desp.codigo).subscribe((resposta: any) => {
             desp.parte = resposta;
@@ -151,8 +162,15 @@ export class SelecionadoComponent {
     })
   }
   fecharDetalhes(){
-    const btn = document.getElementById('fechaModalDetalhes');
+    const btn = document.getElementById('fechaDetalhes');
     this.viewDespesa = new ViewDG();
     btn?.click();
+  }
+
+  quitar(iddesp: number){
+    let udp = new UsuarioGrupoDespesa(this.usuario.codigo, this.grupo.codigo, 0, this.usuario.nome, 0, iddesp);
+    this.service.quitar(udp).subscribe((resposta: any) => {
+      this.listar();
+    })
   }
 }

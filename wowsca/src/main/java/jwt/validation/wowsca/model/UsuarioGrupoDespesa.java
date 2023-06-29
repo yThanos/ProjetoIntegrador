@@ -11,6 +11,7 @@ public class UsuarioGrupoDespesa {
     private int codigoDespesa;
     private int codigoGrupo;
     private int codigoUsuario;
+    private String nomeUser;
     private double valor;
     private boolean ativo;
 

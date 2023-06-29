@@ -98,4 +98,11 @@ public class GrupoController {
     public double getPartesGrupo(@PathVariable int grupo, @PathVariable int user) {
         return new DespesaDao().getPartesGrupoUser(grupo, user);
     }
+
+    @CrossOrigin
+    @PostMapping("/quitar")
+    public void quitarPartes(@RequestBody UsuarioGrupoDespesa ugd) {
+        System.out.println("teste edpnt");
+        new DespesaDao().quitarPartes(ugd);
+    }
 }
