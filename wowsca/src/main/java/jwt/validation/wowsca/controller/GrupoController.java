@@ -105,4 +105,18 @@ public class GrupoController {
         System.out.println("teste edpnt");
         new DespesaDao().quitarPartes(ugd);
     }
+
+    @CrossOrigin(origins = "*")
+    @GetMapping("/addMembro/{grupo}/{user}")
+    public void addMembro(@PathVariable int grupo, @PathVariable int user) {
+        System.out.println("teste edpnt");
+        new UsuarioGrupoDao().addUserGrupo2(grupo, user);
+    }
+
+    @CrossOrigin(origins = "*")
+    @GetMapping("/removeMembro/{grupo}/{user}")
+    public void removeMembro(@PathVariable int grupo, @PathVariable int user) {
+        System.out.println("teste edpnt");
+        new UsuarioGrupoDao().removeUserGrupo(grupo, user);
+    }
 }

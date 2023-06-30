@@ -8,6 +8,7 @@ import { UsuarioGrupoDespesa } from 'src/app/model/usuarioGrupoDespesa';
 import { ViewDG } from 'src/app/model/viewDG';
 import { DespesaService } from 'src/app/service/despesa.service';
 import { GrupoService } from 'src/app/service/grupo.service';
+import { UsuarioService } from 'src/app/service/usuario.service';
 
 @Component({
   selector: 'app-selecionado',
@@ -17,7 +18,7 @@ import { GrupoService } from 'src/app/service/grupo.service';
 export class SelecionadoComponent {
   grupo: Grupo = JSON.parse(<string>localStorage.getItem('grupo'));
   usuario: Usuario = JSON.parse(<string>localStorage.getItem('user'));
-  constructor(private rota: Router, private service: GrupoService, private despesaService: DespesaService) {
+  constructor(private rota: Router, private service: GrupoService, private despesaService: DespesaService, private usuarioService: UsuarioService) {
     this.listar();
     setTimeout(() => {
       for(let u of this.usuarios){
@@ -172,5 +173,33 @@ export class SelecionadoComponent {
     this.service.quitar(udp).subscribe((resposta: any) => {
       this.listar();
     })
+  }
+  addMembro(){
+      this.usuarioService.getByEmail(this.email).subscribe((dado: Usuario)=>{
+        console.log(dado);
+        if(dado.codigo != 0){
+        if(confirm("tem erteza que deseja adicionar este membro?")){
+          this.service.addMembro(this.grupo.codigo!, dado.codigo!).subscribe((resposta: UsuarioGrupoDespesa) => {
+            this.email = "";
+            this.listar();
+            this.fechaAddM();
+          })
+        }
+      }
+      else{
+        alert("usuario não encontrado");
+      }
+    })
+  }
+  removeMembro(user:number){
+    if(confirm("tem erteza que deseja remover este membro?")){
+      this.service.removeMembro(user, this.grupo.codigo!).subscribe((resposta: any) => {})
+    }
+  }
+  email: string = "";
+  fechaAddM(){
+    const btn = document.getElementById('fechaAdd');
+    btn?.click();
+    this.email = "";
   }
 }

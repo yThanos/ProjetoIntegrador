@@ -310,7 +310,9 @@ public class DespesaDao {
             this.resultSet = this.preparedStatement.executeQuery();
 
             while(this.resultSet.next()){
-                valor = this.resultSet.getDouble("VALOR");
+                if(this.resultSet.getBoolean("ATIVO")){
+                    valor = this.resultSet.getDouble("VALOR");
+                }
             }
         }catch(SQLException e){
             e.printStackTrace();
@@ -404,7 +406,7 @@ public class DespesaDao {
     public double getPartesGrupoUser(int grupo, int user){
         double valor = 0.00;
         try (Connection connection = new ConectaDB().getConexao()){
-            this.sql = "SELECT * FROM USUARIO_GRUPO_DESPESA WHERE CODIGO_GRUPO = ? and CODIGO_USUARIO = ?";
+            this.sql = "SELECT * FROM USUARIO_GRUPO_DESPESA WHERE CODIGO_GRUPO = ? and CODIGO_USUARIO = ? and ativo = true";
 
             this.preparedStatement = connection.prepareStatement(this.sql);
             this.preparedStatement.setInt(1, grupo);

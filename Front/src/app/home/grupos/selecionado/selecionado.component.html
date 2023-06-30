@@ -7,7 +7,6 @@
             <button class="btn btn-success" (click)="inicio()">voltar</button>
             <button class="btn btn-success" data-toggle="modal" data-target="#membros">Ver membros</button>
           </div>
-          <h1>EDITAR QUITAR E QUITADAS</h1>
           <h3 class="card-title text-center mb-5 fw-light fs-5">{{grupo.nome}}</h3>
 
           <table class="table table-striped">
@@ -25,9 +24,9 @@
                 <th scope="col">{{despo.nome}}</th>
                 <td>{{despo.descricao}}</td>
                 <td>{{despo.valor | number:'1.2-2'}}</td>
-                <td>{{despo.parte | number:'1.2-2'}}</td>
-                <td style="display: flex; justify-content: space-between">
-                  <button class="btn btn-warning">Editar</button>
+                <td *ngIf="despo.parte != 0.00">{{despo.parte | number:'1.2-2'}}</td>
+                <td *ngIf="despo.parte == 0.00">Sem parte a pagar</td>
+                <td style="display: flex; justify-content: space-around">
                   <button class="btn btn-danger" (click)="quitar(despo.codigo!)">Quitar</button>
                   <button class="btn btn-success" (click)="verDetalhes(despo.codigo)">Ver</button>
                 </td>
@@ -125,7 +124,6 @@
                         <th scope="col">Nome</th>
                         <th scope="col">Descrição</th>
                         <th scope="col">Total</th>
-                        <th scope="col">Sua parte</th>
                         <th scope="col">Opções</th>
                       </tr>
                     </thead>
@@ -134,7 +132,6 @@
                         <th scope="col">{{despx.nome}}</th>
                         <td>{{despx.descricao}}</td>
                         <td>{{despx.valor | number:'1.2-2'}}</td>
-                        <td>{{despx.parte | number:'1.2-2'}}</td>
                         <td style="display: flex; justify-content: space-between">
                           <button class="btn btn-success" (click)="verDetalhes(despx.codigo)">Ver</button>
                         </td>
@@ -175,13 +172,14 @@
                         <td *ngIf="usuario.codigo == grupo.lider && usuario.codigo != u.codigo">
                           <button class="btn btn-danger">Remover</button>
                         </td>
+                        <td *ngIf="usuario.codigo != u.codigo"></td>
                         <td *ngIf="usuario.codigo == u.codigo">
                           <button class="btn btn-danger">Sair</button>
                         </td>
                       </tr>
                     </tbody>
                   </table>
-                  <h1>FAZER ADD MEMBRO</h1>
+                  <button class="btn btn-primary" data-toggle="modal" data-target="#addMembro">Adicionar membro</button>
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Voltar</button>
@@ -216,6 +214,32 @@
                 <div class="modal-footer">
                   <input type="hidden" id="fechaDetalhes" data-dismiss="modal">
                   <button type="button" class="btn btn-secondary" (click)="fecharDetalhes()">Voltar</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- addMembro -->
+          <div class="modal fade" id="addMembro" aria-labelledby="addMembroModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="addMembroModalLabel">Detalhes da despesa</h5>
+                  <button type="button" class="close" (click)="fechaAddM()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <div class="form-group">
+                    <label for="email">Digite o email do usuario que voce quer adicionar</label>
+                    <input [(ngModel)]="email" type="email" class="form-control" id="email" aria-describedby="emailHelp"
+                      placeholder="Digite o email">
+                  </div>
+                  <button class="btn btn-success" (click)="addMembro()">Adicionar</button>
+                <div class="modal-footer">
+                  <input type="hidden" id="fechaAdd" data-dismiss="modal">
+                  <button type="button" class="btn btn-secondary" (click)="fechaAddM()">Voltar</button>
                 </div>
               </div>
             </div>

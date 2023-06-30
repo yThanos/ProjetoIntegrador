@@ -86,13 +86,13 @@ public class UsuarioGrupoDao {
         }
     }
 
-    public void removeUserGrupo(UsuariuoGrupo userGrupo){
+    public void removeUserGrupo(int user, int grupo){
         try (Connection connection = new ConectaDB().getConexao()){
             this.sql = "DELETE FROM USUARIO_GRUPO WHERE CODIGO_USUARIO = ? AND CODIGO_GRUPO = ?";
 
             this.preparedStatement = connection.prepareStatement(this.sql);
-            this.preparedStatement.setInt(1, userGrupo.getUsuario().getCodigo());
-            this.preparedStatement.setInt(2, userGrupo.getGrupo().getCodigo());
+            this.preparedStatement.setInt(1, user);
+            this.preparedStatement.setInt(2, grupo);
             this.preparedStatement.execute();
         }catch(SQLException e){
             e.printStackTrace();

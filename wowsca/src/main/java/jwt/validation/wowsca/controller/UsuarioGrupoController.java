@@ -29,7 +29,7 @@ public class UsuarioGrupoController {
     @CrossOrigin
     @PostMapping("/remove")
     public void removerUsuarioGrupo(@RequestBody UsuariuoGrupo userGrup){
-        new UsuarioGrupoDao().removeUserGrupo(userGrup);
+        new UsuarioGrupoDao().removeUserGrupo(userGrup.getUsuario().getCodigo(), userGrup.getGrupo().getCodigo());
     }
     
     @CrossOrigin

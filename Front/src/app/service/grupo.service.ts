@@ -55,5 +55,10 @@ export class GrupoService {
   quitar(udp: UsuarioGrupoDespesa): Observable<UsuarioGrupoDespesa>{
     return this.http.post<UsuarioGrupoDespesa>(this.API + "/grupo/quitar", udp, this.headers);
   }
-
+  addMembro(user: number, grupo: number): Observable<UsuarioGrupoDespesa>{
+    return this.http.get<UsuarioGrupoDespesa>(this.API + "/grupo/addMembro/" + user + "/" + grupo, this.headers);
+  }
+  removeMembro(user: number, grupo: number): Observable<UsuarioGrupoDespesa>{
+    return this.http.get<UsuarioGrupoDespesa>(this.API + "/grupo/removeMembro/" + user + "/" + grupo, this.headers);
+  }
 }
