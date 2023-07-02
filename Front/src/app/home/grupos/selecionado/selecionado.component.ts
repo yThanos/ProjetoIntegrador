@@ -89,7 +89,7 @@ export class SelecionadoComponent {
         })
         setTimeout(() => {
           this.despesa = new Despesa();
-          this
+          this.resetCad();
         }, 500);
         this.listar();
       })
@@ -193,7 +193,20 @@ export class SelecionadoComponent {
   }
   removeMembro(user:number){
     if(confirm("tem erteza que deseja remover este membro?")){
-      this.service.removeMembro(user, this.grupo.codigo!).subscribe((resposta: any) => {})
+      this.service.removeMembro(user, this.grupo.codigo!).subscribe((resposta: any) => {
+        if(this.usuario.codigo == user){
+          this.rota.navigate(['/home/grupos'])
+        } else{
+          this.listar()
+        }
+        for(let de of this.despesas){
+          for(let par of de.partes){
+            if(par.codigoUsuario == user){
+              this.service.quitar(new UsuarioGrupoDespesa(user,this.grupo.codigo!, 0,"",0,de.codigo!))
+            }
+          }
+        }
+      })
     }
   }
   email: string = "";

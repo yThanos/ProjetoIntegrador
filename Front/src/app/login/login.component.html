@@ -9,13 +9,13 @@
             <form>
               <div class="form-group">
                 <label for="login">Email</label>
-                <input [(ngModel)]="usuario.username" name="login" type="email" class="form-control" id="login"
+                <input [(ngModel)]="usuario.username" maxlength="60" name="login" type="email" class="form-control" id="login"
                   placeholder="Entre com seu login" required />
               </div>
 
               <div class="form-group">
                 <label for="senha">Senha</label>
-                <input [(ngModel)]="usuario.password" name="senha" type="password" class="form-control" id="senha"
+                <input [(ngModel)]="usuario.password" maxlength="20" name="senha" type="password" class="form-control" id="senha"
                   placeholder="Digite sua senha" required />
               </div>
               <br />
@@ -41,7 +41,7 @@
             <form>
               <div class="form-group">
                 <label for="nome">NOME</label>
-                <input [(ngModel)]="usuario.nome" name="nome" type="text" class="form-control" id="nome"
+                <input [(ngModel)]="usuario.nome" maxlength="30" name="nome" type="text" class="form-control" id="nome"
                   placeholder="digite seu nome" required />
               </div>
 
@@ -53,19 +53,19 @@
 
               <div class="form-group">
                 <label for="email">EMAIL</label>
-                <input [(ngModel)]="usuario.username" name="email" type="email" class="form-control" id="email"
+                <input [(ngModel)]="usuario.username" maxlength="60" name="email" type="email" class="form-control" id="email"
                   placeholder="Digite seu email" required />
               </div>
 
               <div class="form-group">
                 <label for="senha">SENHA</label>
-                <input [(ngModel)]="usuario.password" name="senha" type="password" class="form-control" id="senha"
+                <input [(ngModel)]="usuario.password" maxlength="20" name="senha" type="password" class="form-control" id="senha"
                   placeholder="Digite sua senha" required />
               </div>
 
               <div class="form-group">
                 <label for="confSenha">CONFIRMAR A SENHA</label>
-                <input [(ngModel)]="confirmarSenha" name="confSenha" type="password" class="form-control" id="confSenha"
+                <input [(ngModel)]="confirmarSenha" name="confSenha" maxlength="20" type="password" class="form-control" id="confSenha"
                   placeholder="Confirme sua senha" required />
               </div>
               <br />
@@ -93,7 +93,7 @@
                       </h4>
                       <div class="form-group">
                         <label for="esqc">Email</label>
-                        <input [(ngModel)]="esqueci.username" type="email" id="esqc" name="esqc"
+                        <input [(ngModel)]="esqueci.username" maxlength="60" type="email" id="esqc" name="esqc"
                           placeholder="Email da conta" class="form-control" />
                       </div>
                       <br />
@@ -104,7 +104,7 @@
                     <div *ngIf="etapa == 2">
                       <div class="form-group">
                         <label for="codigo">Digite o codigo que voce recebeu por email</label>
-                        <input [(ngModel)]="codigo" name="codigo" type="number" size="6" class="form-control" />
+                        <input [(ngModel)]="codigo" maxlength="6" name="codigo" type="number" size="6" class="form-control" />
                       </div>
                       <button class="btn btn-success" (click)="verificaCodigo()">
                         OK
@@ -115,12 +115,12 @@
                       <h2>Informe a nova senha</h2>
                       <div class="form-group">
                         <label for="senha">Nova senha</label>
-                        <input [(ngModel)]="esqueci.password" type="password" id="senha" name="senha"
+                        <input [(ngModel)]="esqueci.password" maxlength="20" type="password" id="senha" name="senha"
                           placeholder="Nova senha" class="form-control" />
                       </div>
                       <div class="form-group">
                         <label for="esqc">Confirme a nova senha</label>
-                        <input [(ngModel)]="confirmaEsqc" type="password" id="esqc" name="esqc"
+                        <input [(ngModel)]="confirmaEsqc" maxlength="20" type="password" id="esqc" name="esqc"
                           placeholder="Confirme a nova senha" class="form-control" />
                       </div>
                       <button class="btn btn-success" (click)="alteraSenha()">

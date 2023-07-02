@@ -65,7 +65,7 @@ public class GrupoDao {
             this.preparedStatement = connection.prepareStatement(this.sql);
             this.preparedStatement.setString(1, grupo.getNome());
             this.preparedStatement.setString(2, grupo.getDescricao());
-            this.preparedStatement.setInt(3, grupo.getLider());
+            this.preparedStatement.setInt(3, id);
             this.resultSet = this.preparedStatement.executeQuery();
             if(this.resultSet.next()){
                 new UsuarioGrupoDao().addUserGrupo2(this.resultSet.getInt("codigo"), id);

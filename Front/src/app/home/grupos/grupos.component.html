@@ -33,12 +33,12 @@
                         <form>
                           <div class="form-group">
                             <label for="nome">Nome</label>
-                            <input [(ngModel)]="grupo.nome" name="nome" type="text" class="form-control" id="nome" placeholder="Nome do grupo">
+                            <input [(ngModel)]="grupo.nome" maxlength="40" name="nome" type="text" class="form-control" id="nome" placeholder="Nome do grupo">
                           </div>
 
                           <div class="form-group">
                             <label for="descricao">Descrição</label>
-                            <input [(ngModel)]="grupo.descricao" name="desricao" type="text" class="form-control" id="descricao" placeholder="Descrição do grupo">
+                            <input [(ngModel)]="grupo.descricao" maxlength="100" name="desricao" type="text" class="form-control" id="descricao" placeholder="Descrição do grupo">
                           </div>
                         </form>
                       </div>
