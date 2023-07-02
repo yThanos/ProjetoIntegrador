@@ -54,17 +54,17 @@
                       <form>
                         <div class="form-group">
                           <label for="nome">Nome</label>
-                          <input [(ngModel)]="despesa.nome" name="nome" type="text" class="form-control" id="nome" placeholder="Nome">
+                          <input [(ngModel)]="despesa.nome" maxlength="20" name="nome" type="text" class="form-control" id="nome" placeholder="Nome">
                         </div>
 
                         <div class="form-group">
                           <label for="descricao">Descrição</label>
-                          <input [(ngModel)]="despesa.descricao" name="descricao" type="text" class="form-control" id="descricao" placeholder="Descrição">
+                          <input [(ngModel)]="despesa.descricao" maxlength="100" name="descricao" type="text" class="form-control" id="descricao" placeholder="Descrição">
                         </div>
 
                         <div class="form-group">
                           <label for="valor">Valor</label>
-                          <input [(ngModel)]="despesa.valor" name="preco" type="text" class="form-control" id="valor" placeholder="Valor">
+                          <input [(ngModel)]="despesa.valor" maxlength="10" name="preco" type="text" class="form-control" id="valor" placeholder="Valor">
                         </div>
 
                       </form>
