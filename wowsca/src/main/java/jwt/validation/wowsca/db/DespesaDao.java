@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jwt.validation.wowsca.model.Despesa;
+import jwt.validation.wowsca.model.Estrategy;
 import jwt.validation.wowsca.model.GrupoDespesa;
 import jwt.validation.wowsca.model.Partes;
 import jwt.validation.wowsca.model.UsuarioGrupoDespesa;
@@ -127,19 +128,20 @@ public class DespesaDao {
             this.resultSet = this.preparedStatement.executeQuery();
             if(this.resultSet.next()){
                 cod = this.resultSet.getInt("CODIGO");
-            
+                Estrategy estrategy = null;
                 if(despesa.getOrigem().contains("U")){
-                    insereUserDespesa(despesa.getCodigoOrigem(), this.resultSet.getInt("CODIGO"));
+                    estrategy = new UserEstrategy();
                 }else if(despesa.getOrigem().contains("G")){
-                    insereGrupDespesa(despesa.getCodigoOrigem(), this.resultSet.getInt("CODIGO"));
+                    estrategy = new GrupoEstrategy();
                 }
+                estrategy.insere(despesa.getCodigoOrigem(), this.resultSet.getInt("CODIGO"));
             }
         }catch(SQLException e){
             e.printStackTrace();
         }
         return cod;
     }
-    private void insereUserDespesa(int origem, int codigo){
+    /*private void insereUserDespesa(int origem, int codigo){
         try (Connection connection = new ConectaDB().getConexao()){
             this.sql = "INSERT INTO USUARIO_DESPESA (CODIGO_USUARIO, CODIGO_DESPESA) VALUES (?, ?)";
 
@@ -168,7 +170,7 @@ public class DespesaDao {
             e.printStackTrace();
         }
         return codDesp;
-    }
+    }*/
 
     public void updateDespesa(Despesa despesa, int id){
         try (Connection connection = new ConectaDB().getConexao()){
